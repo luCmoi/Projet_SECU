@@ -12,6 +12,11 @@ public class decrypt {
 
         switch (args[0]) {
             case "c":
+                Cesar c = new Cesar();
+                String chif = c.chiffre("bonjour les petits pinsons rotent de la choucroutte", "12");
+                System.out.println(chif);
+                System.out.println(c.dechiffre(chif, "12"));
+                System.out.println(c.decrypt(chif));
                 decryptCesar(args[1]);
                 break;
             case "v":
