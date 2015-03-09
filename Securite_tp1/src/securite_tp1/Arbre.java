@@ -49,7 +49,7 @@ public class Arbre /*implements Serializable */ {
 
     public static void main(String[] args) {
         long start = System.currentTimeMillis();
-        String fichier = "/media/data/git/ProjetL3/SECU/Renaud/TP1/Renaud_GuiGui_Cyril/Securite_tp1/lexique.txt";
+        String fichier = "./lexique.txt";
         Arbre arbre = new Arbre();
         try {
             InputStream ips = new FileInputStream(fichier);
@@ -115,7 +115,7 @@ public class Arbre /*implements Serializable */ {
 
 
 
-        String mot = "g.......";
+        String mot = "....g..";
         System.out.println("CHERCHE :"+mot);
         Set<String> list;
         start = System.currentTimeMillis();
@@ -156,7 +156,7 @@ public class Arbre /*implements Serializable */ {
         for (int i = 0; i<mot.length; i++){
             mot[i]=pattern.charAt(i);
         }
-        return listeMots_rec(mot, "", 0, new HashSet());
+        return listeMots_rec(mot, "", 0, new HashSet<>());
     }
 
     private Set<String> listeMots_rec(char[] pattern, String mot, int profondeur, Set<String> liste){
