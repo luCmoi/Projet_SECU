@@ -4,6 +4,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.DecimalFormat;
 import java.text.Normalizer;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Arbre /*implements Serializable */ {
 
@@ -66,7 +69,8 @@ public class Arbre /*implements Serializable */ {
 
 
         long end = System.currentTimeMillis();
-
+        System.err.println("time: " + ((end - start)) + " ms");
+        /*
         long total = 0;
         try {
             InputStream ips = new FileInputStream(fichier);
@@ -96,9 +100,9 @@ public class Arbre /*implements Serializable */ {
 
         System.err.println("time: " + ((end - start)) + " ms");
 
-
+        */
         boolean a = arbre.chercheMot("renaud");
-        System.out.println("renaud" + " :" + a);
+        /*System.out.println("renaud" + " :" + a);
         a = arbre.chercheMot("theo");
         System.out.println("theo" + " :" + a);
         a = arbre.chercheMot("verre");
@@ -106,7 +110,23 @@ public class Arbre /*implements Serializable */ {
         a = arbre.chercheMot("livre");
         System.out.println("livre" + " :" + a);
         a = arbre.chercheMot("maison");
-        System.out.println("maison" + " :" + a);
+        System.out.println("maison" + " :" + a);*/
+
+
+
+
+        String mot = "g.......";
+        System.out.println("CHERCHE :"+mot);
+        Set<String> list;
+        start = System.currentTimeMillis();
+        list = arbre.listeMots(mot);
+        end = System.currentTimeMillis();
+        for (String s : list) {
+            a = arbre.chercheMot(s);
+            if (a) System.out.println(s + " :" + a);
+        }
+        System.out.println("taille liste :" + list.size() + " taille mot :" + mot.length());
+        System.err.println("time: " + ((end - start)) + " ms");
 
     }
 
@@ -129,6 +149,26 @@ public class Arbre /*implements Serializable */ {
             if (tmp == null) return false;
         }
         return tmp.peut_finir;
+    }
+
+    Set<String> listeMots(String pattern){
+        char[] mot=new char[pattern.length()];
+        for (int i = 0; i<mot.length; i++){
+            mot[i]=pattern.charAt(i);
+        }
+        return listeMots_rec(mot, "", 0, new HashSet());
+    }
+
+    private Set<String> listeMots_rec(char[] pattern, String mot, int profondeur, Set<String> liste){
+        if (pattern[profondeur] == '.'){
+            for (int i = 0; i< 26;i++){
+                liste.addAll(racine[i].getMot(pattern, mot + (char) ('a' + i), profondeur + 1, liste));
+            }
+        }
+        else{
+            liste.addAll(racine[pattern[profondeur]-97].getMot(pattern,mot+pattern[profondeur], profondeur+1, liste));
+        }
+        return liste;
     }
 
 }
