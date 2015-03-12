@@ -1,183 +1,106 @@
 public class Permutation implements Code {
 
 
+    
+    static final int DEBUT_ALPHABET_ASCII = 97;
+    static final int FIN_ALPHABET_ASCII = 122;
+    static final int TAILLE_ALPHABET = 26;
+    
     @Override
-    public char chiffre(char c, int cle) {
-        int fin = (int)c;
-        if((int)c+cle<=122){
-            return (char)((int)c+cle);
-        }
-        else{
-            int tmp = 0;
-            while(fin+tmp<=122){
-                tmp +=1;
+    public static char chiffre(char c, int cle) {
+        if(c == '\n')return c;
+        if (c != ' ') {
+            if (c <=FIN_ALPHABET_ASCII || c >= DEBUT_ALPHABET_ASCII) {
+                char d = (char) (c + cle);
+                return (d > FIN_ALPHABET_ASCII) ? (char) (d - TAILLE_ALPHABET) : d;
+            }else {
+                System.err.print("Lettre attendue de a à z ou un espacement.");
+                System.exit(0);
             }
-            fin += tmp;
-            tmp = cle - tmp;
-            fin -= 26;
-            fin += tmp;
         }
-        return (char)fin;
+        return ' ';
+    }
+    
+    public static boolean verif(String cle){
+        boolean[] tab = new boolean[26];
+        for(int i = 0;i < cle.length();i++){
+            if(cle.charAt(i) < 97 || cle.charAt(i) > 122){
+                return false;
+            }
+            tab[cle.charAt(i)-97] = true;
+        }
+        for(int i = 0;i < 26;i++){
+            if(!tab[i]) return false;
+        }
+        return true;
     }
 
     @Override
-    public String chiffre(String s, String cle) {
+    public static String chiffre(String s, String cle) {
         char[] tab = new char[26];
         String result = "";
-        for(int i = 0;i < cle.length();i++){
-            tab[i] = cle.charAt(i);
-        }
-        for(int i = 0;i < s.length();i++){
-            switch (s.charAt(i)) {
-                case 'a':  result += tab[0];
-                    break;
-                case 'b':  result += tab[1];
-                    break;
-                case 'c':  result += tab[2];
-                    break;
-                case 'd':  result += tab[3];
-                    break;
-                case 'e':  result += tab[4];
-                    break;
-                case 'f':  result += tab[5];
-                    break;
-                case 'g':  result += tab[6];
-                    break;
-                case 'h':  result += tab[7];
-                    break;
-                case 'i':  result += tab[8];
-                    break;
-                case 'j':  result += tab[9];
-                    break;
-                case 'k':  result += tab[10];
-                    break;
-                case 'l':  result += tab[11];
-                    break;
-                case 'm':  result += tab[12];
-                    break;
-                case 'n':  result += tab[13];
-                    break;
-                case 'o':  result += tab[14];
-                    break;
-                case 'p':  result += tab[15];
-                    break;
-                case 'q':  result += tab[16];
-                    break;
-                case 'r':  result += tab[17];
-                    break;
-                case 's':  result += tab[18];
-                    break;
-                case 't':  result += tab[19];
-                    break;
-                case 'u':  result += tab[20];
-                    break;
-                case 'v':  result += tab[21];
-                    break;
-                case 'w':  result += tab[22];
-                    break;
-                case 'x':  result += tab[23];
-                    break;
-                case 'y':  result += tab[24];
-                    break;
-                case 'z':  result += tab[25];
-                    break;
-                default: result+= " ";
-                    break;
+        if(cle.length() == 26 && verif(cle)){
+            for(int i = 0;i < s.length();i++){
+                if(s.charAt(i) == ' '){
+                    result+=' ';
+                }
+                else if(s.charAt(i) == '\n'){
+                    result+='\n';
+                }
+                else{
+                    if((int)s.charAt(i) < 97 || (int)s.charAt(i) > 122){
+                        System.err.println("Votre texte n'est pas bien ecrit");
+                        System.exit(1);
+                    }
+                    int a = (cle.charAt(s.charAt(i)-97)-s.charAt(i));
+                    result+= chiffre(s.charAt(i),a);
+                }
             }
+            System.out.println("resultat : " + result);
         }
-        System.out.println("resultat : " + result);
+        else{
+            System.err.println("Votre clé n'est pas bonne");
+            System.exit(1);
+        }
         return result;
     }
 
     @Override
-    public char dechiffre(char c, int cle) {
-        int fin = (int)c;
-        if((int)c-cle >= 97){
-            return (char)((int)c-cle);
+    public static char dechiffre(char c, int cle) {
+        if(c == '\n')return c;
+        if (c != ' ') {
+            char d = (char) (c - cle);
+            return (d < DEBUT_ALPHABET_ASCII) ? (char) (d + TAILLE_ALPHABET) : d;
         }
-        else{
-            int tmp = 0;
-            while(fin-tmp >= 97){
-                tmp += 1;
-            }
-            fin -= tmp;
-            tmp = cle - tmp;
-            fin += 26;
-            fin -= tmp;
-        }
-        return (char)fin;
+        return ' ';
     }
 
     @Override
-    public String dechiffre(String s, String cle) {
+    public static String dechiffre(String s, String cle) {
         int[] tab = new int[26];
         boolean espace = true;
         String result = "";
-        for(int i = 0;i < s.length();i++){
-            for(int j = 0;j < cle.length();j++){
-                if(s.charAt(i) == cle.charAt(j)){
-                    switch(j){
-                        case 0: result+='a';
-                            break;
-                        case 1: result+='b';
-                            break;
-                        case 2: result+='c';
-                            break;
-                        case 3: result+='d';
-                            break;
-                        case 4: result+='e';
-                            break;
-                        case 5: result+='f';
-                            break;
-                        case 6: result+='g';
-                            break;
-                        case 7: result+='h';
-                            break;
-                        case 8: result+='i';
-                            break;
-                        case 9: result+='j';
-                            break;
-                        case 10: result+='k';
-                            break;
-                        case 11: result+='l';
-                            break;
-                        case 12: result+='m';
-                            break;
-                        case 13: result+='n';
-                            break;
-                        case 14: result+='o';
-                            break;
-                        case 15: result+='p';
-                            break;
-                        case 16: result+='q';
-                            break;
-                        case 17: result+='r';
-                            break;
-                        case 18: result+='s';
-                            break;
-                        case 19: result+='t';
-                            break;
-                        case 20: result+='u';
-                            break;
-                        case 21: result+='v';
-                            break;
-                        case 22: result+='w';
-                            break;
-                        case 23: result+='x';
-                            break;
-                        case 24: result+='y';
-                            break;
-                        case 25: result+='z';
-                            break;
-                        default: result+=' ';
-                            break;
+        if(cle.length() == 26 && verif(cle)){
+            for(int i = 0;i < s.length();i++){
+                if(s.charAt(i) == ' '){
+                    result+=' ';
+                }
+                else if(s.charAt(i) == '\n'){
+                    result+='\n';
+                }
+                else{
+                    if((int)s.charAt(i) < 97 || (int)s.charAt(i) > 122){
+                        System.err.println("Votre texte n'est pas bien encoder");
+                        System.exit(1);
                     }
-                    break;
+                    int a = (s.charAt(i)-cle.charAt(s.charAt(i)-97));
+                    result+= dechiffre(s.charAt(i),a);
                 }
             }
-            if(s.charAt(i) == ' '){
-                result+=' ';
-            }
+        }
+        else{
+            System.err.println("Votre clé n'est pas bonne");
+            System.exit(1);
         }
         System.out.println("resultat : " + result);
         return result;
