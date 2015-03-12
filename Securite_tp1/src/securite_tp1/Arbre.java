@@ -136,7 +136,7 @@ public class Arbre {
             while ((ligne = br.readLine()) != null) {
                 String t[] = ligne.split("-");
                 for (String s : t) {
-                    text.add(removeAccent(s));
+                    text.add(removeAccent(s).toLowerCase());
                     arbre.addMot(s);
                 }
             }

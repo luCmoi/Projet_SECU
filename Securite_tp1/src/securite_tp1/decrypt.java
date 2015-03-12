@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 public class decrypt {
 
@@ -62,6 +63,35 @@ public class decrypt {
 
     public static void decryptVigenere(String text) {
         System.out.println("Decrypt Vigenere:");
-        System.out.println("Text: " + text);
+        //System.out.println("Text: " + text);
+        Arbre arbre = new Arbre(0);
+
+
+        ArrayList<String> list = new ArrayList<>();
+        try {
+            InputStream ips = new FileInputStream(text);
+            InputStreamReader ipsr = new InputStreamReader(ips, "ISO8859_1");
+            BufferedReader br = new BufferedReader(ipsr);
+            String ligne;
+            while ((ligne = br.readLine()) != null) {
+                if (ligne.equals("") || ligne.equals("\n"))continue;
+                //System.out.println("AZERTYUIO:"+ligne+":AZERTYUIO");
+                String t[] = ligne.split(" ");
+                for (String s : t) {
+                    list.add(s);
+                }
+            }
+            br.close();
+        } catch (Exception r) {
+            System.out.println(r.toString());
+        }
+        long start = System.currentTimeMillis();
+        for(String s : list){
+            System.out.println(s);
+            boolean a = arbre.chercheMot(s);
+            if (!a) System.out.println(s + " :" + a);
+        }
+        long end = System.currentTimeMillis();
+        System.err.println("Dechiffre time: " + ((end - start)) + " ms");
     }
 }

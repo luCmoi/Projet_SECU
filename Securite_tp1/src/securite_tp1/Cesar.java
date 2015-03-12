@@ -23,8 +23,13 @@ public class Cesar implements Code {
 
     @Override
     public String decrypt(String texte) {
-        String[] texteSplit = texte.split(" ");
+        String[] t = texte.split("\n");
+        String [][] texteSplit = new String[t.length][];
+        for (int i = 0; i < t.length; i++) {
+            texteSplit[i] = t[i].split(" ");
+        }
         String retour = "";
+        String phrase = "";
         int compteur;
         long start = System.currentTimeMillis();
         Arbre arbre = new Arbre(0);
@@ -34,22 +39,26 @@ public class Cesar implements Code {
         start = System.currentTimeMillis();
         for (int i = 0; i < TAILLE_ALPHABET; i++) {
             compteur = 0;
-            for (String mot : texteSplit) {
-                compteur++;
-                String trad = dechiffre(mot, "" + i);
-                if (arbre.chercheMot(trad)){
-                    retour += trad+" ";
-                    if (compteur == texteSplit.length){
-                        end = System.currentTimeMillis();
-                        System.err.println("Fin decrypt Cesar time: " + ((end - start)) + " ms");
-                        Toolkit.getDefaultToolkit().beep();
-                        return retour;
+            for (String[] ligne : texteSplit){
+                for (String mot : ligne) {
+                    compteur++;
+                    String trad = dechiffre(mot, "" + i);
+                    System.out.println(trad);
+                    if (arbre.chercheMot(trad) && !trad.equals("")){
+                        retour += trad+" ";
+                        if (compteur == texteSplit.length){
+                            end = System.currentTimeMillis();
+                            System.err.println("Fin decrypt Cesar time: " + ((end - start)) + " ms");
+                            Toolkit.getDefaultToolkit().beep();
+                            return retour;
+                        }
+                    }else {
+                        retour = "";
+                        break;
                     }
-                }else {
-                    retour = "";
-                    break;
                 }
             }
+
         }
         return null;
     }
