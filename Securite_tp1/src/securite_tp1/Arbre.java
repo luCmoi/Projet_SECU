@@ -1,6 +1,8 @@
 import java.io.*;
 import java.text.Normalizer;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 public class Arbre {
@@ -122,7 +124,7 @@ public class Arbre {
         end = System.currentTimeMillis();
         System.err.println("Creation ArbreNEW time: " + ((end - start)) + " ms");
 
-
+        ArrayList<String> text = new ArrayList<>();
 
         start = System.currentTimeMillis();
         arbre = new Arbre();
@@ -134,6 +136,7 @@ public class Arbre {
             while ((ligne = br.readLine()) != null) {
                 String t[] = ligne.split("-");
                 for (String s : t) {
+                    text.add(removeAccent(s));
                     arbre.addMot(s);
                 }
             }
@@ -143,6 +146,26 @@ public class Arbre {
         }
         end = System.currentTimeMillis();
         System.err.println("Creation ArbreOLD time: " + ((end - start)) + " ms");
+
+        try {
+            String fichier2 = "./text.txt";
+            OutputStream ips = new FileOutputStream(fichier2);
+            OutputStreamWriter ipsr = new OutputStreamWriter(ips);
+            PrintWriter br = new PrintWriter(ipsr);
+            Random r = new Random(System.currentTimeMillis());
+            for (int i = 0 ; i< 10; i++){
+                for (int j = 0 ; j< 1000; j++){
+                    br.print(text.get(r.nextInt(text.size()))+" ");
+                }
+                br.println();
+            }
+            br.flush();
+            br.println();
+            br.close();
+        }catch(Exception e){
+            System.out.println(e.toString());
+        }
+
 
         try {
             InputStream ips = new FileInputStream(fichier);

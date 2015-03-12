@@ -1,3 +1,8 @@
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 public class decrypt {
 
     public static void checkargs(String[] args) {
@@ -9,133 +14,24 @@ public class decrypt {
 
     public static void main(String[] args) {
         checkargs(args);
-
+        String text = "";
+        try {
+            InputStream ips = new FileInputStream("./text.txt");
+            InputStreamReader ipsr = new InputStreamReader(ips, "ISO8859_1");
+            BufferedReader br = new BufferedReader(ipsr);
+            String ligne;
+            while ((ligne = br.readLine()) != null) {
+                text += ligne+"\n";
+            }
+            br.close();
+        } catch (Exception r) {
+            System.out.println(r.toString());
+        }
         switch (args[0]) {
             case "c":
                 Cesar c = new Cesar();
-                String chif = c.chiffre(
-                        "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo " +
-                                "bonjour les petits pinsons rotent de la choucroute allo allo ", "12");
-                //System.out.println(chif);
+                String chif = c.chiffre(text, "12");
+                System.out.println("CHIFFRE");
                 //System.out.println(c.dechiffre(chif, "12"));
                 long start = System.currentTimeMillis();
                 //System.out.println(c.decrypt(chif));

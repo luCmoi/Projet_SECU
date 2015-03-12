@@ -1,6 +1,7 @@
 public class Vigenere implements Code {
 
     private String cle;
+    private int mod = 0;
 
     public Vigenere(String cle) {
         this.cle = cle;

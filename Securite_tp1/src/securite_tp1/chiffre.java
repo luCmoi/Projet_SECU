@@ -1,3 +1,8 @@
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 public class chiffre {
 
     public static void checkargs(String[] args) {
@@ -9,16 +14,28 @@ public class chiffre {
 
     public static void main(String[] args) {
         checkargs(args);
-
+        String text = "";
+        try {
+            InputStream ips = new FileInputStream(args[0]);
+            InputStreamReader ipsr = new InputStreamReader(ips, "ISO8859_1");
+            BufferedReader br = new BufferedReader(ipsr);
+            String ligne;
+            while ((ligne = br.readLine()) != null) {
+                text += ligne+"\n";
+            }
+            br.close();
+        } catch (Exception r) {
+            System.out.println(r.toString());
+        }
         switch (args[0]) {
             case "c":
-                chiffreCesar(args[1], args[2]);
+                chiffreCesar(args[1], text);
                 break;
             case "v":
-                chiffreVigenere(args[1], args[2]);
+                chiffreVigenere(args[1], text);
                 break;
             case "p":
-                chiffrePermutation(args[1], args[2]);
+                chiffrePermutation(args[1], text);
                 break;
         }
 
