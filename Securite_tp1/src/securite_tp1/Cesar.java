@@ -26,23 +26,26 @@ public class Cesar implements Code {
         String[] texteSplit = texte.split(" ");
         String retour = "";
         int compteur;
-        Arbre arbre = new Arbre();
+        long start = System.currentTimeMillis();
+        Arbre arbre = new Arbre(0);
+        long end = System.currentTimeMillis();
+        System.err.println("Creation Arbre time: " + ((end - start)) + " ms");
+
+        start = System.currentTimeMillis();
         for (int i = 0; i < TAILLE_ALPHABET; i++) {
             compteur = 0;
             for (String mot : texteSplit) {
                 compteur++;
                 String trad = dechiffre(mot, "" + i);
-                if (i == 12){
-                    System.out.println(trad);
-                }
                 if (arbre.chercheMot(trad)){
                     retour += trad+" ";
-                    if (compteur == texteSplit.length-1){
+                    if (compteur == texteSplit.length){
+                        end = System.currentTimeMillis();
+                        System.err.println("Fin decrypt Cesar time: " + ((end - start)) + " ms");
                         Toolkit.getDefaultToolkit().beep();
                         return retour;
                     }
                 }else {
-                    System.out.println(i);
                     retour = "";
                     break;
                 }

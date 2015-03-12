@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.Set;
 
 public class Noeud {
@@ -18,6 +17,28 @@ public class Noeud {
         if (listeNoeud[indice] == null) listeNoeud[indice] = n;
         else listeNoeud[indice].setPeut_finir(fin);
         return listeNoeud[indice];
+
+    }
+
+    public int addChar(String ligne, int i) {
+        int j = i;
+        char c;
+        do{
+            c = ligne.charAt(j);
+            switch (c){
+                case '.':
+                    j++;
+                    return j;
+                case '!':
+                    j++;
+                    this.setPeut_finir(true);
+                    break;
+                default:
+                    if(this.listeNoeud == null) listeNoeud = new Noeud[26];
+                    listeNoeud[c-97] = new Noeud(false);
+                    j=listeNoeud[c-97].addChar(ligne, j+1);
+            }
+        }while (true);
 
     }
 
