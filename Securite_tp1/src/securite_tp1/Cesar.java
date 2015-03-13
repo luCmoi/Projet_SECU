@@ -39,20 +39,6 @@ public class Cesar implements Code {
         start = System.currentTimeMillis();
         for (int i = 0; i < TAILLE_ALPHABET; i++) {
             compteur = 0;
-<<<<<<< HEAD
-            for (String mot : texteSplit) {
-                compteur++;
-                String trad = dechiffre(mot, "" + i);
-                if (arbre.chercheMot(trad)){
-                    retour += trad+" ";
-                    if (compteur == texteSplit.length){
-                        Toolkit.getDefaultToolkit().beep();
-                        return retour;
-                    }
-                }else {
-                    retour = "";
-                    break;
-=======
             for (String[] ligne : texteSplit){
                 for (String mot : ligne) {
                     compteur++;
@@ -70,7 +56,6 @@ public class Cesar implements Code {
                         retour = "";
                         break;
                     }
->>>>>>> origin/master
                 }
             }
 
