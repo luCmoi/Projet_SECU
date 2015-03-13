@@ -48,6 +48,7 @@ public class Permutation implements Code {
                 if (c == '\n' || c == ' ') result += c;
                 else if (c <= FIN_ALPHABET_ASCII || c >= DEBUT_ALPHABET_ASCII) {
                     int cle_char = (cle.charAt(c - DEBUT_ALPHABET_ASCII) - c);
+                    //System.err.println(cle_char+" "+c+" "+cle.charAt(c-97));
                     result += chiffre(c, cle_char);
                 } else {
                     System.err.print("Lettre attendue de a à z ou un espacement.");
@@ -65,13 +66,20 @@ public class Permutation implements Code {
     @Override
     public String dechiffre(String s, String cle) {
         String result = "";
+        //System.err.println(cle);
+
+
         if (cle.length() == TAILLE_ALPHABET && verif(cle)) {
+            char[] tab = new char[TAILLE_ALPHABET];
+            for(int i= 0; i< cle.length();i++){
+                int a = cle.charAt(i)-DEBUT_ALPHABET_ASCII;
+                tab[a] = (char)('a'+i);
+            }
             for (int i = 0; i < s.length(); i++) {
                 char c = s.charAt(i);
                 if (c == '\n' || c == ' ') result += c;
                 else {
-                    int cle_char = (c - cle.charAt(c - DEBUT_ALPHABET_ASCII));
-                    result += dechiffre(c, cle_char);
+                    result += dechiffre(c, c - tab[c-DEBUT_ALPHABET_ASCII]);
                 }
             }
         } else {
