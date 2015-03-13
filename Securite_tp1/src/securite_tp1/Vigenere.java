@@ -1,6 +1,7 @@
 public class Vigenere implements Code {
 
     private String cle;
+    private int mod = 0;
 
     public Vigenere(String cle) {
         this.cle = cle;
@@ -9,38 +10,53 @@ public class Vigenere implements Code {
 
     @Override
     public String chiffre(String s, String cle) {
-        String mot = "";
+        String res="";
         for (int i = 0; i < s.length(); i++) {
-            mot += chiffre(s.charAt(i), ((this.cle.charAt(i % this.cle.length())) % DEBUT_ALPHABET_ASCII));
+            char c  = s.charAt(i);
+            if (c == ' ') res += ' ';
+            else if (c == '\n') res += '\n';
+            else{
+                res += chiffre(c, this.cle.charAt(mod)-97);
+                mod++;
+                mod = mod %this.cle.length();
+            }
         }
-        return mot;
+        return res;
     }
 
     public String chiffreText(String text) {
-        String tab[] = text.split(" ");
+        String tab[] = text.split("\n");
         String res = "";
         for (String s : tab) {
-            s = s.trim();
-            res += this.chiffre(s, "") + " ";
+            //s = s.trim();
+            res += this.chiffre(s, "") + "\n";
+            System.out.println(s);
+
         }
         return res.substring(0, res.length() - 1);
     }
 
     @Override
     public String dechiffre(String s, String cle) {
-        String mot = "";
+        String res="";
         for (int i = 0; i < s.length(); i++) {
-            mot += dechiffre(s.charAt(i), (int) (this.cle.charAt(i % this.cle.length())) % DEBUT_ALPHABET_ASCII);
+            char c  = s.charAt(i);
+            if (c == ' ') res += ' ';
+            else if (c == '\n') res += '\n';
+            else{
+                res += dechiffre(c, this.cle.charAt(mod)-97);
+                mod++;
+                mod = mod %this.cle.length();
+            }
         }
-        return mot;
+        return res;
     }
 
     public String dechiffreText(String text) {
-        String tab[] = text.split(" ");
+        String tab[] = text.split("\n");
         String res = "";
         for (String s : tab) {
-            s = s.trim();
-            res += this.dechiffre(s, "") + " ";
+            res += this.dechiffre(s, "") + "\n";
         }
         return res.substring(0, res.length() - 1);
     }

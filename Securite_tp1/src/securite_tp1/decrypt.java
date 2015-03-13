@@ -1,3 +1,9 @@
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+
 public class decrypt {
 
     public static void checkargs(String[] args) {
@@ -9,10 +15,23 @@ public class decrypt {
 
     public static void main(String[] args) {
         checkargs(args);
-
+        String text = "";
+        try {
+            InputStream ips = new FileInputStream("./text.txt");
+            InputStreamReader ipsr = new InputStreamReader(ips, "ISO8859_1");
+            BufferedReader br = new BufferedReader(ipsr);
+            String ligne;
+            while ((ligne = br.readLine()) != null) {
+                text += ligne+"\n";
+            }
+            br.close();
+        } catch (Exception r) {
+            System.out.println(r.toString());
+        }
         switch (args[0]) {
             case "c":
                 Cesar c = new Cesar();
+<<<<<<< HEAD
                 long time = System.currentTimeMillis();
                 String chif = c.chiffre("un petit chemin qui sent la noisette me rappelle soudain ce bon jour de fete ou plusieurs gredins me prenaient la tete mais comme je suis bourrin je leur pete la gueule", "12");
                 System.out.println("Chiffre : "+ (System.currentTimeMillis()-time));
@@ -24,6 +43,17 @@ public class decrypt {
                 System.out.println(c.decrypt(chif));
                 System.out.println("Chiffre : "+ (System.currentTimeMillis()-time));
                 decryptCesar(args[1]);
+=======
+                String chif = c.chiffre(text, "12");
+                System.out.println("CHIFFRE");
+                //System.out.println(c.dechiffre(chif, "12"));
+                long start = System.currentTimeMillis();
+                //System.out.println(c.decrypt(chif));
+                c.decrypt(chif);
+                long end = System.currentTimeMillis();
+                System.err.println("Decrypt Cesar time: " + ((end - start)) + " ms");
+                //decryptCesar(args[1]);
+>>>>>>> origin/master
                 break;
             case "v":
                 decryptVigenere(args[1]);
@@ -47,6 +77,35 @@ public class decrypt {
 
     public static void decryptVigenere(String text) {
         System.out.println("Decrypt Vigenere:");
-        System.out.println("Text: " + text);
+        //System.out.println("Text: " + text);
+        Arbre arbre = new Arbre(0);
+
+
+        ArrayList<String> list = new ArrayList<>();
+        try {
+            InputStream ips = new FileInputStream(text);
+            InputStreamReader ipsr = new InputStreamReader(ips, "ISO8859_1");
+            BufferedReader br = new BufferedReader(ipsr);
+            String ligne;
+            while ((ligne = br.readLine()) != null) {
+                if (ligne.equals("") || ligne.equals("\n"))continue;
+                //System.out.println("AZERTYUIO:"+ligne+":AZERTYUIO");
+                String t[] = ligne.split(" ");
+                for (String s : t) {
+                    list.add(s);
+                }
+            }
+            br.close();
+        } catch (Exception r) {
+            System.out.println(r.toString());
+        }
+        long start = System.currentTimeMillis();
+        for(String s : list){
+            System.out.println(s);
+            boolean a = arbre.chercheMot(s);
+            if (!a) System.out.println(s + " :" + a);
+        }
+        long end = System.currentTimeMillis();
+        System.err.println("Dechiffre time: " + ((end - start)) + " ms");
     }
 }

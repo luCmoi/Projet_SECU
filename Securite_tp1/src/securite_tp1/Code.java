@@ -6,6 +6,7 @@ public interface Code {
     static final int TAILLE_ALPHABET = 26;
 
     public default char chiffre(char c, int cle) {
+        if(c == '\n')return c;
         if (c != ' ') {
             if (c <=FIN_ALPHABET_ASCII || c >= DEBUT_ALPHABET_ASCII) {
                 char d = (char) (c + cle);
@@ -21,6 +22,7 @@ public interface Code {
     public String chiffre(String s, String cle);
 
     public default char dechiffre(char c, int cle) {
+        if(c == '\n')return c;
         if (c != ' ') {
             char d = (char) (c - cle);
             return (d < DEBUT_ALPHABET_ASCII) ? (char) (d + TAILLE_ALPHABET) : d;
