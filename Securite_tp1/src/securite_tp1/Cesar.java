@@ -32,17 +32,13 @@ public class Cesar implements Code {
             for (String mot : texteSplit) {
                 compteur++;
                 String trad = dechiffre(mot, "" + i);
-                if (i == 12){
-                    System.out.println(trad);
-                }
                 if (arbre.chercheMot(trad)){
                     retour += trad+" ";
-                    if (compteur == texteSplit.length-1){
+                    if (compteur == texteSplit.length){
                         Toolkit.getDefaultToolkit().beep();
                         return retour;
                     }
                 }else {
-                    System.out.println(i);
                     retour = "";
                     break;
                 }

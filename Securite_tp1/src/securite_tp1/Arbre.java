@@ -19,6 +19,22 @@ public class Arbre /*implements Serializable */ {
         for (int i = 0; i < 26; i++) {
             racine[i] = new Noeud(false);
         }
+        String fichier = "./Securite_tp1/lexique.txt";
+        try {
+            InputStream ips = new FileInputStream(fichier);
+            InputStreamReader ipsr = new InputStreamReader(ips, "ISO8859_1");
+            BufferedReader br = new BufferedReader(ipsr);
+            String ligne;
+            while ((ligne = br.readLine()) != null) {
+                String t[] = ligne.split("-");
+                for (String s : t) {
+                    addMot(s);
+                }
+            }
+            br.close();
+        } catch (Exception r) {
+            System.out.println(r.toString());
+        }
     }
 
     /*public static Arbre ArbreFromSerialize(String fichier){

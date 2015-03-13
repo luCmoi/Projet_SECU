@@ -13,10 +13,16 @@ public class decrypt {
         switch (args[0]) {
             case "c":
                 Cesar c = new Cesar();
-                String chif = c.chiffre("bonjour les petits pinsons rotent de la choucroutte", "12");
+                long time = System.currentTimeMillis();
+                String chif = c.chiffre("un petit chemin qui sent la noisette me rappelle soudain ce bon jour de fete ou plusieurs gredins me prenaient la tete mais comme je suis bourrin je leur pete la gueule", "12");
+                System.out.println("Chiffre : "+ (System.currentTimeMillis()-time));
                 System.out.println(chif);
+                time = System.currentTimeMillis();
                 System.out.println(c.dechiffre(chif, "12"));
+                System.out.println("Chiffre : "+ (System.currentTimeMillis()-time));
+                time = System.currentTimeMillis();
                 System.out.println(c.decrypt(chif));
+                System.out.println("Chiffre : "+ (System.currentTimeMillis()-time));
                 decryptCesar(args[1]);
                 break;
             case "v":
