@@ -1,10 +1,10 @@
 import java.io.*;
 
-public class chiffre {
+public class Chiffre {
 
     public static void checkargs(String[] args) {
         if (args.length != 3 || !(args[0].equals("c") || args[0].equals("p") || args[0].equals("v"))) {
-            System.out.println("usage : chiffre [c/p/v] cle texte");
+            System.out.println("usage : Chiffre [c/p/v] cle texte");
             System.exit(-1);
         }
     }
@@ -18,11 +18,10 @@ public class chiffre {
             BufferedReader br = new BufferedReader(ipsr);
             String ligne;
             while ((ligne = br.readLine()) != null) {
-                if(ligne.equals("\n")){
+                if (ligne.equals("\n")) {
                     text += ligne;
-                }
-                else {
-                    text += ligne+"\n";
+                } else {
+                    text += ligne + "\n";
                 }
             }
             br.close();
@@ -40,39 +39,24 @@ public class chiffre {
                 chiffrePermutation(args[1], text);
                 break;
         }
-
     }
 
     public static void chiffreCesar(String cle, String text) {
-
         System.out.println("Chiffre Cesar:");
         System.out.println("Cle: " + cle);
-        //System.out.println("Text: " + text);
-        try {
-            String fichier2 = "./sortie.txt";
-            OutputStream ips = new FileOutputStream(fichier2);
-            OutputStreamWriter ipsr = new OutputStreamWriter(ips);
-            PrintWriter br = new PrintWriter(ipsr);
-            br.print(new Cesar().chiffre(text, cle));
-            br.flush();
-            br.close();
-        }catch(Exception e){
-            System.out.println(e.toString());
-        }
-        //System.out.println(new Cesar().chiffre(text, cle));
+        System.out.println(new Cesar().chiffreText(text, cle));
     }
 
 
     public static void chiffrePermutation(String cle, String text) {
         System.out.println("Chiffre Permutation:");
         System.out.println("Cle: " + cle);
-        System.out.println("Text: " + text);
+        System.out.println(new Permutation().chiffreText(text, cle));
     }
 
     public static void chiffreVigenere(String cle, String text) {
-        String res;
-        Vigenere v = new Vigenere(cle);
-        res = v.chiffreText(text);
-        System.out.println(res);
+        System.out.println("Chiffre Vigenere:");
+        System.out.println("Cle: " + cle);
+        System.out.println((new Vigenere(cle)).chiffreText(text, cle));
     }
 }
