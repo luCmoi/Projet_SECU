@@ -31,14 +31,13 @@ public class Cesar implements Code {
         String retour = "";
         String phrase = "";
         int compteur;
-        Arbre arbre = new Arbre(0);
+        Arbre arbre = new Arbre();
         for (int i = 0; i < TAILLE_ALPHABET; i++) {
             compteur = 0;
             for (String[] ligne : texteSplit) {
                 for (String mot : ligne) {
                     compteur++;
                     String trad = dechiffre(mot, "" + i);
-                    System.out.println(trad);
                     if (arbre.chercheMot(trad) && !trad.equals("")) {
                         retour += trad + " ";
                         if (compteur == texteSplit.length) {

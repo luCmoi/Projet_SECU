@@ -1,4 +1,7 @@
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class Dechiffre {
 
@@ -39,20 +42,14 @@ public class Dechiffre {
     }
 
     public static void dechiffreCesar(String cle, String text) {
-        System.out.println("Dechiffre Cesar:");
-        System.out.println("Cle: " + cle);
         System.out.println(new Cesar().dechiffreText(text, cle));
     }
 
     public static void dechiffrePermutation(String cle, String text) {
-        System.out.println("Dechiffre Permutation:");
-        System.out.println("Cle: " + cle);
         System.out.println(new Permutation().dechiffreText(text, cle));
     }
 
     public static void dechiffreVigenere(String cle, String text) {
-        System.out.println("Dechiffre Vigenere:");
-        System.out.println("Cle: " + cle);
         System.out.println((new Vigenere(cle)).dechiffreText(text, cle));
 
     }

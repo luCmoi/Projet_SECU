@@ -55,7 +55,7 @@ public class Decrypt {
     public static void decryptVigenere(String text) {
         System.out.println("Decrypt Vigenere:");
         //System.out.println("Text: " + text);
-        Arbre arbre = new Arbre(0);
+        Arbre arbre = new Arbre();
 
 
         ArrayList<String> list = new ArrayList<>();

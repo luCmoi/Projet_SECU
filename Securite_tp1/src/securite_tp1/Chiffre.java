@@ -1,4 +1,7 @@
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class Chiffre {
 
@@ -42,21 +45,15 @@ public class Chiffre {
     }
 
     public static void chiffreCesar(String cle, String text) {
-        System.out.println("Chiffre Cesar:");
-        System.out.println("Cle: " + cle);
         System.out.println(new Cesar().chiffreText(text, cle));
     }
 
 
     public static void chiffrePermutation(String cle, String text) {
-        System.out.println("Chiffre Permutation:");
-        System.out.println("Cle: " + cle);
         System.out.println(new Permutation().chiffreText(text, cle));
     }
 
     public static void chiffreVigenere(String cle, String text) {
-        System.out.println("Chiffre Vigenere:");
-        System.out.println("Cle: " + cle);
         System.out.println((new Vigenere(cle)).chiffreText(text, cle));
     }
 }

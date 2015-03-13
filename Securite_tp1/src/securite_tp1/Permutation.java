@@ -1,17 +1,42 @@
 public class Permutation implements Code {
 
     public static boolean verif(String cle) {
-        boolean[] tab = new boolean[26];
+        boolean[] tab = new boolean[TAILLE_ALPHABET];
         for (int i = 0; i < cle.length(); i++) {
-            if (cle.charAt(i) < 97 || cle.charAt(i) > 122) {
+            if (cle.charAt(i) < DEBUT_ALPHABET_ASCII || cle.charAt(i) > FIN_ALPHABET_ASCII) {
                 return false;
             }
-            tab[cle.charAt(i) - 97] = true;
+            tab[cle.charAt(i) - DEBUT_ALPHABET_ASCII] = true;
         }
-        for (int i = 0; i < 26; i++) {
+        for (int i = 0; i < TAILLE_ALPHABET; i++) {
             if (!tab[i]) return false;
         }
         return true;
+    }
+
+    public static void triBulleDecroissant(int tableau[], char tableau2[]) {
+        int longueur = tableau.length;
+        int tampon = 0;
+        char tampon2 = ' ';
+        boolean permut;
+
+        do {
+            // hypothèse : le tableau est trié
+            permut = false;
+            for (int i = 0; i < longueur - 1; i++) {
+                // Teste si 2 éléments successifs sont dans le bon ordre ou non
+                if (tableau[i] < tableau[i + 1]) {
+                    // s'ils ne le sont pas, on échange leurs positions
+                    tampon = tableau[i];
+                    tampon2 = tableau2[i];
+                    tableau[i] = tableau[i + 1];
+                    tableau2[i] = tableau2[i + 1];
+                    tableau[i + 1] = tampon;
+                    tableau2[i + 1] = tampon2;
+                    permut = true;
+                }
+            }
+        } while (permut);
     }
 
     @Override
@@ -19,8 +44,16 @@ public class Permutation implements Code {
         String result = "";
         if (cle.length() == TAILLE_ALPHABET && verif(cle)) {
             for (int i = 0; i < s.length(); i++) {
-                int cle_char = (cle.charAt(s.charAt(i) - DEBUT_ALPHABET_ASCII) - s.charAt(i));
-                result += chiffre(s.charAt(i), cle_char);
+                char c = s.charAt(i);
+                if (c == '\n' || c == ' ') result += c;
+                else if (c <= FIN_ALPHABET_ASCII || c >= DEBUT_ALPHABET_ASCII) {
+                    int cle_char = (cle.charAt(c - DEBUT_ALPHABET_ASCII) - c);
+                    result += chiffre(c, cle_char);
+                } else {
+                    System.err.print("Lettre attendue de a à z ou un espacement.");
+                    System.exit(0);
+                    return "";
+                }
             }
         } else {
             System.err.println("Votre clé n'est pas bonne");
@@ -34,8 +67,12 @@ public class Permutation implements Code {
         String result = "";
         if (cle.length() == TAILLE_ALPHABET && verif(cle)) {
             for (int i = 0; i < s.length(); i++) {
-                int cle_char = (s.charAt(i) - cle.charAt(s.charAt(i) - DEBUT_ALPHABET_ASCII));
-                result += dechiffre(s.charAt(i), cle_char);
+                char c = s.charAt(i);
+                if (c == '\n' || c == ' ') result += c;
+                else {
+                    int cle_char = (c - cle.charAt(c - DEBUT_ALPHABET_ASCII));
+                    result += dechiffre(c, cle_char);
+                }
             }
         } else {
             System.err.println("Votre clé n'est pas bonne");
@@ -163,31 +200,5 @@ public class Permutation implements Code {
             System.out.println("case : " + tab[i] + " ; " + tab2[i]);
         }
         return null;
-    }
-
-
-    public static void triBulleDecroissant(int tableau[], char tableau2[]) {
-        int longueur = tableau.length;
-        int tampon = 0;
-        char tampon2 = ' ';
-        boolean permut;
-
-        do {
-            // hypothèse : le tableau est trié
-            permut = false;
-            for (int i = 0; i < longueur - 1; i++) {
-                // Teste si 2 éléments successifs sont dans le bon ordre ou non
-                if (tableau[i] < tableau[i + 1]) {
-                    // s'ils ne le sont pas, on échange leurs positions
-                    tampon = tableau[i];
-                    tampon2 = tableau2[i];
-                    tableau[i] = tableau[i + 1];
-                    tableau2[i] = tableau2[i + 1];
-                    tableau[i + 1] = tampon;
-                    tableau2[i + 1] = tampon2;
-                    permut = true;
-                }
-            }
-        } while (permut);
     }
 }
