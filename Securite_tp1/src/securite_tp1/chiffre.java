@@ -1,5 +1,4 @@
 import java.io.*;
-import java.util.Random;
 
 public class chiffre {
 
@@ -19,15 +18,12 @@ public class chiffre {
             BufferedReader br = new BufferedReader(ipsr);
             String ligne;
             while ((ligne = br.readLine()) != null) {
-                //String s = "";
                 if(ligne.equals("\n")){
                     text += ligne;
                 }
                 else {
                     text += ligne+"\n";
                 }
-                //ligne.equals("\n"))?"":"\n";
-
             }
             br.close();
         } catch (Exception r) {
@@ -74,26 +70,9 @@ public class chiffre {
     }
 
     public static void chiffreVigenere(String cle, String text) {
-        System.out.println("Chiffre Vigenere:");
-        System.out.println("Cle: " + cle);
-        //System.out.println("Text: " + text);
         String res;
         Vigenere v = new Vigenere(cle);
-        long start = System.currentTimeMillis();
         res = v.chiffreText(text);
-        long end = System.currentTimeMillis();
-        System.err.println("Chiffre time: " + ((end - start)) + " ms");
-
-        try {
-            String fichier2 = "./chiffreV.txt";
-            OutputStream ips = new FileOutputStream(fichier2);
-            OutputStreamWriter ipsr = new OutputStreamWriter(ips);
-            PrintWriter br = new PrintWriter(ipsr);
-            br.print(res);
-            br.flush();
-            br.close();
-        }catch(Exception e){
-            System.out.println(e.toString());
-        }
+        System.out.println(res);
     }
 }

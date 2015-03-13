@@ -31,19 +31,7 @@ public class decrypt {
         switch (args[0]) {
             case "c":
                 Cesar c = new Cesar();
-<<<<<<< HEAD
-                long time = System.currentTimeMillis();
-                String chif = c.chiffre("un petit chemin qui sent la noisette me rappelle soudain ce bon jour de fete ou plusieurs gredins me prenaient la tete mais comme je suis bourrin je leur pete la gueule", "12");
-                System.out.println("Chiffre : "+ (System.currentTimeMillis()-time));
-                System.out.println(chif);
-                time = System.currentTimeMillis();
-                System.out.println(c.dechiffre(chif, "12"));
-                System.out.println("Chiffre : "+ (System.currentTimeMillis()-time));
-                time = System.currentTimeMillis();
-                System.out.println(c.decrypt(chif));
-                System.out.println("Chiffre : "+ (System.currentTimeMillis()-time));
-                decryptCesar(args[1]);
-=======
+
                 String chif = c.chiffre(text, "12");
                 System.out.println("CHIFFRE");
                 //System.out.println(c.dechiffre(chif, "12"));
@@ -53,7 +41,6 @@ public class decrypt {
                 long end = System.currentTimeMillis();
                 System.err.println("Decrypt Cesar time: " + ((end - start)) + " ms");
                 //decryptCesar(args[1]);
->>>>>>> origin/master
                 break;
             case "v":
                 decryptVigenere(args[1]);
