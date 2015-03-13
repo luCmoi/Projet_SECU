@@ -1,43 +1,28 @@
 public class Permutation implements Code {
 
-    public static boolean verif(String cle){
+    public static boolean verif(String cle) {
         boolean[] tab = new boolean[26];
-        for(int i = 0;i < cle.length();i++){
-            if(cle.charAt(i) < 97 || cle.charAt(i) > 122){
+        for (int i = 0; i < cle.length(); i++) {
+            if (cle.charAt(i) < 97 || cle.charAt(i) > 122) {
                 return false;
             }
-            tab[cle.charAt(i)-97] = true;
+            tab[cle.charAt(i) - 97] = true;
         }
-        for(int i = 0;i < 26;i++){
-            if(!tab[i]) return false;
+        for (int i = 0; i < 26; i++) {
+            if (!tab[i]) return false;
         }
         return true;
     }
 
     @Override
     public String chiffre(String s, String cle) {
-        char[] tab = new char[26];
         String result = "";
-        if(cle.length() == 26 && verif(cle)){
-            for(int i = 0;i < s.length();i++){
-                if(s.charAt(i) == ' '){
-                    result+=' ';
-                }
-                else if(s.charAt(i) == '\n'){
-                    result+='\n';
-                }
-                else{
-                    if((int)s.charAt(i) < 97 || (int)s.charAt(i) > 122){
-                        System.err.println("Votre texte n'est pas bien ecrit");
-                        System.exit(1);
-                    }
-                    int a = (cle.charAt(s.charAt(i)-97)-s.charAt(i));
-                    result+= chiffre(s.charAt(i),a);
-                }
+        if (cle.length() == TAILLE_ALPHABET && verif(cle)) {
+            for (int i = 0; i < s.length(); i++) {
+                int cle_char = (cle.charAt(s.charAt(i) - DEBUT_ALPHABET_ASCII) - s.charAt(i));
+                result += chiffre(s.charAt(i), cle_char);
             }
-            System.out.println("resultat : " + result);
-        }
-        else{
+        } else {
             System.err.println("Votre clé n'est pas bonne");
             System.exit(1);
         }
@@ -45,43 +30,17 @@ public class Permutation implements Code {
     }
 
     @Override
-    public char dechiffre(char c, int cle) {
-        if(c == '\n')return c;
-        if (c != ' ') {
-            char d = (char) (c - cle);
-            return (d < DEBUT_ALPHABET_ASCII) ? (char) (d + TAILLE_ALPHABET) : d;
-        }
-        return ' ';
-    }
-
-    @Override
     public String dechiffre(String s, String cle) {
-        int[] tab = new int[26];
-        boolean espace = true;
         String result = "";
-        if(cle.length() == 26 && verif(cle)){
-            for(int i = 0;i < s.length();i++){
-                if(s.charAt(i) == ' '){
-                    result+=' ';
-                }
-                else if(s.charAt(i) == '\n'){
-                    result+='\n';
-                }
-                else{
-                    if((int)s.charAt(i) < 97 || (int)s.charAt(i) > 122){
-                        System.err.println("Votre texte n'est pas bien encoder");
-                        System.exit(1);
-                    }
-                    int a = (s.charAt(i)-cle.charAt(s.charAt(i)-97));
-                    result+= dechiffre(s.charAt(i),a);
-                }
+        if (cle.length() == TAILLE_ALPHABET && verif(cle)) {
+            for (int i = 0; i < s.length(); i++) {
+                int cle_char = (s.charAt(i) - cle.charAt(s.charAt(i) - DEBUT_ALPHABET_ASCII));
+                result += dechiffre(s.charAt(i), cle_char);
             }
-        }
-        else{
+        } else {
             System.err.println("Votre clé n'est pas bonne");
             System.exit(1);
         }
-        System.out.println("resultat : " + result);
         return result;
     }
 
@@ -115,75 +74,99 @@ public class Permutation implements Code {
         tab2[23] = 'x';
         tab2[24] = 'y';
         tab2[25] = 'z';
-        for(int i = 0;i < s.length();i++){
+        for (int i = 0; i < s.length(); i++) {
             switch (s.charAt(i)) {
-                case 'a':  tab[0] += 1;
+                case 'a':
+                    tab[0] += 1;
                     break;
-                case 'b':  tab[1] += 1;
+                case 'b':
+                    tab[1] += 1;
                     break;
-                case 'c':  tab[2] += 1;
+                case 'c':
+                    tab[2] += 1;
                     break;
-                case 'd':  tab[3] += 1;
+                case 'd':
+                    tab[3] += 1;
                     break;
-                case 'e':   tab[4] += 1;
+                case 'e':
+                    tab[4] += 1;
                     break;
-                case 'f':   tab[5] += 1;
+                case 'f':
+                    tab[5] += 1;
                     break;
-                case 'g':   tab[6] += 1;
+                case 'g':
+                    tab[6] += 1;
                     break;
-                case 'h':   tab[7] += 1;
+                case 'h':
+                    tab[7] += 1;
                     break;
-                case 'i':   tab[8] += 1;
+                case 'i':
+                    tab[8] += 1;
                     break;
-                case 'j':   tab[9] += 1;
+                case 'j':
+                    tab[9] += 1;
                     break;
-                case 'k':   tab[10] += 1;
+                case 'k':
+                    tab[10] += 1;
                     break;
-                case 'l':   tab[11] += 1;
+                case 'l':
+                    tab[11] += 1;
                     break;
-                case 'm':   tab[12] += 1;
+                case 'm':
+                    tab[12] += 1;
                     break;
-                case 'n':   tab[13] += 1;
+                case 'n':
+                    tab[13] += 1;
                     break;
-                case 'o':   tab[14] += 1;
+                case 'o':
+                    tab[14] += 1;
                     break;
-                case 'p':   tab[15] += 1;
+                case 'p':
+                    tab[15] += 1;
                     break;
-                case 'q':   tab[16] += 1;
+                case 'q':
+                    tab[16] += 1;
                     break;
-                case 'r':   tab[17] += 1;
+                case 'r':
+                    tab[17] += 1;
                     break;
-                case 's':   tab[18] += 1;
+                case 's':
+                    tab[18] += 1;
                     break;
-                case 't':   tab[19] += 1;
+                case 't':
+                    tab[19] += 1;
                     break;
-                case 'u':   tab[20] += 1;
+                case 'u':
+                    tab[20] += 1;
                     break;
-                case 'v':   tab[21] += 1;
+                case 'v':
+                    tab[21] += 1;
                     break;
-                case 'w':   tab[22] += 1;
+                case 'w':
+                    tab[22] += 1;
                     break;
-                case 'x':   tab[23] += 1;
+                case 'x':
+                    tab[23] += 1;
                     break;
-                case 'y':   tab[24] += 1;
+                case 'y':
+                    tab[24] += 1;
                     break;
-                case 'z':   tab[25] += 1;
+                case 'z':
+                    tab[25] += 1;
                     break;
                 default:
                     break;
             }
         }
-        triBulleDecroissant(tab,tab2);
-        for(int i = 0;i < tab.length; i++){
+        triBulleDecroissant(tab, tab2);
+        for (int i = 0; i < tab.length; i++) {
             System.out.println("case : " + tab[i] + " ; " + tab2[i]);
         }
         return null;
     }
 
 
-
-
-    public static void triBulleDecroissant(int tableau[],char tableau2[]) {
+    public static void triBulleDecroissant(int tableau[], char tableau2[]) {
         int longueur = tableau.length;
         int tampon = 0;
         char tampon2 = ' ';
@@ -201,7 +184,7 @@ public class Permutation implements Code {
                     tableau[i] = tableau[i + 1];
                     tableau2[i] = tableau2[i + 1];
                     tableau[i + 1] = tampon;
-                    tableau2[i+1] = tampon2;
+                    tableau2[i + 1] = tampon2;
                     permut = true;
                 }
             }

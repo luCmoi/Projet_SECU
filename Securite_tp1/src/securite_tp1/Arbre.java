@@ -32,7 +32,7 @@ public class Arbre {
         }
     }
 
-    Arbre(int a){
+    Arbre(int a) {
         for (int i = 0; i < 26; i++) {
             racine[i] = new Noeud(false);
         }
@@ -43,7 +43,7 @@ public class Arbre {
             BufferedReader br = new BufferedReader(ipsr);
             String ligne;
             while ((ligne = br.readLine()) != null) {
-                int i = ligne.charAt(0)-97;
+                int i = ligne.charAt(0) - 97;
                 this.racine[i].addChar(ligne, 1);
 
             }
@@ -64,7 +64,7 @@ public class Arbre {
         tmp.setPeut_finir(true);
     }
 
-    void tradArbre(){
+    void tradArbre() {
         try {
             String fichier = "./lexiqueA.txt";
             OutputStream ips = new FileOutputStream(fichier);
@@ -76,21 +76,22 @@ public class Arbre {
             }
             br.println();
             br.close();
-        }catch(Exception e){
+        } catch (Exception e) {
 
         }
     }
 
-    void tradNoeud(Noeud n, int i, PrintWriter br){
-        if(n!=null){
+    void tradNoeud(Noeud n, int i, PrintWriter br) {
+        if (n != null) {
             br.print((char) (97 + i));
-            if (n.peut_finir){
+            if (n.peut_finir) {
                 br.print("!");
             }
-            if(n.listeNoeud != null){
-                for(int ii = 0; ii<26; ii++){
-                    tradNoeud(n.listeNoeud[ii],ii,br);
-                }}
+            if (n.listeNoeud != null) {
+                for (int ii = 0; ii < 26; ii++) {
+                    tradNoeud(n.listeNoeud[ii], ii, br);
+                }
+            }
             br.print(".");
         }
     }
@@ -105,22 +106,21 @@ public class Arbre {
         return tmp.peut_finir;
     }
 
-    Set<String> listeMots(String pattern){
-        char[] mot=new char[pattern.length()];
-        for (int i = 0; i<mot.length; i++){
-            mot[i]=pattern.charAt(i);
+    Set<String> listeMots(String pattern) {
+        char[] mot = new char[pattern.length()];
+        for (int i = 0; i < mot.length; i++) {
+            mot[i] = pattern.charAt(i);
         }
         return listeMots_rec(mot, "", 0, new HashSet<>());
     }
 
-    private Set<String> listeMots_rec(char[] pattern, String mot, int profondeur, Set<String> liste){
-        if (pattern[profondeur] == '.'){
-            for (int i = 0; i< 26;i++){
+    private Set<String> listeMots_rec(char[] pattern, String mot, int profondeur, Set<String> liste) {
+        if (pattern[profondeur] == '.') {
+            for (int i = 0; i < 26; i++) {
                 liste.addAll(racine[i].getMot(pattern, mot + (char) ('a' + i), profondeur + 1, liste));
             }
-        }
-        else{
-            liste.addAll(racine[pattern[profondeur]-97].getMot(pattern,mot+pattern[profondeur], profondeur+1, liste));
+        } else {
+            liste.addAll(racine[pattern[profondeur] - 97].getMot(pattern, mot + pattern[profondeur], profondeur + 1, liste));
         }
         return liste;
     }
@@ -169,16 +169,16 @@ public class Arbre {
             OutputStreamWriter ipsr = new OutputStreamWriter(ips);
             PrintWriter br = new PrintWriter(ipsr);
             Random r = new Random(System.currentTimeMillis());
-            for (int i = 0 ; i< 10; i++){
-                for (int j = 0 ; j< 1000; j++){
-                    br.print(text.get(r.nextInt(text.size()))+" ");
+            for (int i = 0; i < 10; i++) {
+                for (int j = 0; j < 1000; j++) {
+                    br.print(text.get(r.nextInt(text.size())) + " ");
                 }
                 br.println();
             }
             br.flush();
             br.println();
             br.close();
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e.toString());
         }
 
@@ -206,9 +206,6 @@ public class Arbre {
         System.err.println("check lexique time: " + ((end - start)) + " ms");
 
 
-
-
-
         boolean a;
         String mot = "....g...";
         Set<String> list;
@@ -219,13 +216,12 @@ public class Arbre {
             a = arbre.chercheMot(s);
             //if (a) System.out.println(s + " :" + a);
         }
-        System.err.println("time recherche "+mot+": " + ((end - start)) + " ms");
+        System.err.println("time recherche " + mot + ": " + ((end - start)) + " ms");
         System.out.println("taille liste :" + list.size() + " taille mot :" + mot.length());
 
         //arbre.tradArbre();
 
     }
-
 
 
 }
