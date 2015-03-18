@@ -1,13 +1,16 @@
+package securiteL3;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 public class Chiffre {
 
     public static void checkargs(String[] args) {
         if (args.length != 3 || !(args[0].equals("c") || args[0].equals("p") || args[0].equals("v"))) {
-            System.out.println("usage : Chiffre [c/p/v] cle texte");
+            System.out.println("usage : securiteL3.Chiffre [c/p/v] cle texte");
             System.exit(-1);
         }
     }
@@ -37,6 +40,10 @@ public class Chiffre {
                 break;
             case "v":
                 chiffreVigenere(args[1], text);
+
+
+
+
                 break;
             case "p":
                 chiffrePermutation(args[1], text);
@@ -45,7 +52,10 @@ public class Chiffre {
     }
 
     public static void chiffreCesar(String cle, String text) {
+        long start = System.currentTimeMillis();
         System.out.println(new Cesar().chiffreText(text, cle));
+        long end = System.currentTimeMillis();
+        System.err.println((end-start));
     }
 
 

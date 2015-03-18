@@ -1,3 +1,5 @@
+package securiteL3;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -7,7 +9,7 @@ public class Dechiffre {
 
     public static void checkargs(String[] args) {
         if (args.length != 3 || !(args[0].equals("c") || args[0].equals("p") || args[0].equals("v"))) {
-            System.out.println("usage : Dechiffre [c/p/v] cle texte");
+            System.out.println("usage : securiteL3.Dechiffre [c/p/v] cle texte");
             System.exit(-1);
         }
     }
@@ -42,7 +44,10 @@ public class Dechiffre {
     }
 
     public static void dechiffreCesar(String cle, String text) {
+        long start = System.currentTimeMillis();
         System.out.println(new Cesar().dechiffreText(text, cle));
+        long end = System.currentTimeMillis();
+        System.err.println((end-start));
     }
 
     public static void dechiffrePermutation(String cle, String text) {

@@ -1,3 +1,5 @@
+package securiteL3;
+
 public class Permutation implements Code {
 
     public static boolean verif(String cle) {
