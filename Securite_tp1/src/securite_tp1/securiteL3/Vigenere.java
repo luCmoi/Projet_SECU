@@ -55,17 +55,12 @@ public class Vigenere implements Code {
         int taille = Integer.parseInt(cle);
         String[] tab = split(s, taille);
         this.cle = get_full_key(tab);
-        //System.err.println("cle :"+this.cle);
         return dechiffreText(s, this.cle);
     }
 
     String[] split(String s, int taille){
         String[] tab = new String[taille];
-        s =s.replace(" ", "");
-        s =s.replace("\n", "");
-        for (int i = 0; i < taille; i++) {
-            tab[i] = "";
-        }
+        s =s.replaceAll("[ \n]", "");
         for (int i = 0; i < s.length(); i++) {
             tab[i%taille] += s.charAt(i);
         }
@@ -73,26 +68,21 @@ public class Vigenere implements Code {
     }
 
     char get_freq(String s){
-        int [] tab = new int[26];
+        int [] tab = new int[TAILLE_ALPHABET];
         for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            if(c != ' ' && c != '\n') {
-                //System.err.println(c - 97);
-                tab[c - 97]++;
-            }
+            tab[s.charAt(i) - DEBUT_ALPHABET_ASCII]++;
         }
-
         int max = 0;
-        for (int i = 0; i < 26; i++) {
+        for (int i = 0; i < TAILLE_ALPHABET; i++) {
             if(tab[i]>tab[max]) max = i;
         }
-        return (char) ((97+max-'e')+'a');
+        return (char) ((DEBUT_ALPHABET_ASCII+max-'e')+'a');
     }
 
     String get_full_key(String[] tab){
         String key = "";
-        for (int i = 0; i < tab.length; i++) {
-            key+= get_freq(tab[i]);
+        for (String i : tab) {
+            key+= get_freq(i);
         }
         return key;
     }
