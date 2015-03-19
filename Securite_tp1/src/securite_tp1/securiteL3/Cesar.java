@@ -28,7 +28,7 @@ public class Cesar implements Code {
             case 1:
                 return decryptMot(args[0], args[2]);
             case 2:
-                return "";
+                return decryptFreq(args[0]);
             case 3:
                 return decryptFB(args[0]);
         }
@@ -75,6 +75,10 @@ public class Cesar implements Code {
             }
         }
         return null;
+    }
+
+    public String decryptFreq(String texte){
+
     }
 
     public String decryptFB(String texte) {
