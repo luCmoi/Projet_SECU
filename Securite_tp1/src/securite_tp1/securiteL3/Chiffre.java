@@ -42,8 +42,6 @@ public class Chiffre {
                 chiffreVigenere(args[1], text);
 
 
-
-
                 break;
             case "p":
                 chiffrePermutation(args[1], text);
@@ -55,7 +53,7 @@ public class Chiffre {
         long start = System.currentTimeMillis();
         System.out.println(new Cesar().chiffreText(text, cle));
         long end = System.currentTimeMillis();
-        System.err.println((end-start));
+        System.err.println((end - start));
     }
 
 
