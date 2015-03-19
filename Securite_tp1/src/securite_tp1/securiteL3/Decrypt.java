@@ -37,7 +37,7 @@ public class Decrypt {
         }
         switch (args[0]) {
             case "c":
-                decryptCesar(args);
+                decryptCesar(args, text);
                 break;
             case "v":
                 decryptVigenere(text, args);
@@ -49,10 +49,9 @@ public class Decrypt {
 
     }
 
-    public static void decryptCesar(String[] args) {
-        System.out.println("securiteL3.Decrypt securiteL3.Cesar:");
-        System.out.println("Text: " + args[1]);
-        System.out.println(new Cesar().decrypt(args[1], args[2], args[3]));
+    public static void decryptCesar(String[] args, String text) {
+        if (args.length == 3) System.out.println(new Cesar().decrypt(text, args[2]));
+        else System.out.println(new Cesar().decrypt(text, args[2], args[3]));
     }
 
     public static void decryptPermutation(String text) {

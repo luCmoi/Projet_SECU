@@ -41,7 +41,7 @@ public class Cesar implements Code {
         for (int i = 0; i < lignes.length; i++) {
             texteSplit[i] = lignes[i].split(" ");
         }
-        int[] ecarts = new int[motConnu.length() - 1];
+        int[] ecarts = new int[motConnu.length()];
         char pred = motConnu.charAt(0);
         for (int i = 1; i < motConnu.length(); i++) {
             ecarts[i] = motConnu.charAt(i) - pred;
@@ -50,11 +50,8 @@ public class Cesar implements Code {
         ecarts[0] = pred - motConnu.charAt(0);
         boolean mauvaisMot = false;
         int decallage = -1;
-        Arbre arbre = new Arbre();
-        String retour = "";
         for (String[] ligne : texteSplit) {
             for (String mot : ligne) {
-                //On cherche le mot
                 mauvaisMot = false;
                 if (mot.length() == motConnu.length()) {
                     pred = mot.charAt(0);
@@ -64,34 +61,16 @@ public class Cesar implements Code {
                             break;
                         }
                     }
-                    //On a le mot
                     if (!mauvaisMot) {
                         decallage = mot.charAt(0) - motConnu.charAt(0);
                         if (decallage < DEBUT_ALPHABET_ASCII) {
                             decallage += TAILLE_ALPHABET;
                         }
-                        boolean stop = false;
-                        for (String[] ligneB : texteSplit) {
-                            if (stop) {
-                                break;
-                            }
-                            for (String motB : ligneB) {
-                                String trad = dechiffre(motB, "" + decallage);
-                                if (arbre.chercheMot(trad) && !trad.equals("")) {
-                                    retour += trad + " ";
-                                } else {
-                                    retour = "";
-                                    stop = true;
-                                    break;
-                                }
-                            }
-                        }
-                        if (!retour.equals("")) {
-                            Toolkit.getDefaultToolkit().beep();
-                            return retour;
+                        String texteRetour = decryptParcour(texteSplit,decallage);
+                        if (texteRetour != null){
+                            return texteRetour;
                         }
                     }
-
                 }
             }
         }
@@ -104,29 +83,37 @@ public class Cesar implements Code {
         for (int i = 0; i < lignes.length; i++) {
             texteSplit[i] = lignes[i].split(" ");
         }
+        for (int i = 0; i < TAILLE_ALPHABET; i++) {
+            String texteRetour = decryptParcour(texteSplit,i);
+            if (texteRetour != null){
+                return texteRetour;
+            }
+        }
+        return null;
+    }
+
+    public String decryptParcour(String[][] texteSplit, int cle){
         String retour = "";
         Arbre arbre = new Arbre();
-        for (int i = 0; i < TAILLE_ALPHABET; i++) {
-            boolean stop = false;
-            for (String[] ligne : texteSplit) {
-                if (stop) {
-                    break;
-                }
-                for (String mot : ligne) {
-                    String trad = dechiffre(mot, "" + i);
-                    if (arbre.chercheMot(trad) && !trad.equals("")) {
-                        retour += trad + " ";
-                    } else {
-                        retour = "";
-                        stop = true;
-                        break;
+        boolean debutLigne = false;
+        for (String[] ligne : texteSplit) {
+            debutLigne = true;
+            for (String mot : ligne) {
+                String trad = dechiffre(mot, "" + cle);
+                if (arbre.chercheMot(trad) && !trad.equals("")) {
+                    if (debutLigne){
+                        debutLigne=false;
+                        if (retour != "") retour += "\n";
                     }
+                    retour += trad + " ";
+                } else {
+                    return null;
                 }
             }
-            if (!retour.equals("")) {
-                Toolkit.getDefaultToolkit().beep();
-                return retour;
-            }
+        }
+        if (!retour.equals("")) {
+            Toolkit.getDefaultToolkit().beep();
+            return retour.substring(0,retour.length()-1);
         }
         return null;
     }
