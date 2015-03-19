@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.Normalizer;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Arbre {
 
@@ -33,6 +35,25 @@ public class Arbre {
 
     public static String removeAccent(String source) {
         return Normalizer.normalize(source, Normalizer.Form.NFD).replaceAll("[\u0300-\u036F]", "");
+    }
+
+    Set<String> listeMots(String pattern) {
+        char[] mot = new char[pattern.length()];
+        for (int i = 0; i < mot.length; i++) {
+            mot[i] = pattern.charAt(i);
+        }
+        return listeMots_rec(mot, "", 0, new HashSet<>());
+    }
+
+    private Set<String> listeMots_rec(char[] pattern, String mot, int profondeur, Set<String> liste) {
+        if (pattern[profondeur] == '.') {
+            for (int i = 0; i < 26; i++) {
+                liste.addAll(racine[i].getMot(pattern, mot + (char) ('a' + i), profondeur + 1, liste));
+            }
+        } else {
+            liste.addAll(racine[pattern[profondeur] - 97].getMot(pattern, mot + pattern[profondeur], profondeur + 1, liste));
+        }
+        return liste;
     }
 
     void addMot(String s) {
