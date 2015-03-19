@@ -77,4 +77,10 @@ public class Arbre {
         return tmp.peut_finir;
     }
 
+    public static void main(String [] args){
+
+        Arbre a = new Arbre();
+        System.out.println(a.listeMots("c..e.").size());
+    }
+
 }
