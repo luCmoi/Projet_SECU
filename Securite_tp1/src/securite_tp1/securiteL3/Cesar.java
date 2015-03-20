@@ -139,7 +139,8 @@ public class Cesar implements Code {
         for (int i = 0; i < TAILLE_ALPHABET; i++) {
             if (tab[i] > tab[max]) max = i;
         }
-        return (char) ((DEBUT_ALPHABET_ASCII + max - 'e') + 'a');
+        char cle = (char) (DEBUT_ALPHABET_ASCII + max - ('e'-DEBUT_ALPHABET_ASCII));
+        return (cle<DEBUT_ALPHABET_ASCII)?(char)(cle + TAILLE_ALPHABET):cle;
     }
 
 }
