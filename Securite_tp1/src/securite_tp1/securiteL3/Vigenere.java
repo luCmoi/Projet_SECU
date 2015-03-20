@@ -77,7 +77,6 @@ public class Vigenere implements Code {
 
     void sans_taille(String s){
         int taille = 1;
-        String cle = "";
         String t2 = s.replaceAll("[ \n]", " ");
         t2 = t2.trim();
         String[] tab = t2.split(" ");
@@ -85,25 +84,20 @@ public class Vigenere implements Code {
         boolean finish = false;
         while(!finish){
             this.cle = avec_taille(s, taille);
-            //System.err.println("cle :"+this.cle);
             finish = true;
             for (String mot : tab){
                 if(mot.equals("") || mot.equals(" ")) continue;
                 String a = dechiffre(mot,this.cle);
-                //System.err.println("dechiffre :" + a+". "+mot+".");
                 if (!arbre.chercheMot(a)){
-                    //System.err.println("err :"+mot+" " +a);
                     finish = false;
                     break;
                 }
             }
+
             this.mod = 0;
             taille++;
-            //System.err.println(taille);
 
         }
-        //System.err.println(this.cle);
-        return ;
     }
 
 
