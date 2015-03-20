@@ -73,15 +73,15 @@ public class Permutation implements Code {
 
         if (cle.length() == TAILLE_ALPHABET && verif(cle)) {
             char[] tab = new char[TAILLE_ALPHABET];
-            for(int i= 0; i< cle.length();i++){
-                int a = cle.charAt(i)-DEBUT_ALPHABET_ASCII;
-                tab[a] = (char)('a'+i);
+            for (int i = 0; i < cle.length(); i++) {
+                int a = cle.charAt(i) - DEBUT_ALPHABET_ASCII;
+                tab[a] = (char) ('a' + i);
             }
             for (int i = 0; i < s.length(); i++) {
                 char c = s.charAt(i);
                 if (c == '\n' || c == ' ') result += c;
                 else {
-                    result += dechiffre(c, c - tab[c-DEBUT_ALPHABET_ASCII]);
+                    result += dechiffre(c, c - tab[c - DEBUT_ALPHABET_ASCII]);
                 }
             }
         } else {
@@ -92,7 +92,7 @@ public class Permutation implements Code {
     }
 
     @Override
-    public String decrypt(String s) {
+    public String decrypt(String... args) {
         int[] tab = new int[26];
         char[] tab2 = new char[26];
         tab2[0] = 'a';
@@ -121,8 +121,8 @@ public class Permutation implements Code {
         tab2[23] = 'x';
         tab2[24] = 'y';
         tab2[25] = 'z';
-        for (int i = 0; i < s.length(); i++) {
-            switch (s.charAt(i)) {
+        for (int i = 0; i < args[0].length(); i++) {
+            switch (args[0].charAt(i)) {
                 case 'a':
                     tab[0] += 1;
                     break;

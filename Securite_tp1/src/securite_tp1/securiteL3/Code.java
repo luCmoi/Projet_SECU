@@ -48,6 +48,6 @@ public interface Code {
 
     public String dechiffre(String s, String cle);
 
-    public String decrypt(String s);
+    public String decrypt(String... s);
 
 }

@@ -2,9 +2,13 @@ package securiteL3;
 
 import java.io.*;
 import java.text.Normalizer;
+<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
+=======
+import java.util.HashSet;
+>>>>>>> 9eefcae026610ce31384f620c81d620e5bcb7f87
 import java.util.Set;
 
 public class Arbre {
@@ -29,8 +33,8 @@ public class Arbre {
 
             }
             br.close();
-        } catch (Exception r) {
-            r.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     	
     	/*for (int i = 0; i < 26; i++) {
@@ -73,6 +77,25 @@ public class Arbre {
         } catch (Exception r) {
             r.printStackTrace();
         }
+    }
+
+    Set<String> listeMots(String pattern) {
+        char[] mot = new char[pattern.length()];
+        for (int i = 0; i < mot.length; i++) {
+            mot[i] = pattern.charAt(i);
+        }
+        return listeMots_rec(mot, "", 0, new HashSet<>());
+    }
+
+    private Set<String> listeMots_rec(char[] pattern, String mot, int profondeur, Set<String> liste) {
+        if (pattern[profondeur] == '.') {
+            for (int i = 0; i < 26; i++) {
+                liste.addAll(racine[i].getMot(pattern, mot + (char) ('a' + i), profondeur + 1, liste));
+            }
+        } else {
+            liste.addAll(racine[pattern[profondeur] - 97].getMot(pattern, mot + pattern[profondeur], profondeur + 1, liste));
+        }
+        return liste;
     }
 
     void addMot(String s) {
@@ -127,6 +150,7 @@ public class Arbre {
         return tmp.peut_finir;
     }
 
+<<<<<<< HEAD
     Set<String> listeMots(String pattern){
         char[] mot=new char[pattern.length()];
         for (int i = 0; i<mot.length; i++){
@@ -250,4 +274,12 @@ public class Arbre {
 
 
 
+=======
+    public static void main(String [] args){
+
+        Arbre a = new Arbre();
+        System.out.println(a.listeMots("...e.").size());
+    }
+
+>>>>>>> 9eefcae026610ce31384f620c81d620e5bcb7f87
 }
