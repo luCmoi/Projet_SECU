@@ -75,8 +75,6 @@ public class Cesar implements Code {
 
     public String decryptFreq(String[][] texteSplit) {
         int cle = get_freq(texteSplit);
-        System.out.println(cle);
-        System.out.println((char) cle);
         String texteRetour = decryptParcour(texteSplit, cle);
         return texteRetour;
     }
