@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class Decrypt {
 
     public static void checkargs(String[] args) {
-        if (args.length < 3 || !(args[0].equals("c") || args[0].equals("p") || args[0].equals("v"))) {
+        if (args.length < 2 || !(args[0].equals("c") || args[0].equals("p") || args[0].equals("v"))) {
             System.out.println("usage : securiteL3.Decrypt [c/p/v] texte");
             System.exit(-1);
         }

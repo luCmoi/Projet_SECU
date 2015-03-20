@@ -28,8 +28,8 @@ public class Arbre {
 
             }
             br.close();
-        } catch (Exception r) {
-            r.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -80,7 +80,7 @@ public class Arbre {
     public static void main(String [] args){
 
         Arbre a = new Arbre();
-        System.out.println(a.listeMots("c..e.").size());
+        System.out.println(a.listeMots("...e.").size());
     }
 
 }

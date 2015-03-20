@@ -44,47 +44,66 @@ public class Vigenere implements Code {
 
     @Override
     public String decrypt(String... args) {
-        /*String[] tab = split_text(s, 6);
-        this.cle = get_full_key(tab, 6);
-
-        return dechiffreText(s, this.cle);*/
-        return null;
+        sans_taille(args[0]);
+        return dechiffreText(args[0], this.cle);
     }
 
     public String decrypt(String s, String cle) {
         int taille = Integer.parseInt(cle);
-        String[] tab = split(s, taille);
-        this.cle = get_full_key(tab);
+        this.cle = avec_taille(s, taille);
         return dechiffreText(s, this.cle);
     }
 
-    String[] split(String s, int taille) {
-        String[] tab = new String[taille];
+    String avec_taille(String s, int taille) {
+        int[][] tab_freq = new int[taille][TAILLE_ALPHABET];
         s = s.replaceAll("[ \n]", "");
         for (int i = 0; i < s.length(); i++) {
-            tab[i % taille] += s.charAt(i);
+            char c = s.charAt(i);
+            tab_freq[i % taille][c - DEBUT_ALPHABET_ASCII]++;
         }
-        return tab;
-    }
-
-    char get_freq(String s) {
-        int[] tab = new int[TAILLE_ALPHABET];
-        for (int i = 0; i < s.length(); i++) {
-            tab[s.charAt(i) - DEBUT_ALPHABET_ASCII]++;
-        }
-        int max = 0;
-        for (int i = 0; i < TAILLE_ALPHABET; i++) {
-            if (tab[i] > tab[max]) max = i;
-        }
-        return (char) ((DEBUT_ALPHABET_ASCII + max - 'e') + 'a');
-    }
-
-    String get_full_key(String[] tab) {
+        int max;
         String key = "";
-        for (String i : tab) {
-            key += get_freq(i);
+        for (int i = 0; i < taille; i++) {
+            max = 0;
+            for (int j = 0; j < TAILLE_ALPHABET; j++) {
+                if (tab_freq[i][j] > tab_freq[i][max]) max = j;
+            }
+            key +=  (char) ((DEBUT_ALPHABET_ASCII + max - 'e') + 'a');
         }
+
         return key;
+
+    }
+
+    void sans_taille(String s){
+        int taille = 1;
+        String cle = "";
+        String t2 = s.replaceAll("[ \n]", " ");
+        t2 = t2.trim();
+        String[] tab = t2.split(" ");
+        Arbre arbre = new Arbre();
+        boolean finish = false;
+        while(!finish){
+            this.cle = avec_taille(s, taille);
+            //System.err.println("cle :"+this.cle);
+            finish = true;
+            for (String mot : tab){
+                if(mot.equals("") || mot.equals(" ")) continue;
+                String a = dechiffre(mot,this.cle);
+                //System.err.println("dechiffre :" + a+". "+mot+".");
+                if (!arbre.chercheMot(a)){
+                    //System.err.println("err :"+mot+" " +a);
+                    finish = false;
+                    break;
+                }
+            }
+            this.mod = 0;
+            taille++;
+            //System.err.println(taille);
+
+        }
+        //System.err.println(this.cle);
+        return ;
     }
 
 
