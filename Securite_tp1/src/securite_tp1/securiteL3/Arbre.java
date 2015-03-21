@@ -10,18 +10,19 @@ public class Arbre {
 
 
     public Arbre() {
-        
-    	for (int i = 0; i < 26; i++) {
+
+        for (int i = 0; i < 26; i++) {
             racine[i] = new Noeud(false);
         }
-        String fichier = "./lexiqueA.txt";
+        //String fichier = "./lexiqueA.txt";
+        String fichier = "C:\\Users\\Guillaume\\Desktop\\lexiqueA.txt";
         try {
             InputStream ips = new FileInputStream(fichier);
             InputStreamReader ipsr = new InputStreamReader(ips, "ISO8859_1");
             BufferedReader br = new BufferedReader(ipsr);
             String ligne;
             while ((ligne = br.readLine()) != null) {
-                int i = ligne.charAt(0)-97;
+                int i = ligne.charAt(0) - 97;
                 this.racine[i].addChar(ligne, 1);
 
             }
@@ -60,7 +61,8 @@ public class Arbre {
         }
         return tmp.peut_finir;
     }
-    public static void main(String [] args){
+
+    public static void main(String[] args) {
 
         Arbre a = new Arbre();
         System.out.println(a.listeMots("...e.").size());

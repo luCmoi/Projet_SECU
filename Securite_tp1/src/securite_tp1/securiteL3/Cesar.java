@@ -1,8 +1,6 @@
 package securiteL3;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Cesar implements Code {
 
@@ -139,7 +137,8 @@ public class Cesar implements Code {
         for (int i = 0; i < TAILLE_ALPHABET; i++) {
             if (tab[i] > tab[max]) max = i;
         }
-        return (char) ((DEBUT_ALPHABET_ASCII + max - 'e') + 'a');
+        int cle = (max - ('e' - DEBUT_ALPHABET_ASCII));
+        return (cle < 0) ? (char) (cle + TAILLE_ALPHABET) : (char) cle;
     }
 
 }
