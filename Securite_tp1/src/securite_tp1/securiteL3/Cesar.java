@@ -76,9 +76,14 @@ public class Cesar implements Code {
 
     public String decryptFreq(String[][] texteSplit) {
         Arbre arbre = new Arbre();
-        int cle = get_freq(texteSplit);
-        String texteRetour = decryptParcour(arbre, texteSplit, cle);
-        return texteRetour;
+        for(char lettre : FREQUENCE_FRANCAIS) {
+            int cle = get_freq(texteSplit,lettre);
+            String texteRetour = decryptParcour(arbre, texteSplit, cle);
+            if (texteRetour != null) {
+                return texteRetour;
+            }
+        }
+        return null;
     }
 
     public String decryptFB(String[][] texteSplit) {
@@ -126,7 +131,7 @@ public class Cesar implements Code {
         return null;
     }
 
-    char get_freq(String[][] s) {
+    char get_freq(String[][] s, char lettre) {
         int[] tab = new int[TAILLE_ALPHABET];
         for (String[] ligne : s) {
             for (String mot : ligne) {
@@ -139,7 +144,7 @@ public class Cesar implements Code {
         for (int i = 0; i < TAILLE_ALPHABET; i++) {
             if (tab[i] > tab[max]) max = i;
         }
-        int cle = (max - ('e' - DEBUT_ALPHABET_ASCII));
+        int cle = (max - (lettre - DEBUT_ALPHABET_ASCII));
         return (cle < 0) ? (char) (cle + TAILLE_ALPHABET) : (char) cle;
     }
 
