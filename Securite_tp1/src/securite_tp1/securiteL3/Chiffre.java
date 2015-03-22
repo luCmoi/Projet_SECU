@@ -17,7 +17,8 @@ public class Chiffre {
 
     public static void main(String[] args) {
         checkargs(args);
-        String text = "";
+        StringBuilder text = new StringBuilder();
+        String string;
         try {
             InputStream ips = new FileInputStream(args[2]);
             InputStreamReader ipsr = new InputStreamReader(ips);
@@ -25,26 +26,28 @@ public class Chiffre {
             String ligne;
             while ((ligne = br.readLine()) != null) {
                 if (ligne.equals("\n")) {
-                    text += ligne;
+                    text.append(ligne);
                 } else {
-                    text += ligne + "\n";
+                    text.append(ligne);
+                    text.append("\n");
                 }
             }
             br.close();
         } catch (Exception r) {
-            System.out.println(r.toString());
+            r.printStackTrace();
         }
+        string = text.toString();
         switch (args[0]) {
             case "c":
-                chiffreCesar(args[1], text);
+                chiffreCesar(args[1], string);
                 break;
             case "v":
-                chiffreVigenere(args[1], text);
+                chiffreVigenere(args[1], string);
 
 
                 break;
             case "p":
-                chiffrePermutation(args[1], text);
+                chiffrePermutation(args[1], string);
                 break;
         }
     }
@@ -53,7 +56,7 @@ public class Chiffre {
         long start = System.currentTimeMillis();
         System.out.println(new Cesar().chiffreText(text, cle));
         long end = System.currentTimeMillis();
-        System.err.println((end - start));
+        //System.err.println((end - start));
     }
 
 

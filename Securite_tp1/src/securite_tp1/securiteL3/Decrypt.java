@@ -18,7 +18,8 @@ public class Decrypt {
 
     public static void main(String[] args) {
         checkargs(args);
-        String text = "";
+        StringBuilder text = new StringBuilder();
+        String string;
         try {
             InputStream ips = new FileInputStream(args[1]);
             InputStreamReader ipsr = new InputStreamReader(ips);
@@ -26,21 +27,23 @@ public class Decrypt {
             String ligne;
             while ((ligne = br.readLine()) != null) {
                 if (ligne.equals("\n")) {
-                    text += ligne;
+                    text.append(ligne);
                 } else {
-                    text += ligne + "\n";
+                    text.append(ligne);
+                    text.append("\n");
                 }
             }
             br.close();
         } catch (Exception r) {
             System.out.println(r.toString());
         }
+        string = text.toString();
         switch (args[0]) {
             case "c":
-                decryptCesar(args, text);
+                decryptCesar(args, string);
                 break;
             case "v":
-                decryptVigenere(text, args);
+                decryptVigenere(string, args);
                 break;
             case "p":
                 decryptPermutation(args[1]);

@@ -16,28 +16,35 @@ public class Dechiffre {
 
     public static void main(String[] args) {
         checkargs(args);
-        String text = "";
+        StringBuilder text = new StringBuilder();
+        String string;
         try {
             InputStream ips = new FileInputStream(args[2]);
             InputStreamReader ipsr = new InputStreamReader(ips);
             BufferedReader br = new BufferedReader(ipsr);
             String ligne;
             while ((ligne = br.readLine()) != null) {
-                text += ligne + "\n";
+                if (ligne.equals("\n")) {
+                    text.append(ligne);
+                } else {
+                    text.append(ligne);
+                    text.append("\n");
+                }
             }
             br.close();
         } catch (Exception r) {
             System.out.println(r.toString());
         }
+        string = text.toString();
         switch (args[0]) {
             case "c":
-                dechiffreCesar(args[1], text);
+                dechiffreCesar(args[1], string);
                 break;
             case "v":
-                dechiffreVigenere(args[1], text);
+                dechiffreVigenere(args[1], string);
                 break;
             case "p":
-                dechiffrePermutation(args[1], text);
+                dechiffrePermutation(args[1], string);
                 break;
         }
 
