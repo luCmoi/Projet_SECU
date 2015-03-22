@@ -38,6 +38,7 @@ public class Cesar implements Code {
 
     public String decryptMot(String[][] texteSplit, String motConnu) {
         int[] ecarts = new int[motConnu.length()];
+        Arbre arbre = new Arbre();
         char pred = motConnu.charAt(0);
         for (int i = 1; i < motConnu.length(); i++) {
             ecarts[i] = motConnu.charAt(i) - pred;
@@ -59,10 +60,10 @@ public class Cesar implements Code {
                     }
                     if (!mauvaisMot) {
                         decallage = mot.charAt(0) - motConnu.charAt(0);
-                        if (decallage < DEBUT_ALPHABET_ASCII) {
+                        if (decallage < 0) {
                             decallage += TAILLE_ALPHABET;
                         }
-                        String texteRetour = decryptParcour(texteSplit, decallage);
+                        String texteRetour = decryptParcour(arbre, texteSplit, decallage);
                         if (texteRetour != null) {
                             return texteRetour;
                         }
@@ -74,14 +75,16 @@ public class Cesar implements Code {
     }
 
     public String decryptFreq(String[][] texteSplit) {
+        Arbre arbre = new Arbre();
         int cle = get_freq(texteSplit);
-        String texteRetour = decryptParcour(texteSplit, cle);
+        String texteRetour = decryptParcour(arbre, texteSplit, cle);
         return texteRetour;
     }
 
     public String decryptFB(String[][] texteSplit) {
+        Arbre arbre = new Arbre();
         for (int i = 0; i < TAILLE_ALPHABET; i++) {
-            String texteRetour = decryptParcour(texteSplit, i);
+            String texteRetour = decryptParcour(arbre, texteSplit, i);
             if (texteRetour != null) {
                 return texteRetour;
             }
@@ -98,9 +101,8 @@ public class Cesar implements Code {
         return texteSplit;
     }
 
-    public String decryptParcour(String[][] texteSplit, int cle) {
+    public String decryptParcour(Arbre arbre, String[][] texteSplit, int cle) {
         String retour = "";
-        Arbre arbre = new Arbre();
         boolean debutLigne = false;
         for (String[] ligne : texteSplit) {
             debutLigne = true;
