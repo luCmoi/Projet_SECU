@@ -17,6 +17,8 @@ public class Decrypt {
     }
 
     public static void main(String[] args) {
+        long start = System.currentTimeMillis();
+        long end;
         checkargs(args);
         StringBuilder text = new StringBuilder();
         String string;
@@ -41,23 +43,27 @@ public class Decrypt {
         switch (args[0]) {
             case "c":
                 decryptCesar(args, string);
+                end = System.currentTimeMillis();
+                System.err.println("Temps de Cesar:" + (end - start) + "ms");
                 break;
             case "v":
                 decryptVigenere(string, args);
+                end = System.currentTimeMillis();
+                System.err.println("Temps de Vigenere:" + (end - start) + "ms");
                 break;
             case "p":
                 decryptPermutation(args[1]);
+                end = System.currentTimeMillis();
+                System.err.println("Temps de Permutation:" + (end - start) + "ms");
                 break;
         }
 
     }
 
     public static void decryptCesar(String[] args, String text) {
-        long start = System.currentTimeMillis();
         if (args.length == 3) System.out.println(new Cesar().decrypt(text, args[2]));
         else System.out.println(new Cesar().decrypt(text, args[2], args[3]));
-        long end = System.currentTimeMillis();
-        System.err.println("Temps de Cesar:" + (end - start) + "ms");
+
 
     }
 
@@ -67,10 +73,7 @@ public class Decrypt {
     }
 
     public static void decryptVigenere(String text, String[] args) {
-        long start = System.currentTimeMillis();
         if (args.length == 3) System.out.println(new Vigenere("").decrypt(text, args[2]));
         else System.out.println(new Vigenere("").decrypt(text));
-        long end = System.currentTimeMillis();
-        System.err.println("Temps de Vigenere:" + (end - start) + "ms");
     }
 }
