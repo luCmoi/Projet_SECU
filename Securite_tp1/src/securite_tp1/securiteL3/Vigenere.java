@@ -55,6 +55,7 @@ public class Vigenere implements Code {
     }
 
     String avec_taille(String s, int taille) {
+        System.err.println(taille+"   :");
         int[][] tab_freq = new int[taille][TAILLE_ALPHABET];
         int tab[] = new int[taille];
         s = s.replaceAll("[ \n]", "");
@@ -71,10 +72,14 @@ public class Vigenere implements Code {
             for (int j = 0; j < TAILLE_ALPHABET; j++) {
                 if (tab_freq[i][j] > tab_freq[i][max]) max = j;
             }
-            System.err.println(max);
-            key +=  (char) ((DEBUT_ALPHABET_ASCII +max - 'e') + 'a');
+            //System.err.print((char) ((DEBUT_ALPHABET_ASCII +max - 'e') + 'a')+" ");
+            int c = (char) ((DEBUT_ALPHABET_ASCII +max - 'e') + 'a');
+            if (c>=FIN_ALPHABET_ASCII) c -= TAILLE_ALPHABET;
+            if (c<=DEBUT_ALPHABET_ASCII) c += TAILLE_ALPHABET;
+            System.err.print((char)c+" ");
+            key +=  (char)c;
         }
-
+        System.err.println();
         return key;
 
     }

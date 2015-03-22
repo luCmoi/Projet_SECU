@@ -53,7 +53,7 @@ public class Chiffre {
         long start = System.currentTimeMillis();
         System.out.println(new Cesar().chiffreText(text, cle));
         long end = System.currentTimeMillis();
-        //System.err.println((end - start));
+        System.err.println((end - start));
     }
 
 

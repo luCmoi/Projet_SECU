@@ -34,7 +34,9 @@ public class Arbre {
         }
     }
 
-
+    public boolean in_alpha(char c){
+        return c>=DEBUT_ALPHABET_ASCII && c<=FIN_ALPHABET_ASCII;
+    }
     Set<String> listeMots(String pattern) {
         char[] mot = new char[pattern.length()];
         for (int i = 0; i < mot.length; i++) {
@@ -58,6 +60,7 @@ public class Arbre {
         byte indice = (byte) (s.charAt(0) - DEBUT_ALPHABET_ASCII);
         Noeud tmp = racine[indice];
         for (int i = 1; i < s.length(); i++) {
+            if(! in_alpha(s.charAt(i))) return false;
             tmp = tmp.getFils(s.charAt(i));
             if (tmp == null) return false;
         }
