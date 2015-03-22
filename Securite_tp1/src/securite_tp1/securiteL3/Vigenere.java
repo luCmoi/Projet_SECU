@@ -12,34 +12,34 @@ public class Vigenere implements Code {
 
     @Override
     public String chiffre(String s, String cle) {
-        String res = "";
+        StringBuilder res = new StringBuilder();
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
-            if (c == ' ') res += ' ';
-            else if (c == '\n') res += '\n';
+            if (c == ' ') res.append(' ');
+            else if (c == '\n') res.append('\n');
             else {
-                res += chiffre(c, this.cle.charAt(mod) - 97);
+                res.append(chiffre(c, this.cle.charAt(mod) - 97));
                 mod++;
                 mod = mod % this.cle.length();
             }
         }
-        return res;
+        return res.toString();
     }
 
     @Override
     public String dechiffre(String s, String cle) {
-        String res = "";
+        StringBuilder res = new StringBuilder();
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
-            if (c == ' ') res += ' ';
-            else if (c == '\n') res += '\n';
+            if (c == ' ') res.append(' ');
+            else if (c == '\n') res.append('\n');
             else {
-                res += dechiffre(c, this.cle.charAt(mod) - 97);
+                res.append(dechiffre(c, this.cle.charAt(mod) - 97));
                 mod++;
                 mod = mod % this.cle.length();
             }
         }
-        return res;
+        return res.toString();
     }
 
     @Override
