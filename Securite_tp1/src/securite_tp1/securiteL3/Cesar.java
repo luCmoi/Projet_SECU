@@ -117,7 +117,8 @@ public class Cesar implements Code {
                         debutLigne = false;
                         if (retour.toString() != "") retour.append("\n");
                     }
-                    retour.append(trad + " ");
+                    retour.append(trad);
+                    retour.append(" ");
                 } else {
                     return null;
                 }
