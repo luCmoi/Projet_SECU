@@ -6,23 +6,20 @@ public class Cesar implements Code {
 
     @Override
     public String chiffre(String texte, String cle) {
-        StringBuilder retour = new StringBuilder();
+        StringBuilder retour = new StringBuilder("");
         for (Character c : texte.toCharArray()) {
             retour.append(chiffre(c, Integer.parseInt(cle)));
-            //retour += chiffre(c, Integer.parseInt(cle));
         }
         return retour.toString();
-        //return retour;
-
     }
 
     @Override
     public String dechiffre(String texte, String cle) {
-        String retour = "";
+        StringBuilder retour = new StringBuilder("");
         for (Character c : texte.toCharArray()) {
-            retour += dechiffre(c, Integer.parseInt(cle));
+            retour.append(dechiffre(c, Integer.parseInt(cle)));
         }
-        return retour;
+        return retour.toString();
     }
 
     public String decrypt(String... args) {
@@ -109,7 +106,7 @@ public class Cesar implements Code {
     }
 
     public String decryptParcour(Arbre arbre, String[][] texteSplit, int cle) {
-        String retour = "";
+        StringBuilder retour = new StringBuilder("");
         boolean debutLigne = false;
         for (String[] ligne : texteSplit) {
             debutLigne = true;
@@ -118,9 +115,9 @@ public class Cesar implements Code {
                 if (arbre.chercheMot(trad) && !trad.equals("")) {
                     if (debutLigne) {
                         debutLigne = false;
-                        if (retour != "") retour += "\n";
+                        if (retour.toString() != "") retour.append("\n");
                     }
-                    retour += trad + " ";
+                    retour.append(trad + " ");
                 } else {
                     return null;
                 }
