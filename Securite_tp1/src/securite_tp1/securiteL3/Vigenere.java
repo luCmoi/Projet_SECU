@@ -55,14 +55,13 @@ public class Vigenere implements Code {
     }
 
     String avec_taille(String s, int taille) {
-        System.err.println(taille+"   :");
         int[][] tab_freq = new int[taille][TAILLE_ALPHABET];
-        int tab[] = new int[taille];
+
         s = s.replaceAll("[ \n]", "");
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
             tab_freq[i % taille][c - DEBUT_ALPHABET_ASCII]++;
-            //if (tab_freq[i%taille][c - DEBUT_ALPHABET_ASCII] > tab_freq[i%taille][tab[i % taille]]) tab[i % taille] = c - DEBUT_ALPHABET_ASCII;
+
 
         }
         int max;
@@ -72,14 +71,11 @@ public class Vigenere implements Code {
             for (int j = 0; j < TAILLE_ALPHABET; j++) {
                 if (tab_freq[i][j] > tab_freq[i][max]) max = j;
             }
-            //System.err.print((char) ((DEBUT_ALPHABET_ASCII +max - 'e') + 'a')+" ");
             int c = (char) ((DEBUT_ALPHABET_ASCII +max - 'e') + 'a');
-            if (c>=FIN_ALPHABET_ASCII) c -= TAILLE_ALPHABET;
-            if (c<=DEBUT_ALPHABET_ASCII) c += TAILLE_ALPHABET;
-            System.err.print((char)c+" ");
+            if (c>FIN_ALPHABET_ASCII) c -= TAILLE_ALPHABET;
+            if (c<DEBUT_ALPHABET_ASCII) c += TAILLE_ALPHABET;
             key +=  (char)c;
         }
-        System.err.println();
         return key;
 
     }
@@ -96,15 +92,12 @@ public class Vigenere implements Code {
             finish = true;
             for (String mot : tab) {
                 if (mot.equals("") || mot.equals(" ")) continue;
-                //System.err.println(this.cle+".");
                 String a = dechiffre(mot, this.cle);
-                //System.err.println(a+".");
                 if (!arbre.chercheMot(a)) {
                     finish = false;
                     break;
                 }
             }
-
             this.mod = 0;
             taille++;
 
