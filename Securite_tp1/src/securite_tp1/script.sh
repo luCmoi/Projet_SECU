@@ -23,7 +23,7 @@ javac securiteL3/*.java
 
 
 java securiteL3/Chiffre c 22  $1 > $1.chiffreC
-java securiteL3.Decrypt c 3 $1.chiffreC 2 >$1.decryptC
+java securiteL3.Decrypt c $1.chiffreC 1 >$1.decryptC
 if diff $1 $1.decryptC
     then echo "chiffre securiteL3.Cesar réussi"
 else
