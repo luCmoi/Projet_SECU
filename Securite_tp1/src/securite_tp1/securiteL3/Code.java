@@ -31,18 +31,18 @@ public interface Code {
 
     public default String dechiffreText(String text, String cle) {
         String tab[] = text.split("\n");
-        String res = "";
+        StringBuilder res = new StringBuilder("");
         for (String s : tab) {
-            res += this.dechiffre(s, cle) + "\n";
+            res.append(this.dechiffre(s, cle) + "\n");
         }
         return res.substring(0, res.length() - 1);
     }
 
     public default String chiffreText(String text, String cle) {
         String tab[] = text.split("\n");
-        String res = "";
+        StringBuilder res = new StringBuilder("");
         for (String s : tab) {
-            res += this.chiffre(s, cle) + "\n";
+            res.append(this.chiffre(s, cle) + "\n");
         }
         return res.substring(0, res.length() - 1);
     }
