@@ -6,11 +6,13 @@ public class Cesar implements Code {
 
     @Override
     public String chiffre(String texte, String cle) {
-        String retour = "";
+        StringBuilder retour = new StringBuilder();
         for (Character c : texte.toCharArray()) {
-            retour += chiffre(c, Integer.parseInt(cle));
+            retour.append(chiffre(c, Integer.parseInt(cle)));
+            //retour += chiffre(c, Integer.parseInt(cle));
         }
-        return retour;
+        return retour.toString();
+        //return retour;
 
     }
 
