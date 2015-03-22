@@ -16,6 +16,7 @@ public class Arbre {
         }
         //String fichier = "./lexiqueA.txt";
         String fichier = "C:\\Users\\Guillaume\\Desktop\\lexiqueA.txt";
+        fichier = "./lexiqueA.txt";
         try {
             InputStream ips = new FileInputStream(fichier);
             InputStreamReader ipsr = new InputStreamReader(ips, "ISO8859_1");
