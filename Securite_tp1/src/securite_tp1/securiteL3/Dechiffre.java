@@ -47,7 +47,7 @@ public class Dechiffre {
         long start = System.currentTimeMillis();
         System.out.println(new Cesar().dechiffreText(text, cle));
         long end = System.currentTimeMillis();
-        System.err.println((end - start));
+        //System.err.println((end - start));
     }
 
     public static void dechiffrePermutation(String cle, String text) {

@@ -75,7 +75,7 @@ echo -e "\n\n"
 echo -e "#VIGENERE Chiffre/Dechiffre"
 java securiteL3/Chiffre v "renaud"  $1 > $1.chiffreV
 java securiteL3/Dechiffre  v "renaud"  $1.chiffreV > $1.clairV
-if diff $1 $1.clairV
+if diff -q $1 $1.clairV
     then echo "chiffre securiteL3.Vigenere réussi"
 else
     echo "chiffre securiteL3.Vigenere rate"
@@ -85,8 +85,8 @@ echo -e "\n\n"
 
 echo -e "#VIGENERE Chiffre/Decrypt avec taille"
 java securiteL3/Chiffre v "azertyuiopqsdfghjklmwxcvbn"  $1 > $1.chiffreV
-java securiteL3.Decrypt  v $1.chiffreV  26   >$1.decryptV
-if diff $1 $1.decryptV
+java securiteL3.Decrypt  v $1.chiffreV  26  >$1.decryptV
+if diff -q $1 $1.decryptV
     then
     echo decrypt securiteL3.Vigenere réussi
 else
@@ -99,7 +99,7 @@ echo -e "\n\n"
 echo -e "#VIGENERE Chiffre/Decrypt sans taille"
 java securiteL3/Chiffre v "azertyuiopqsdfghjklmwxcvbn"  $1 > $1.chiffreV
 java securiteL3.Decrypt  v $1.chiffreV >$1.decryptV
-if diff $1 $1.decryptV
+if diff -q $1 $1.decryptV
     then
     echo decrypt securiteL3.Vigenere réussi
 else

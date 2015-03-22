@@ -50,8 +50,12 @@ public class Decrypt {
     }
 
     public static void decryptCesar(String[] args, String text) {
+        long start = System.currentTimeMillis();
         if (args.length == 3) System.out.println(new Cesar().decrypt(text, args[2]));
         else System.out.println(new Cesar().decrypt(text, args[2], args[3]));
+        long end = System.currentTimeMillis();
+        System.err.println("Temps de Cesar:" + (end - start) + "ms");
+
     }
 
     public static void decryptPermutation(String text) {
