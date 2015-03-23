@@ -1,8 +1,67 @@
 package securiteL3;
 
-public class Permutation implements Code {
+import java.util.*;
 
-    public static boolean verif(String cle) {
+public class Permutation implements Code {
+	
+	class Tuple{
+		
+		int nb;
+		char lettre;
+		
+		public Tuple(char lettre, int nb){
+			this.nb = nb;
+			this.lettre = lettre;		
+		}
+		
+		public Tuple(char lettre){
+			this.lettre = lettre;
+			this.nb = 0;
+		}
+		
+		public String toString(){
+			return "(" + lettre + ";" + nb + ")";
+		}
+	}
+	
+	ArrayList<Tuple> occ;
+	LinkedList<Character> tab;
+	Arbre a;
+	
+	public Permutation(){
+		tab = new LinkedList<Character>();
+	}
+	
+	public static void tableauA(LinkedList<Character> tab3){
+		tab3.add('e');
+		tab3.add('s');
+		tab3.add('a');
+		tab3.add('i');
+		tab3.add('t');
+		tab3.add('n');
+		tab3.add('r');
+		tab3.add('u');
+		tab3.add('l');
+		tab3.add('o');
+		tab3.add('d');
+		tab3.add('c');
+		tab3.add('p');
+		tab3.add('m');
+		tab3.add('v');
+		tab3.add('q');
+		tab3.add('f');
+		tab3.add('b');
+		tab3.add('g');
+		tab3.add('h');
+		tab3.add('j');
+		tab3.add('x');
+		tab3.add('y');
+		tab3.add('z');
+		tab3.add('w');
+		tab3.add('k');
+	}
+
+	public static boolean verif(String cle) {
         boolean[] tab = new boolean[TAILLE_ALPHABET];
         for (int i = 0; i < cle.length(); i++) {
             if (cle.charAt(i) < DEBUT_ALPHABET_ASCII || cle.charAt(i) > FIN_ALPHABET_ASCII) {
@@ -16,8 +75,8 @@ public class Permutation implements Code {
         return true;
     }
 
-    public static void triBulleDecroissant(int tableau[], char tableau2[]) {
-        int longueur = tableau.length;
+    public static void triBulleDecroissant(ArrayList<Tuple> list) {
+        int longueur = list.size();
         int tampon = 0;
         char tampon2 = ' ';
         boolean permut;
@@ -27,14 +86,14 @@ public class Permutation implements Code {
             permut = false;
             for (int i = 0; i < longueur - 1; i++) {
                 // Teste si 2 éléments successifs sont dans le bon ordre ou non
-                if (tableau[i] < tableau[i + 1]) {
+                if (list.get(i).nb < list.get(i + 1).nb) {
                     // s'ils ne le sont pas, on échange leurs positions
-                    tampon = tableau[i];
-                    tampon2 = tableau2[i];
-                    tableau[i] = tableau[i + 1];
-                    tableau2[i] = tableau2[i + 1];
-                    tableau[i + 1] = tampon;
-                    tableau2[i + 1] = tampon2;
+                    tampon = list.get(i).nb;
+                    tampon2 = list.get(i).lettre;
+                    list.get(i).nb = list.get(i+1).nb;
+                    list.get(i).lettre = list.get(i+1).lettre;
+                    list.get(i+1).nb = tampon;
+                    list.get(i+1).lettre = tampon2;
                     permut = true;
                 }
             }
@@ -73,15 +132,15 @@ public class Permutation implements Code {
 
         if (cle.length() == TAILLE_ALPHABET && verif(cle)) {
             char[] tab = new char[TAILLE_ALPHABET];
-            for (int i = 0; i < cle.length(); i++) {
-                int a = cle.charAt(i) - DEBUT_ALPHABET_ASCII;
-                tab[a] = (char) ('a' + i);
+            for(int i= 0; i< cle.length();i++){
+                int a = cle.charAt(i)-DEBUT_ALPHABET_ASCII;
+                tab[a] = (char)('a'+i);
             }
             for (int i = 0; i < s.length(); i++) {
                 char c = s.charAt(i);
                 if (c == '\n' || c == ' ') result += c;
                 else {
-                    result += dechiffre(c, c - tab[c - DEBUT_ALPHABET_ASCII]);
+                    result += dechiffre(c, c - tab[c-DEBUT_ALPHABET_ASCII]);
                 }
             }
         } else {
@@ -90,125 +149,185 @@ public class Permutation implements Code {
         }
         return result;
     }
-
-    @Override
-    public String decrypt(String... args) {
-        int[] tab = new int[26];
-        char[] tab2 = new char[26];
-        tab2[0] = 'a';
-        tab2[1] = 'b';
-        tab2[2] = 'c';
-        tab2[3] = 'd';
-        tab2[4] = 'e';
-        tab2[5] = 'f';
-        tab2[6] = 'g';
-        tab2[7] = 'h';
-        tab2[8] = 'i';
-        tab2[9] = 'j';
-        tab2[10] = 'k';
-        tab2[11] = 'l';
-        tab2[12] = 'm';
-        tab2[13] = 'n';
-        tab2[14] = 'o';
-        tab2[15] = 'p';
-        tab2[16] = 'q';
-        tab2[17] = 'r';
-        tab2[18] = 's';
-        tab2[19] = 't';
-        tab2[20] = 'u';
-        tab2[21] = 'v';
-        tab2[22] = 'w';
-        tab2[23] = 'x';
-        tab2[24] = 'y';
-        tab2[25] = 'z';
-        for (int i = 0; i < args[0].length(); i++) {
-            switch (args[0].charAt(i)) {
-                case 'a':
-                    tab[0] += 1;
-                    break;
-                case 'b':
-                    tab[1] += 1;
-                    break;
-                case 'c':
-                    tab[2] += 1;
-                    break;
-                case 'd':
-                    tab[3] += 1;
-                    break;
-                case 'e':
-                    tab[4] += 1;
-                    break;
-                case 'f':
-                    tab[5] += 1;
-                    break;
-                case 'g':
-                    tab[6] += 1;
-                    break;
-                case 'h':
-                    tab[7] += 1;
-                    break;
-                case 'i':
-                    tab[8] += 1;
-                    break;
-                case 'j':
-                    tab[9] += 1;
-                    break;
-                case 'k':
-                    tab[10] += 1;
-                    break;
-                case 'l':
-                    tab[11] += 1;
-                    break;
-                case 'm':
-                    tab[12] += 1;
-                    break;
-                case 'n':
-                    tab[13] += 1;
-                    break;
-                case 'o':
-                    tab[14] += 1;
-                    break;
-                case 'p':
-                    tab[15] += 1;
-                    break;
-                case 'q':
-                    tab[16] += 1;
-                    break;
-                case 'r':
-                    tab[17] += 1;
-                    break;
-                case 's':
-                    tab[18] += 1;
-                    break;
-                case 't':
-                    tab[19] += 1;
-                    break;
-                case 'u':
-                    tab[20] += 1;
-                    break;
-                case 'v':
-                    tab[21] += 1;
-                    break;
-                case 'w':
-                    tab[22] += 1;
-                    break;
-                case 'x':
-                    tab[23] += 1;
-                    break;
-                case 'y':
-                    tab[24] += 1;
-                    break;
-                case 'z':
-                    tab[25] += 1;
-                    break;
-                default:
-                    break;
-            }
-        }
-        triBulleDecroissant(tab, tab2);
-        for (int i = 0; i < tab.length; i++) {
-            System.out.println("case : " + tab[i] + " ; " + tab2[i]);
-        }
-        return null;
+    
+    public boolean verifMot(int taille, ArrayList<Tuple> liste, LinkedList<TupleC> lifo){
+    	//System.err.println("je verifie un mot");
+    	String mot = "";
+    	boolean change = false;
+    	for(int i = 0;i < taille;i++){
+    		for(int j = 0; j < liste.size();j++){
+    			//System.err.println("liste.get(j).nb ====== " + liste.get(j).nb);
+    			if(liste.get(j).nb == i){
+    				mot += liste.get(j).lettre;
+    				change = true;
+    			}
+    		}
+    		if(!change){
+    			mot += '.'; 
+    		}
+    		change = false;
+    	}
+    	System.err.println("mot verifier : " + mot);
+    	return (a.listeMots2(mot,lifo));
     }
+
+	@Override
+	public String decrypt(String s) {
+		tableauA(tab);
+		a = new Arbre();
+		occ = new ArrayList<Tuple>();
+		for(int i = 0;i<26;i++){
+			occ.add(new Tuple((char)(97+i)));
+		}
+		for(int i = 0; i < s.length(); i++){
+			switch (s.charAt(i)) {
+            case 'a':
+                occ.get(0).nb += 1;
+                break;
+            case 'b':
+                occ.get(1).nb += 1;
+                break;
+            case 'c':
+                occ.get(2).nb += 1;
+                break;
+            case 'd':
+                occ.get(3).nb += 1;
+                break;
+            case 'e':
+                occ.get(4).nb += 1;
+                break;
+            case 'f':
+                occ.get(5).nb += 1;
+                break;
+            case 'g':
+                occ.get(6).nb += 1;
+                break;
+            case 'h':
+                occ.get(7).nb += 1;
+                break;
+            case 'i':
+                occ.get(8).nb += 1;
+                break;
+            case 'j':
+                occ.get(9).nb += 1;
+                break;
+            case 'k':
+                occ.get(10).nb += 1;
+                break;
+            case 'l':
+                occ.get(11).nb += 1;
+                break;
+            case 'm':
+                occ.get(12).nb += 1;
+                break;
+            case 'n':
+                occ.get(13).nb += 1;
+                break;
+            case 'o':
+                occ.get(14).nb += 1;
+                break;
+            case 'p':
+                occ.get(15).nb += 1;
+                break;
+            case 'q':
+                occ.get(16).nb += 1;
+                break;
+            case 'r':
+                occ.get(17).nb += 1;
+                break;
+            case 's':
+                occ.get(18).nb += 1;
+                break;
+            case 't':
+                occ.get(19).nb += 1;
+                break;
+            case 'u':
+                occ.get(20).nb += 1;
+                break;
+            case 'v':
+                occ.get(21).nb += 1;
+                break;
+            case 'w':
+                occ.get(22).nb += 1;
+                break;
+            case 'x':
+                occ.get(23).nb += 1;
+                break;
+            case 'y':
+                occ.get(24).nb += 1;
+                break;
+            case 'z':
+                occ.get(25).nb += 1;
+                break;
+            default:
+            	break;
+			}
+		}
+		triBulleDecroissant(occ);
+		LinkedList<TupleC> lifo = new LinkedList<TupleC>();
+		LinkedList<Character> tmp = new LinkedList<Character>();
+		boolean lettre = true;
+		int f = 0;
+		int z = 0;
+		while(lifo.size()<26 && z < 4){
+			Tuple p = occ.get(f);
+			char lettreP = tab.get(0);
+			int deb = -1, fin = -1;
+			lifo.add(new TupleC(p.lettre,lettreP));
+			ArrayList<Tuple> liste = new ArrayList<Tuple>();
+			for(int i = 0;i < s.length();i++){
+				//System.err.println("je m'occupe d'une lettre (1) : " + s.charAt(i));
+				if(s.charAt(i) == ' ' || i == s.length()-1 || s.charAt(i) == '\n'){
+					//System.err.println("fin d'un mot");
+					if(!liste.isEmpty()){
+					if(!verifMot(fin+1,liste,lifo)){
+						System.err.println("faux pour : " + verifMot(fin+1,liste,lifo));
+						lettre = false;
+					}
+					}
+					System.err.println("reinitialisation");
+					deb = -1;
+					fin = -1;
+					liste.clear();
+				}
+				else{
+					if(deb == -1){
+						//System.err.println("debut d'un mot (2)");
+						deb = i;
+					}
+					fin += 1;
+					if(s.charAt(i) == p.lettre){
+						//System.err.println("une lettre en cours (3)");
+						liste.add(new Tuple(lettreP,fin));
+					}
+					else{
+						//System.err.println("une lettre non connu (3)");
+						for(int k = 0;k < lifo.size();k++){
+							//System.err.println("une lettre non connu (4)");
+							if(s.charAt(i) == lifo.get(k).lettre1){
+								//System.err.println("une lettre de la liste (5)");
+								liste.add(new Tuple(lifo.get(k).lettre2,fin));
+							}
+						}
+					}
+				}
+			}
+			System.err.println("fin du for");
+			if(lettre){
+				f++;
+				tab.remove(0);
+			}
+			else{
+				char tmpp = tab.remove(0);
+				tab.add(tmpp);
+				lifo.removeLast();
+			}
+			lettre = true;
+			z++;
+		}
+		for(int i = 0;i < lifo.size();i++){
+			System.err.println(lifo.get(i).lettre1 + " = " + lifo.get(i).lettre2);
+		}
+		return null;
+	}
 }

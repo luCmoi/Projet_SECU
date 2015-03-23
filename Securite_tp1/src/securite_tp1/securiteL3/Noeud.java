@@ -1,5 +1,6 @@
 package securiteL3;
 
+import java.util.LinkedList;
 import java.util.Set;
 
 public class Noeud {
@@ -78,38 +79,49 @@ public class Noeud {
         }
         return liste;
     }
-
-
-    public boolean is_mot_possible(char[] pattern, String mot, int profondeur, Set<String> liste) {
-        boolean in = false;
-        if (profondeur == pattern.length - 1) {
+    
+    public boolean getMot2(char[] pattern, String mot, int profondeur, Set<String> liste, LinkedList<TupleC> lifo) { //ma fonction *****************************************
+    	if (profondeur == pattern.length - 1) {
             if (pattern[profondeur] == '.') {
                 if (listeNoeud != null) {
+                	boolean verif = true;
                     for (int i = 0; i < 26; i++) {
-                        if (this.listeNoeud[i] != null && this.listeNoeud[i].peut_finir) {
+                    	for(int j = 0;j < lifo.size();j++){
+                    		//System.err.println("compare : " + (char) ('a' + i) + ";" + lifo.get(j).lettre2);
+                    		if((char) ('a' + i) == lifo.get(j).lettre2) verif = false;
+                    	}
+                        if (this.listeNoeud[i] != null && this.listeNoeud[i].peut_finir && verif) {
                             return true;
                         }
-                        else return false;
+                        verif = true;
                     }
                 }
-            } else {
+            } 
+            else {
                 if (listeNoeud != null && this.listeNoeud[pattern[profondeur] - 97] != null && this.listeNoeud[pattern[profondeur] - 97].peut_finir)
                     return true;
-                else return false;
             }
+            System.err.println("2");
+            return false;
         }
         if (pattern[profondeur] == '.') {
+        	boolean verif = true;
             for (int i = 0; i < 26; i++) {
-                if (listeNoeud != null && listeNoeud[i] != null)
-                    in |= listeNoeud[i].is_mot_possible(pattern, mot + (char) ('a' + i), profondeur + 1, liste);
+            	for(int j = 0;j < lifo.size();j++){
+            		//System.err.println("compare : " + (char) ('a' + i) + ";" + lifo.get(j).lettre2);
+            		if((char) ('a' + i) == lifo.get(j).lettre2) verif = false;
+            	}
+                if (listeNoeud != null && listeNoeud[i] != null && verif)
+                    return listeNoeud[i].getMot2(pattern, mot + (char) ('a' + i), profondeur + 1, liste,lifo);
+                verif = true;
             }
         } else {
             if (listeNoeud != null && listeNoeud[pattern[profondeur] - 97] != null)
-                in |= listeNoeud[pattern[profondeur] - 97].is_mot_possible(pattern, mot + pattern[profondeur], profondeur + 1, liste);
+                return listeNoeud[pattern[profondeur] - 97].getMot2(pattern, mot + pattern[profondeur], profondeur + 1, liste, lifo);
         }
-        return in;
-    }
-
+        System.err.println("1");
+        return false;
+    }   //ma fonction *****************************************
 
 
     public void setPeut_finir(boolean peut_finir) {

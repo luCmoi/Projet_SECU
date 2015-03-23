@@ -100,8 +100,7 @@ public class Decrypt {
     }
 
     public static void decryptPermutation(String text) {
-        System.out.println("securiteL3.Decrypt securiteL3.Permutation:");
-        System.out.println("Text: " + text);
+        System.out.println(new Permutation().decrypt(text));
     }
 
     public static void decryptVigenere(String text, String[] args) {
