@@ -5,22 +5,15 @@ import java.util.Set;
 
 public class Noeud {
 
+    static final int DEBUT_ALPHABET_ASCII = 97;
+    static final int TAILLE_ALPHABET = 26;
+
     Noeud listeNoeud[] = null;
     boolean peut_finir = false;
 
 
     public Noeud(boolean fin) {
         peut_finir = fin;
-    }
-
-    public Noeud addFils(char c, boolean fin) {
-        if (listeNoeud == null) listeNoeud = new Noeud[26];
-        int indice = (c - 97);
-        Noeud n = new Noeud(fin);
-        if (listeNoeud[indice] == null) listeNoeud[indice] = n;
-        else listeNoeud[indice].setPeut_finir(fin);
-        return listeNoeud[indice];
-
     }
 
     public int addChar(String ligne, int i) {
@@ -37,9 +30,9 @@ public class Noeud {
                     this.setPeut_finir(true);
                     break;
                 default:
-                    if (this.listeNoeud == null) listeNoeud = new Noeud[26];
-                    listeNoeud[c - 97] = new Noeud(false);
-                    j = listeNoeud[c - 97].addChar(ligne, j + 1);
+                    if (this.listeNoeud == null) listeNoeud = new Noeud[TAILLE_ALPHABET];
+                    listeNoeud[c - DEBUT_ALPHABET_ASCII] = new Noeud(false);
+                    j = listeNoeud[c - DEBUT_ALPHABET_ASCII].addChar(ligne, j + 1);
             }
         } while (true);
 
@@ -47,82 +40,48 @@ public class Noeud {
 
     public Noeud getFils(char c) {
         if (listeNoeud == null) return null;
-        int indice = (c - 97);
+        int indice = (c - DEBUT_ALPHABET_ASCII);
         return listeNoeud[indice];
 
     }
 
-    public Set<String> getMot(char[] pattern, String mot, int profondeur, Set<String> liste) {
+    public boolean getMot2(char[] pattern, String mot, int profondeur, LinkedList<TupleC> lifo) {
         if (profondeur == pattern.length - 1) {
             if (pattern[profondeur] == '.') {
                 if (listeNoeud != null) {
-                    for (int i = 0; i < 26; i++) {
-                        if (this.listeNoeud[i] != null && this.listeNoeud[i].peut_finir) {
-                            liste.add(mot + (char) ('a' + i));
+                    boolean verif = true;
+                    for (int i = 0; i < TAILLE_ALPHABET; i++) {
+                        for (int j = 0; j < lifo.size(); j++) {
+                            if ((char) (DEBUT_ALPHABET_ASCII + i) == lifo.get(j).lettre2) verif = false;
                         }
-                    }
-                }
-            } else {
-                if (listeNoeud != null && this.listeNoeud[pattern[profondeur] - 97] != null && this.listeNoeud[pattern[profondeur] - 97].peut_finir)
-                    liste.add(mot + pattern[profondeur]);
-            }
-            return liste;
-        }
-        if (pattern[profondeur] == '.') {
-            for (int i = 0; i < 26; i++) {
-                if (listeNoeud != null && listeNoeud[i] != null)
-                    liste.addAll(listeNoeud[i].getMot(pattern, mot + (char) ('a' + i), profondeur + 1, liste));
-            }
-        } else {
-            if (listeNoeud != null && listeNoeud[pattern[profondeur] - 97] != null)
-                liste.addAll(listeNoeud[pattern[profondeur] - 97].getMot(pattern, mot + pattern[profondeur], profondeur + 1, liste));
-        }
-        return liste;
-    }
-    
-    public boolean getMot2(char[] pattern, String mot, int profondeur, Set<String> liste, LinkedList<TupleC> lifo) { //ma fonction *****************************************
-    	if (profondeur == pattern.length - 1) {
-            if (pattern[profondeur] == '.') {
-                if (listeNoeud != null) {
-                	boolean verif = true;
-                    for (int i = 0; i < 26; i++) {
-                    	for(int j = 0;j < lifo.size();j++){
-                    		//System.err.println("compare : " + (char) ('a' + i) + ";" + lifo.get(j).lettre2);
-                    		if((char) ('a' + i) == lifo.get(j).lettre2) verif = false;
-                    	}
                         if (this.listeNoeud[i] != null && this.listeNoeud[i].peut_finir && verif) {
                             return true;
                         }
                         verif = true;
                     }
                 }
-            } 
-            else {
-                if (listeNoeud != null && this.listeNoeud[pattern[profondeur] - 97] != null && this.listeNoeud[pattern[profondeur] - 97].peut_finir)
+            } else {
+                if (listeNoeud != null && this.listeNoeud[pattern[profondeur] - DEBUT_ALPHABET_ASCII] != null && this.listeNoeud[pattern[profondeur] - DEBUT_ALPHABET_ASCII].peut_finir)
                     return true;
             }
-            System.err.println("2");
             return false;
         }
         if (pattern[profondeur] == '.') {
-        	boolean verif = true;
-            for (int i = 0; i < 26; i++) {
-            	for(int j = 0;j < lifo.size();j++){
-            		//System.err.println("compare : " + (char) ('a' + i) + ";" + lifo.get(j).lettre2);
-            		if((char) ('a' + i) == lifo.get(j).lettre2) verif = false;
-            	}
+            boolean verif = true;
+            for (int i = 0; i < TAILLE_ALPHABET; i++) {
+                for (int j = 0; j < lifo.size(); j++) {
+                    if ((char) (DEBUT_ALPHABET_ASCII + i) == lifo.get(j).lettre2) verif = false;
+                }
                 if (listeNoeud != null && listeNoeud[i] != null && verif)
-                    return listeNoeud[i].getMot2(pattern, mot + (char) ('a' + i), profondeur + 1, liste,lifo);
+                    return listeNoeud[i].getMot2(pattern, mot + (char) (DEBUT_ALPHABET_ASCII + i), profondeur + 1, lifo);
                 verif = true;
             }
         } else {
-            if (listeNoeud != null && listeNoeud[pattern[profondeur] - 97] != null)
-                return listeNoeud[pattern[profondeur] - 97].getMot2(pattern, mot + pattern[profondeur], profondeur + 1, liste, lifo);
+            if (listeNoeud != null && listeNoeud[pattern[profondeur] - DEBUT_ALPHABET_ASCII] != null)
+                return listeNoeud[pattern[profondeur] - DEBUT_ALPHABET_ASCII].getMot2(pattern, mot + pattern[profondeur], profondeur + 1, lifo);
         }
-        System.err.println("1");
         return false;
-    }   //ma fonction *****************************************
-
+    }
 
     public void setPeut_finir(boolean peut_finir) {
         this.peut_finir |= peut_finir;
