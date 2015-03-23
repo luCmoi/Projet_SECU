@@ -66,7 +66,7 @@ public class Vigenere implements Code {
 
     String avec_taille(String s, int taille) {
         int max;
-        String key = "";
+        StringBuilder key = new StringBuilder();
         int[][] tab_freq = new int[taille][TAILLE_ALPHABET];
         int i = 0;
         for (Character c : s.toCharArray()){
@@ -83,9 +83,9 @@ public class Vigenere implements Code {
             }
             int c = (char) ((DEBUT_ALPHABET_ASCII +max - 'e') + 'a');
             if (c<DEBUT_ALPHABET_ASCII) c += TAILLE_ALPHABET;
-            key +=  (char)c;
+            key.append((char)c);
         }
-        return key;
+        return key.toString();
 
     }
 
