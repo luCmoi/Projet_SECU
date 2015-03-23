@@ -18,19 +18,11 @@ public class Permutation implements Code {
 			this.lettre = lettre;
 			this.nb = 0;
 		}
-		
-		public String toString(){
-			return "(" + lettre + ";" + nb + ")";
-		}
 	}
 	
 	ArrayList<Tuple> occ;
-	LinkedList<Character> tab;
+	LinkedList<Character> tab =  new LinkedList<Character>();
 	Arbre a;
-	
-	public Permutation(){
-		tab = new LinkedList<Character>();
-	}
 	
 	public static void tableauA(LinkedList<Character> tab3){
 		tab3.add('e');
@@ -80,14 +72,10 @@ public class Permutation implements Code {
         int tampon = 0;
         char tampon2 = ' ';
         boolean permut;
-
         do {
-            // hypothèse : le tableau est trié
             permut = false;
             for (int i = 0; i < longueur - 1; i++) {
-                // Teste si 2 éléments successifs sont dans le bon ordre ou non
                 if (list.get(i).nb < list.get(i + 1).nb) {
-                    // s'ils ne le sont pas, on échange leurs positions
                     tampon = list.get(i).nb;
                     tampon2 = list.get(i).lettre;
                     list.get(i).nb = list.get(i+1).nb;
@@ -102,15 +90,14 @@ public class Permutation implements Code {
 
     @Override
     public String chiffre(String s, String cle) {
-        String result = "";
+        StringBuilder result = new StringBuilder("");
         if (cle.length() == TAILLE_ALPHABET && verif(cle)) {
             for (int i = 0; i < s.length(); i++) {
                 char c = s.charAt(i);
-                if (c == '\n' || c == ' ') result += c;
+                if (c == '\n' || c == ' ') result.append(c);
                 else if (c <= FIN_ALPHABET_ASCII || c >= DEBUT_ALPHABET_ASCII) {
                     int cle_char = (cle.charAt(c - DEBUT_ALPHABET_ASCII) - c);
-                    //System.err.println(cle_char+" "+c+" "+cle.charAt(c-97));
-                    result += chiffre(c, cle_char);
+                    result.append(chiffre(c, cle_char));
                 } else {
                     System.err.print("Lettre attendue de a à z ou un espacement.");
                     System.exit(0);
@@ -121,33 +108,30 @@ public class Permutation implements Code {
             System.err.println("Votre clé n'est pas bonne");
             System.exit(1);
         }
-        return result;
+        return result.toString();
     }
 
     @Override
     public String dechiffre(String s, String cle) {
-        String result = "";
-        //System.err.println(cle);
-
-
+        StringBuilder result = new StringBuilder("");
         if (cle.length() == TAILLE_ALPHABET && verif(cle)) {
             char[] tab = new char[TAILLE_ALPHABET];
             for(int i= 0; i< cle.length();i++){
                 int a = cle.charAt(i)-DEBUT_ALPHABET_ASCII;
-                tab[a] = (char)('a'+i);
+                tab[a] = (char)(DEBUT_ALPHABET_ASCII+i);
             }
             for (int i = 0; i < s.length(); i++) {
                 char c = s.charAt(i);
-                if (c == '\n' || c == ' ') result += c;
+                if (c == '\n' || c == ' ') result.append(c);
                 else {
-                    result += dechiffre(c, c - tab[c-DEBUT_ALPHABET_ASCII]);
+                    result.append(dechiffre(c, c - tab[c-DEBUT_ALPHABET_ASCII]));
                 }
             }
         } else {
             System.err.println("Votre clé n'est pas bonne");
             System.exit(1);
         }
-        return result;
+        return result.toString();
     }
 
     @Override
@@ -156,8 +140,8 @@ public class Permutation implements Code {
         tableauA(tab);
         a = new Arbre();
         occ = new ArrayList<Tuple>();
-        for(int i = 0;i<26;i++){
-            occ.add(new Tuple((char)(97+i)));
+        for(int i = 0;i<TAILLE_ALPHABET;i++){
+            occ.add(new Tuple((char)(DEBUT_ALPHABET_ASCII+i)));
         }
         for (Character c : s.toCharArray()) {
             if (c == ' ' || c == '\n') {
@@ -175,7 +159,7 @@ public class Permutation implements Code {
         boolean lettre = true;
         int f = 0;
         int z = 0;
-        while(lifo.size()<26){
+        while(lifo.size()<TAILLE_ALPHABET){
             Tuple p = occ.get(f);
             if(tab.isEmpty()){
                 System.err.println("Le texte est mal encrypter");
@@ -226,9 +210,9 @@ public class Permutation implements Code {
             z++;
         }
         String mot = "";
-        for(int j = 0;j < 26;j++){
+        for(int j = 0;j < TAILLE_ALPHABET;j++){
             for(int i = 0;i < lifo.size();i++){
-                if(lifo.get(i).lettre2 == (char)(j+97)){
+                if(lifo.get(i).lettre2 == (char)(j+DEBUT_ALPHABET_ASCII)){
                     mot += lifo.get(i).lettre1;
                 }
             }
@@ -237,12 +221,10 @@ public class Permutation implements Code {
     }
 
     public boolean verifMot(int taille, ArrayList<Tuple> liste, LinkedList<TupleC> lifo){
-    	//System.err.println("je verifie un mot");
     	String mot = "";
     	boolean change = false;
     	for(int i = 0;i < taille;i++){
     		for(int j = 0; j < liste.size();j++){
-    			//System.err.println("liste.get(j).nb ====== " + liste.get(j).nb);
     			if(liste.get(j).nb == i){
     				mot += liste.get(j).lettre;
     				change = true;
@@ -253,7 +235,6 @@ public class Permutation implements Code {
     		}
     		change = false;
     	}
-    	System.err.println("mot verifier : " + mot);
     	return (a.listeMots2(mot,lifo));
     }
 
