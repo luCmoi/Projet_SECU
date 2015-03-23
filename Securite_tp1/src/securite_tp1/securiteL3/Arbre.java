@@ -56,6 +56,29 @@ public class Arbre {
         return liste;
     }
 
+
+    boolean mot_possible(String pattern) {
+        char[] mot = new char[pattern.length()];
+        for (int i = 0; i < mot.length; i++) {
+            mot[i] = pattern.charAt(i);
+        }
+        return mot_possible_rec(mot, "", 0, new HashSet<>());
+    }
+
+    private boolean mot_possible_rec(char[] pattern, String mot, int profondeur, Set<String> liste) {
+        boolean in = false;
+        if (pattern[profondeur] == '.') {
+            for (int i = 0; i < TAILLE_ALPHABET; i++) {
+                in |= racine[i].is_mot_possible(pattern, mot + (char) (DEBUT_ALPHABET_ASCII + i), profondeur + 1, liste);
+            }
+        } else {
+            in |= racine[pattern[profondeur] - DEBUT_ALPHABET_ASCII].is_mot_possible(pattern, mot + pattern[profondeur], profondeur + 1, liste);
+        }
+        return in;
+    }
+
+
+
     boolean chercheMot(String s) {
         byte indice = (byte) (s.charAt(0) - DEBUT_ALPHABET_ASCII);
         Noeud tmp = racine[indice];
@@ -65,5 +88,13 @@ public class Arbre {
             if (tmp == null) return false;
         }
         return tmp.peut_finir;
+    }
+
+    public static void main(String[] args){
+        Arbre arbre = new Arbre();
+
+        System.out.println(arbre.mot_possible("c..e."));
+
+
     }
 }

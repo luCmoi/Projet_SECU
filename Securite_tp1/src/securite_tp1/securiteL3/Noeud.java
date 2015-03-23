@@ -80,6 +80,38 @@ public class Noeud {
     }
 
 
+    public boolean is_mot_possible(char[] pattern, String mot, int profondeur, Set<String> liste) {
+        boolean in = false;
+        if (profondeur == pattern.length - 1) {
+            if (pattern[profondeur] == '.') {
+                if (listeNoeud != null) {
+                    for (int i = 0; i < 26; i++) {
+                        if (this.listeNoeud[i] != null && this.listeNoeud[i].peut_finir) {
+                            return true;
+                        }
+                        else return false;
+                    }
+                }
+            } else {
+                if (listeNoeud != null && this.listeNoeud[pattern[profondeur] - 97] != null && this.listeNoeud[pattern[profondeur] - 97].peut_finir)
+                    return true;
+                else return false;
+            }
+        }
+        if (pattern[profondeur] == '.') {
+            for (int i = 0; i < 26; i++) {
+                if (listeNoeud != null && listeNoeud[i] != null)
+                    in |= listeNoeud[i].is_mot_possible(pattern, mot + (char) ('a' + i), profondeur + 1, liste);
+            }
+        } else {
+            if (listeNoeud != null && listeNoeud[pattern[profondeur] - 97] != null)
+                in |= listeNoeud[pattern[profondeur] - 97].is_mot_possible(pattern, mot + pattern[profondeur], profondeur + 1, liste);
+        }
+        return in;
+    }
+
+
+
     public void setPeut_finir(boolean peut_finir) {
         this.peut_finir |= peut_finir;
     }
