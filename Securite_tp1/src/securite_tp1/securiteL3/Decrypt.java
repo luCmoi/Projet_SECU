@@ -1,9 +1,13 @@
 package securiteL3;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.nio.CharBuffer;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.Normalizer;
 import java.util.ArrayList;
 
@@ -21,33 +25,61 @@ public class Decrypt {
         long end;
         checkargs(args);
         StringBuilder text = new StringBuilder();
-        String string;
+        int read, N = 1024 * 1024;
+        char[] buffer = new char[N];
+
         try {
-            InputStream ips = new FileInputStream(args[1]);
+            FileReader fr = new FileReader(args[1]);
+            BufferedReader br = new BufferedReader(fr);
+            while(true) {
+
+                read = br.read(buffer, 0, N);
+                text.append(buffer, 0, read);
+
+                if(read < N) {
+                    break;
+                }
+
+            }
+            br.close();
+            //string = new String(Files.readAllBytes(Paths.get(args[1])), StandardCharsets.UTF_8);
+
+
+            /*FileInputStream f = new FileInputStream(args[1]);
+            FileChannel ch = f.getChannel( );
+            MappedByteBuffer mbb = ch.map( FileChannel.MapMode.READ_ONLY, 0L, ch.size( ) );
+            while ( mbb.hasRemaining( ) )  {
+                String charsetName = "UTF-8"; // choose the apropriate charset.
+                CharBuffer cb =  Charset.forName(charsetName).decode(mbb);
+                string = cb.toString();
+            }*/
+
+            /*InputStream ips = new FileInputStream(args[1]);
             InputStreamReader ipsr = new InputStreamReader(ips);
             BufferedReader br = new BufferedReader(ipsr);
             String ligne;
             while ((ligne = br.readLine()) != null) {
                 if (ligne.equals("\n")) {
                     text.append(ligne);
+                    text.append("\n");
                 } else {
                     text.append(ligne);
                     text.append("\n");
                 }
             }
-            br.close();
+            br.close();*/
         } catch (Exception r) {
             System.out.println(r.toString());
         }
-        string = text.toString();
+
         switch (args[0]) {
             case "c":
-                decryptCesar(args, string);
+                decryptCesar(args, text.toString());
                 end = System.currentTimeMillis();
                 System.err.println("Temps de Cesar:" + (end - start) + "ms");
                 break;
             case "v":
-                decryptVigenere(string, args);
+                decryptVigenere(text.toString(), args);
                 end = System.currentTimeMillis();
                 System.err.println("Temps de Vigenere:" + (end - start) + "ms");
                 break;

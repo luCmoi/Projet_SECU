@@ -115,7 +115,7 @@ public class Cesar implements Code {
                 if (arbre.chercheMot(trad) && !trad.equals("")) {
                     if (debutLigne) {
                         debutLigne = false;
-                        if (retour.toString() != "") retour.append("\n");
+                        if (!retour.toString().equals("")) retour.append("\n");
                     }
                     retour.append(trad);
                     retour.append(" ");

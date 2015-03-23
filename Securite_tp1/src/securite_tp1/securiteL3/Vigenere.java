@@ -1,5 +1,7 @@
 package securiteL3;
 
+import java.util.StringTokenizer;
+
 public class Vigenere implements Code {
 
     private String cle;
@@ -44,7 +46,15 @@ public class Vigenere implements Code {
 
     @Override
     public String decrypt(String... args) {
-        sans_taille(args[0]);
+        String[] text;
+        StringTokenizer st = new StringTokenizer(args[0].trim()," \n");
+        text = new String[st.countTokens()];
+        int i = 0;
+        while(st.hasMoreTokens()) {
+            text[i] = st.nextToken();
+            i++;
+        }
+        sans_taille(args[0], text);
         return dechiffreText(args[0], this.cle);
     }
 
@@ -55,24 +65,23 @@ public class Vigenere implements Code {
     }
 
     String avec_taille(String s, int taille) {
-        int[][] tab_freq = new int[taille][TAILLE_ALPHABET];
-
-        s = s.replaceAll("[ \n]", "");
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            tab_freq[i % taille][c - DEBUT_ALPHABET_ASCII]++;
-
-
-        }
         int max;
         String key = "";
-        for (int i = 0; i < taille; i++) {
+        int[][] tab_freq = new int[taille][TAILLE_ALPHABET];
+        int i = 0;
+        for (Character c : s.toCharArray()){
+            if (c == ' ' || c == '\n'){
+                continue;
+            }
+            tab_freq[i % taille][c - DEBUT_ALPHABET_ASCII]++;
+            i++;
+        }
+        for (i = 0; i < taille; i++) {
             max = 0;
             for (int j = 0; j < TAILLE_ALPHABET; j++) {
                 if (tab_freq[i][j] > tab_freq[i][max]) max = j;
             }
             int c = (char) ((DEBUT_ALPHABET_ASCII +max - 'e') + 'a');
-            if (c>FIN_ALPHABET_ASCII) c -= TAILLE_ALPHABET;
             if (c<DEBUT_ALPHABET_ASCII) c += TAILLE_ALPHABET;
             key +=  (char)c;
         }
@@ -80,17 +89,14 @@ public class Vigenere implements Code {
 
     }
 
-    void sans_taille(String s) {
+    void sans_taille(String s, String[] tab) {
         int taille = 1;
-        String t2 = s.replaceAll("[ \n]", " ");
-        t2 = t2.trim();
-        String[] tab = t2.split(" ");
         Arbre arbre = new Arbre();
         boolean finish = false;
         while (!finish) {
             this.cle = avec_taille(s, taille);
             finish = true;
-            for (String mot : tab) {
+            for (String mot : tab){
                 if (mot.equals("") || mot.equals(" ")) continue;
                 String a = dechiffre(mot, this.cle);
                 if (!arbre.chercheMot(a)) {
