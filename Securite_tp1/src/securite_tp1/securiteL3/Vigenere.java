@@ -47,10 +47,10 @@ public class Vigenere implements Code {
     @Override
     public String decrypt(String... args) {
         String[] text;
-        StringTokenizer st = new StringTokenizer(args[0].trim()," \n");
+        StringTokenizer st = new StringTokenizer(args[0].trim(), " \n");
         text = new String[st.countTokens()];
         int i = 0;
-        while(st.hasMoreTokens()) {
+        while (st.hasMoreTokens()) {
             text[i] = st.nextToken();
             i++;
         }
@@ -63,20 +63,22 @@ public class Vigenere implements Code {
         this.cle = avec_taille(s, taille);
         return dechiffreText(s, this.cle);
     }
-    public boolean in_alpha(char c){
-        return c>=DEBUT_ALPHABET_ASCII && c<=FIN_ALPHABET_ASCII;
+
+    public boolean in_alpha(char c) {
+        return c >= DEBUT_ALPHABET_ASCII && c <= FIN_ALPHABET_ASCII;
     }
+
     String avec_taille(String s, int taille) {
         int max;
         StringBuilder key = new StringBuilder();
         int[][] tab_freq = new int[taille][TAILLE_ALPHABET];
         int i = 0;
-        for (Character c : s.toCharArray()){
-            if (c == ' ' || c == '\n'){
+        for (Character c : s.toCharArray()) {
+            if (c == ' ' || c == '\n') {
                 continue;
             }
-            if(!in_alpha(c)){
-                System.out.println("Erreur :"+c+"caractère non autorisé");
+            if (!in_alpha(c)) {
+                System.err.println("Erreur :" + c + "caractère non autorisé");
                 System.exit(1);
             }
             tab_freq[i % taille][c - DEBUT_ALPHABET_ASCII]++;
@@ -87,8 +89,8 @@ public class Vigenere implements Code {
             for (int j = 0; j < TAILLE_ALPHABET; j++) {
                 if (tab_freq[i][j] > tab_freq[i][max]) max = j;
             }
-            int c = (char) ((DEBUT_ALPHABET_ASCII +max - 'e') + 'a');
-            if (c<DEBUT_ALPHABET_ASCII) c += TAILLE_ALPHABET;
+            int c = (char) ((DEBUT_ALPHABET_ASCII + max - 'e') + DEBUT_ALPHABET_ASCII);
+            if (c < DEBUT_ALPHABET_ASCII) c += TAILLE_ALPHABET;
             key.append((char) c);
         }
         return key.toString();
@@ -102,7 +104,7 @@ public class Vigenere implements Code {
         while (!finish) {
             this.cle = avec_taille(s, taille);
             finish = true;
-            for (String mot : tab){
+            for (String mot : tab) {
                 if (mot.equals("") || mot.equals(" ")) continue;
                 String a = dechiffre(mot, this.cle);
                 if (!arbre.chercheMot(a)) {
@@ -112,7 +114,6 @@ public class Vigenere implements Code {
             }
             this.mod = 0;
             taille++;
-
         }
     }
 

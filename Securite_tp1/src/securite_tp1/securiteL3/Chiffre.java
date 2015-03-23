@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 
 public class Chiffre {
 
@@ -43,8 +42,6 @@ public class Chiffre {
                 break;
             case "v":
                 chiffreVigenere(args[1], string);
-
-
                 break;
             case "p":
                 chiffrePermutation(args[1], string);
@@ -53,10 +50,7 @@ public class Chiffre {
     }
 
     public static void chiffreCesar(String cle, String text) {
-        long start = System.currentTimeMillis();
         System.out.println(new Cesar().chiffreText(text, cle));
-        long end = System.currentTimeMillis();
-        //System.err.println((end - start));
     }
 
 
