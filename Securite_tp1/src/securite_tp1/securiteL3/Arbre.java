@@ -55,8 +55,8 @@ public class Arbre {
     private boolean listeMots_rec2(char[] pattern, String mot, int profondeur, Set<String> liste, LinkedList<TupleC> lifo) {
         boolean in = false;
         if (pattern[profondeur] == '.') {
-            for (int i = 0; i < 26; i++) {
-                in |= racine[i].is_mot_possible(pattern, mot + (char) (97 + i), profondeur + 1, liste,lifo);
+            for (int i = 0; i < TAILLE_ALPHABET; i++) {
+                in |= racine[i].is_mot_possible(pattern, mot + (char) (DEBUT_ALPHABET_ASCII + i), profondeur + 1, liste,lifo);
             }
         } else {
             in |= racine[pattern[profondeur] - 97].is_mot_possible(pattern, mot + pattern[profondeur], profondeur + 1, liste, lifo);

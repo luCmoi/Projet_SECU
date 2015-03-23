@@ -136,8 +136,6 @@ public class Permutation implements Code {
 
     @Override
     public String decrypt(String... args) {
-        //lidetynxojcsrfwhzmakguqbvp
-        //azertyuiopqsdfghjklmwxcvbn
         String s = args[0];
         tableauA(tab);
         a = new Arbre();
@@ -145,89 +143,15 @@ public class Permutation implements Code {
         for(int i = 0;i<26;i++){
             occ.add(new Tuple((char)(97+i)));
         }
-        for(int i = 0; i < s.length(); i++){
-            switch (s.charAt(i)) {
-                case 'a':
-                    occ.get(0).nb += 1;
-                    break;
-                case 'b':
-                    occ.get(1).nb += 1;
-                    break;
-                case 'c':
-                    occ.get(2).nb += 1;
-                    break;
-                case 'd':
-                    occ.get(3).nb += 1;
-                    break;
-                case 'e':
-                    occ.get(4).nb += 1;
-                    break;
-                case 'f':
-                    occ.get(5).nb += 1;
-                    break;
-                case 'g':
-                    occ.get(6).nb += 1;
-                    break;
-                case 'h':
-                    occ.get(7).nb += 1;
-                    break;
-                case 'i':
-                    occ.get(8).nb += 1;
-                    break;
-                case 'j':
-                    occ.get(9).nb += 1;
-                    break;
-                case 'k':
-                    occ.get(10).nb += 1;
-                    break;
-                case 'l':
-                    occ.get(11).nb += 1;
-                    break;
-                case 'm':
-                    occ.get(12).nb += 1;
-                    break;
-                case 'n':
-                    occ.get(13).nb += 1;
-                    break;
-                case 'o':
-                    occ.get(14).nb += 1;
-                    break;
-                case 'p':
-                    occ.get(15).nb += 1;
-                    break;
-                case 'q':
-                    occ.get(16).nb += 1;
-                    break;
-                case 'r':
-                    occ.get(17).nb += 1;
-                    break;
-                case 's':
-                    occ.get(18).nb += 1;
-                    break;
-                case 't':
-                    occ.get(19).nb += 1;
-                    break;
-                case 'u':
-                    occ.get(20).nb += 1;
-                    break;
-                case 'v':
-                    occ.get(21).nb += 1;
-                    break;
-                case 'w':
-                    occ.get(22).nb += 1;
-                    break;
-                case 'x':
-                    occ.get(23).nb += 1;
-                    break;
-                case 'y':
-                    occ.get(24).nb += 1;
-                    break;
-                case 'z':
-                    occ.get(25).nb += 1;
-                    break;
-                default:
-                    break;
+        for (Character c : s.toCharArray()) {
+            if (c == ' ' || c == '\n') {
+                continue;
             }
+            if (!in_alpha(c)) {
+                System.err.println("Erreur :" + c + "caractère non autorisé");
+                System.exit(1);
+            }
+            occ.get(c - DEBUT_ALPHABET_ASCII).nb += 1;
         }
         triBulleDecroissant(occ);
         LinkedList<TupleC> lifo = new LinkedList<TupleC>();
@@ -285,33 +209,33 @@ public class Permutation implements Code {
             lettre = true;
             z++;
         }
-        String mot = "";
+        StringBuilder mot = new StringBuilder();
         for(int j = 0;j < TAILLE_ALPHABET;j++){
             for(int i = 0;i < lifo.size();i++){
                 if(lifo.get(i).lettre2 == (char)(j+DEBUT_ALPHABET_ASCII)){
-                    mot += lifo.get(i).lettre1;
+                    mot.append(lifo.get(i).lettre1);
                 }
             }
         }
-        return(dechiffre(s, mot));
+        return(dechiffre(s, mot.toString()));
     }
 
     public boolean verifMot(int taille, ArrayList<Tuple> liste, LinkedList<TupleC> lifo){
-    	String mot = "";
+        StringBuilder mot = new StringBuilder();
     	boolean change = false;
     	for(int i = 0;i < taille;i++){
     		for(int j = 0; j < liste.size();j++){
     			if(liste.get(j).nb == i){
-    				mot += liste.get(j).lettre;
+                    mot.append(liste.get(j).lettre);
     				change = true;
     			}
     		}
     		if(!change){
-    			mot += '.'; 
+                mot.append('.');
     		}
     		change = false;
     	}
-    	return (a.listeMots2(mot,lifo));
+    	return (a.listeMots2(mot.toString(),lifo));
     }
 
 

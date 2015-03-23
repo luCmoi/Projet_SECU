@@ -3,13 +3,13 @@
 javac securiteL3/*.java
 
 #PERMUTATION
-java securiteL3/Chiffre p "azertyuiopqsdfghjklmwxcvbn"  $1 > $1.chiffreP
-java securiteL3/Decrypt  p $1.chiffreP > $1.decryptP
-if diff $1 $1.decryptP
-    then echo -e "chiffre securiteL3.Permutation réussi"
-else
-    echo -e "chiffre securiteL3.Permutation rate"
-fi
+#java securiteL3/Chiffre p "azertyuiopqsdfghjklmwxcvbn"  $1 > $1.chiffreP
+#java securiteL3/Decrypt  v $1.chiffreP 26 > $1.decryptP
+#if diff $1 $1.decryptP
+#    then echo -e "chiffre securiteL3.Permutation réussi"
+#else
+#    echo -e "chiffre securiteL3.Permutation rate"
+#fi
 
 
 #CESAR
@@ -75,11 +75,11 @@ echo -e "\e[0;34m## VIGENERE ##\e[0m"
 echo -e "\e[0;34m##############\e[0m"
 echo -e ""
 
-java securiteL3/Chiffre v "renaudadequin"  $1 > $1.chiffreV
+java securiteL3/Chiffre v "azertyuiopqsdfghjklmwxcvbn"  $1 > $1.chiffreV
 
 echo -e "\e[0;34mDechiffre\e[0m"
 #java securiteL3/Chiffre v "azertyuiopqsdfghjklmwxcvbn"  $1 > $1.chiffreV
-java securiteL3/Dechiffre  v "renaudadequin"  $1.chiffreV > $1.clairV
+java securiteL3/Dechiffre  v "azertyuiopqsdfghjklmwxcvbn"  $1.chiffreV > $1.clairV
 if diff -q $1 $1.clairV
     then echo -e "\e[0;32mDechiffre securiteL3.Vigenere réussi\e[0m"
 else
@@ -90,7 +90,7 @@ echo -e ""
 
 echo -e "\e[0;34mDecrypt avec taille\e[0m"
 #java securiteL3/Chiffre v "azertyuiopqsdfghjklmwxcvbn"  $1 > $1.chiffreV
-java securiteL3.Decrypt  v $1.chiffreV  13  >$1.decryptV
+java securiteL3.Decrypt  v $1.chiffreV  26  >$1.decryptV
 if diff -q $1 $1.decryptV
     then
     echo -e "\e[0;32mDecrypt securiteL3.Vigenere réussi \e[0m"
