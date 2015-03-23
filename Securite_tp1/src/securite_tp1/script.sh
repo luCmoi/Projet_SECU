@@ -41,8 +41,8 @@ fi
 echo -e ""
 echo -e "\e[0;34mDecrypt mot connu\e[0m"
 #java securiteL3/Chiffre c 22  $1 > $1.chiffreC
-java securiteL3.Decrypt c $1.chiffreC 1 deshumidifieras > $1.decryptC
-if diff -q $1 $1.decryptC
+java securiteL3.Decrypt c $1.chiffreC 1 modifieriez > $1.decryptCc
+if diff -q $1 $1.decryptCc
     then echo -e "\e[0;32mDecrypt securiteL3.Cesar réussi\e[0m"
 else
     echo -e "\e[0;31mDecrypt securiteL3.Cesar rate \e[0m"
@@ -61,7 +61,7 @@ fi
 echo -e ""
 echo -e "\e[0;34mDecrypt FORCE BRUT\e[0m"
 #java securiteL3/Chiffre c 22  $1 > $1.chiffreC
-java securiteL3.Decrypt c $1.chiffreC 1 deshumidifieras > $1.decryptC
+java securiteL3.Decrypt c $1.chiffreC 3 > $1.decryptC
 if diff -q $1 $1.decryptC
     then echo -e "\e[0;32mDecrypt securiteL3.Cesar réussi\e[0m"
 else
@@ -75,11 +75,11 @@ echo -e "\e[0;34m## VIGENERE ##\e[0m"
 echo -e "\e[0;34m##############\e[0m"
 echo -e ""
 
-java securiteL3/Chiffre v "azertyuiopqsdfghjklmwxcvbn"  $1 > $1.chiffreV
+java securiteL3/Chiffre v "renaudadequin"  $1 > $1.chiffreV
 
 echo -e "\e[0;34mDechiffre\e[0m"
 #java securiteL3/Chiffre v "azertyuiopqsdfghjklmwxcvbn"  $1 > $1.chiffreV
-java securiteL3/Dechiffre  v "azertyuiopqsdfghjklmwxcvbn"  $1.chiffreV > $1.clairV
+java securiteL3/Dechiffre  v "renaudadequin"  $1.chiffreV > $1.clairV
 if diff -q $1 $1.clairV
     then echo -e "\e[0;32mDechiffre securiteL3.Vigenere réussi\e[0m"
 else
@@ -90,7 +90,7 @@ echo -e ""
 
 echo -e "\e[0;34mDecrypt avec taille\e[0m"
 #java securiteL3/Chiffre v "azertyuiopqsdfghjklmwxcvbn"  $1 > $1.chiffreV
-java securiteL3.Decrypt  v $1.chiffreV  26  >$1.decryptV
+java securiteL3.Decrypt  v $1.chiffreV  13  >$1.decryptV
 if diff -q $1 $1.decryptV
     then
     echo -e "\e[0;32mDecrypt securiteL3.Vigenere réussi \e[0m"
