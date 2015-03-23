@@ -64,9 +64,7 @@ public class Vigenere implements Code {
         return dechiffreText(s, this.cle);
     }
 
-    public boolean in_alpha(char c) {
-        return c >= DEBUT_ALPHABET_ASCII && c <= FIN_ALPHABET_ASCII;
-    }
+
 
     String avec_taille(String s, int taille) {
         int max;

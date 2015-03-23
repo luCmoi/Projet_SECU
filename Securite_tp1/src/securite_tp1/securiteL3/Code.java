@@ -51,4 +51,7 @@ public interface Code {
 
     public String decrypt(String... s);
 
+    public default boolean in_alpha(char c) {
+        return c >= DEBUT_ALPHABET_ASCII && c <= FIN_ALPHABET_ASCII;
+    }
 }
