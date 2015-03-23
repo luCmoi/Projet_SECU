@@ -6,7 +6,7 @@ public interface Code {
     static final int DEBUT_ALPHABET_ASCII = 97;
     static final int FIN_ALPHABET_ASCII = 122;
     static final int TAILLE_ALPHABET = 26;
-    static final char[] FREQUENCE_FRANCAIS = {'e','a','s','i','t','n','r','u','l','o','d','c','p','m','v','q','f','b','g','h','j','x','y','z','w'};
+    static final char[] FREQUENCE_FRANCAIS = {'e','a','s','i','t','n','r','u','l','o','d','c','p','m','v','q','f','b','g','h','j','x','y','z','w','k'};
 
     public default char chiffre(char c, int cle) {
         if (c == '\n' || c == ' ') return c;

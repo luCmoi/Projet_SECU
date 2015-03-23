@@ -99,7 +99,7 @@ public class Vigenere implements Code {
         int taille = 1;
         Arbre arbre = new Arbre();
         boolean finish = false;
-        while (!finish) {
+        while (!finish && taille < tab.length/3) {
             this.cle = avec_taille(s, taille);
             finish = true;
             for (String mot : tab) {

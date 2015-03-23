@@ -39,7 +39,7 @@ public class Arbre {
         for (int i = 0; i < mot.length; i++) {
             mot[i] = pattern.charAt(i);
         }
-        return listeMots_rec2(mot, "", 0, lifo);
+        return listeMots_rec2(mot, "", 0, new HashSet<>(),lifo);
     }
 
     boolean chercheMot(String s) {
@@ -52,14 +52,15 @@ public class Arbre {
         return tmp.peut_finir;
     }
 
-    private boolean listeMots_rec2(char[] pattern, String mot, int profondeur, LinkedList<TupleC> lifo) {
+    private boolean listeMots_rec2(char[] pattern, String mot, int profondeur, Set<String> liste, LinkedList<TupleC> lifo) {
+        boolean in = false;
         if (pattern[profondeur] == '.') {
-            for (int i = 0; i < TAILLE_ALPHABET; i++) {
-                return racine[i].getMot2(pattern, mot + (char) (DEBUT_ALPHABET_ASCII + i), profondeur + 1, lifo);
+            for (int i = 0; i < 26; i++) {
+                in |= racine[i].is_mot_possible(pattern, mot + (char) (97 + i), profondeur + 1, liste,lifo);
             }
         } else {
-            return racine[pattern[profondeur] - DEBUT_ALPHABET_ASCII].getMot2(pattern, mot + pattern[profondeur], profondeur + 1, lifo);
+            in |= racine[pattern[profondeur] - 97].is_mot_possible(pattern, mot + pattern[profondeur], profondeur + 1, liste, lifo);
         }
-        return false;
+        return in;
     }
 }

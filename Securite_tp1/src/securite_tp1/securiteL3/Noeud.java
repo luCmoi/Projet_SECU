@@ -45,42 +45,43 @@ public class Noeud {
 
     }
 
-    public boolean getMot2(char[] pattern, String mot, int profondeur, LinkedList<TupleC> lifo) {
+    public boolean is_mot_possible(char[] pattern, String mot, int profondeur, Set<String> liste, LinkedList<TupleC> lifo) {
+        boolean in = false;
         if (profondeur == pattern.length - 1) {
             if (pattern[profondeur] == '.') {
                 if (listeNoeud != null) {
                     boolean verif = true;
-                    for (int i = 0; i < TAILLE_ALPHABET; i++) {
-                        for (int j = 0; j < lifo.size(); j++) {
-                            if ((char) (DEBUT_ALPHABET_ASCII + i) == lifo.get(j).lettre2) verif = false;
+                    for (int i = 0; i < 26; i++) {
+                        for(int j = 0;j < lifo.size();j++){
+                            if((char) ('a' + i) == lifo.get(j).lettre2) verif = false;
                         }
                         if (this.listeNoeud[i] != null && this.listeNoeud[i].peut_finir && verif) {
-                            return true;
+                            in = true;
                         }
                         verif = true;
                     }
                 }
             } else {
-                if (listeNoeud != null && this.listeNoeud[pattern[profondeur] - DEBUT_ALPHABET_ASCII] != null && this.listeNoeud[pattern[profondeur] - DEBUT_ALPHABET_ASCII].peut_finir)
-                    return true;
+                if (listeNoeud != null && this.listeNoeud[pattern[profondeur] - 97] != null && this.listeNoeud[pattern[profondeur] - 97].peut_finir)
+                    in = true;
             }
-            return false;
+            return in;
         }
         if (pattern[profondeur] == '.') {
             boolean verif = true;
-            for (int i = 0; i < TAILLE_ALPHABET; i++) {
-                for (int j = 0; j < lifo.size(); j++) {
-                    if ((char) (DEBUT_ALPHABET_ASCII + i) == lifo.get(j).lettre2) verif = false;
+            for (int i = 0; i < 26; i++) {
+                for(int j = 0;j < lifo.size();j++){
+                    if((char) ('a' + i) == lifo.get(j).lettre2) verif = false;
                 }
-                if (listeNoeud != null && listeNoeud[i] != null && verif)
-                    return listeNoeud[i].getMot2(pattern, mot + (char) (DEBUT_ALPHABET_ASCII + i), profondeur + 1, lifo);
+                if (listeNoeud != null && listeNoeud[i] != null)
+                    in |= listeNoeud[i].is_mot_possible(pattern, mot + (char) ('a' + i), profondeur + 1, liste,lifo);
                 verif = true;
             }
         } else {
-            if (listeNoeud != null && listeNoeud[pattern[profondeur] - DEBUT_ALPHABET_ASCII] != null)
-                return listeNoeud[pattern[profondeur] - DEBUT_ALPHABET_ASCII].getMot2(pattern, mot + pattern[profondeur], profondeur + 1, lifo);
+            if (listeNoeud != null && listeNoeud[pattern[profondeur] - 97] != null)
+                in |= listeNoeud[pattern[profondeur] - 97].is_mot_possible(pattern, mot + pattern[profondeur], profondeur + 1, liste,lifo);
         }
-        return false;
+        return in;
     }
 
     public void setPeut_finir(boolean peut_finir) {
