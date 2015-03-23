@@ -63,7 +63,9 @@ public class Vigenere implements Code {
         this.cle = avec_taille(s, taille);
         return dechiffreText(s, this.cle);
     }
-
+    public boolean in_alpha(char c){
+        return c>=DEBUT_ALPHABET_ASCII && c<=FIN_ALPHABET_ASCII;
+    }
     String avec_taille(String s, int taille) {
         int max;
         StringBuilder key = new StringBuilder();
@@ -72,6 +74,10 @@ public class Vigenere implements Code {
         for (Character c : s.toCharArray()){
             if (c == ' ' || c == '\n'){
                 continue;
+            }
+            if(!in_alpha(c)){
+                System.out.println("Erreur :"+c+"caractère non autorisé");
+                System.exit(1);
             }
             tab_freq[i % taille][c - DEBUT_ALPHABET_ASCII]++;
             i++;
@@ -83,7 +89,7 @@ public class Vigenere implements Code {
             }
             int c = (char) ((DEBUT_ALPHABET_ASCII +max - 'e') + 'a');
             if (c<DEBUT_ALPHABET_ASCII) c += TAILLE_ALPHABET;
-            key.append((char)c);
+            key.append((char) c);
         }
         return key.toString();
 
