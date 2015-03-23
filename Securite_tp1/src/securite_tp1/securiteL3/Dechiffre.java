@@ -51,10 +51,7 @@ public class Dechiffre {
     }
 
     public static void dechiffreCesar(String cle, String text) {
-        long start = System.currentTimeMillis();
         System.out.println(new Cesar().dechiffreText(text, cle));
-        long end = System.currentTimeMillis();
-        //System.err.println((end - start));
     }
 
     public static void dechiffrePermutation(String cle, String text) {
