@@ -3,13 +3,13 @@
 javac securiteL3/*.java
 
 #PERMUTATION
-#java securiteL3/Chiffre p "azertyuiopqsdfghjklmwxcvbn"  $1 > $1.chiffreP
-#java securiteL3/Dechiffre  p "azertyuiopqsdfghjklmwxcvbn"  $1.chiffreP > $1.clairP
-#if diff $1 $1.clairP
-#    then echo -e "chiffre securiteL3.Permutation réussi"
-#else
-#    echo -e "chiffre securiteL3.Permutation rate"
-#fi
+java securiteL3/Chiffre p "azertyuiopqsdfghjklmwxcvbn"  $1 > $1.chiffreP
+java securiteL3/Decrypt  p $1.chiffreP > $1.decryptP
+if diff -q $1 $1.decryptP
+    then echo -e "chiffre securiteL3.Permutation réussi"
+else
+    echo -e "chiffre securiteL3.Permutation rate"
+fi
 
 
 #CESAR

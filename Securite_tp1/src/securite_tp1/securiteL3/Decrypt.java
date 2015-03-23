@@ -84,7 +84,7 @@ public class Decrypt {
                 System.err.println("Temps de Vigenere:" + (end - start) + "ms");
                 break;
             case "p":
-                decryptPermutation(args[1]);
+                decryptPermutation(text.toString());
                 end = System.currentTimeMillis();
                 System.err.println("Temps de Permutation:" + (end - start) + "ms");
                 break;

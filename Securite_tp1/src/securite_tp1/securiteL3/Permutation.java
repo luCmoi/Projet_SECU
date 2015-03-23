@@ -149,7 +149,167 @@ public class Permutation implements Code {
         }
         return result;
     }
-    
+
+    @Override
+    public String decrypt(String... args) {
+        String s = args[0];
+        tableauA(tab);
+        a = new Arbre();
+        occ = new ArrayList<Tuple>();
+        for(int i = 0;i<26;i++){
+            occ.add(new Tuple((char)(97+i)));
+        }
+        for(int i = 0; i < s.length(); i++){
+            switch (s.charAt(i)) {
+                case 'a':
+                    occ.get(0).nb += 1;
+                    break;
+                case 'b':
+                    occ.get(1).nb += 1;
+                    break;
+                case 'c':
+                    occ.get(2).nb += 1;
+                    break;
+                case 'd':
+                    occ.get(3).nb += 1;
+                    break;
+                case 'e':
+                    occ.get(4).nb += 1;
+                    break;
+                case 'f':
+                    occ.get(5).nb += 1;
+                    break;
+                case 'g':
+                    occ.get(6).nb += 1;
+                    break;
+                case 'h':
+                    occ.get(7).nb += 1;
+                    break;
+                case 'i':
+                    occ.get(8).nb += 1;
+                    break;
+                case 'j':
+                    occ.get(9).nb += 1;
+                    break;
+                case 'k':
+                    occ.get(10).nb += 1;
+                    break;
+                case 'l':
+                    occ.get(11).nb += 1;
+                    break;
+                case 'm':
+                    occ.get(12).nb += 1;
+                    break;
+                case 'n':
+                    occ.get(13).nb += 1;
+                    break;
+                case 'o':
+                    occ.get(14).nb += 1;
+                    break;
+                case 'p':
+                    occ.get(15).nb += 1;
+                    break;
+                case 'q':
+                    occ.get(16).nb += 1;
+                    break;
+                case 'r':
+                    occ.get(17).nb += 1;
+                    break;
+                case 's':
+                    occ.get(18).nb += 1;
+                    break;
+                case 't':
+                    occ.get(19).nb += 1;
+                    break;
+                case 'u':
+                    occ.get(20).nb += 1;
+                    break;
+                case 'v':
+                    occ.get(21).nb += 1;
+                    break;
+                case 'w':
+                    occ.get(22).nb += 1;
+                    break;
+                case 'x':
+                    occ.get(23).nb += 1;
+                    break;
+                case 'y':
+                    occ.get(24).nb += 1;
+                    break;
+                case 'z':
+                    occ.get(25).nb += 1;
+                    break;
+                default:
+                    break;
+            }
+        }
+        triBulleDecroissant(occ);
+        LinkedList<TupleC> lifo = new LinkedList<TupleC>();
+        Stack<Character> tmp = new Stack<Character>();
+        boolean lettre = true;
+        int f = 0;
+        int z = 0;
+        while(lifo.size()<26){
+            Tuple p = occ.get(f);
+            if(tab.isEmpty()){
+                System.err.println("Le texte est mal encrypter");
+                System.exit(-1);
+            }
+            char lettreP = tab.pop();
+            int deb = -1, fin = -1;
+            lifo.add(new TupleC(p.lettre,lettreP));
+            ArrayList<Tuple> liste = new ArrayList<Tuple>();
+            for(int i = 0;i < s.length();i++){
+                if(s.charAt(i) == ' ' || i == s.length()-1 || s.charAt(i) == '\n'){
+                    if(!liste.isEmpty()){
+                        if(!verifMot(fin+1,liste,lifo)){
+                            lettre = false;
+                        }
+                    }
+                    deb = -1;
+                    fin = -1;
+                    liste.clear();
+                }
+                else{
+                    if(deb == -1){
+                        deb = i;
+                    }
+                    fin += 1;
+                    if(s.charAt(i) == p.lettre){
+                        liste.add(new Tuple(lettreP,fin));
+                    }
+                    else{
+                        for(int k = 0;k < lifo.size();k++){
+                            if(s.charAt(i) == lifo.get(k).lettre1){
+                                liste.add(new Tuple(lifo.get(k).lettre2,fin));
+                            }
+                        }
+                    }
+                }
+            }
+            if(lettre){
+                f++;
+                while(!tmp.isEmpty()){
+                    tab.push(tmp.pop());
+                }
+            }
+            else{
+                tmp.push(lifo.removeLast().lettre2);
+            }
+            lettre = true;
+            z++;
+        }
+        String mot = "";
+        for(int j = 0;j < 26;j++){
+            for(int i = 0;i < lifo.size();i++){
+                if(lifo.get(i).lettre2 == (char)(j+97)){
+                    mot += lifo.get(i).lettre1;
+                }
+            }
+        }
+        return dechiffre(s, mot);
+    }
+
     public boolean verifMot(int taille, ArrayList<Tuple> liste, LinkedList<TupleC> lifo){
     	//System.err.println("je verifie un mot");
     	String mot = "";
@@ -171,167 +331,5 @@ public class Permutation implements Code {
     	return (a.listeMots2(mot,lifo));
     }
 
-	@Override
-	public String decrypt(String s) {
-		tableauA(tab);
-		a = new Arbre();
-		occ = new ArrayList<Tuple>();
-		for(int i = 0;i<26;i++){
-			occ.add(new Tuple((char)(97+i)));
-		}
-		for(int i = 0; i < s.length(); i++){
-			switch (s.charAt(i)) {
-            case 'a':
-                occ.get(0).nb += 1;
-                break;
-            case 'b':
-                occ.get(1).nb += 1;
-                break;
-            case 'c':
-                occ.get(2).nb += 1;
-                break;
-            case 'd':
-                occ.get(3).nb += 1;
-                break;
-            case 'e':
-                occ.get(4).nb += 1;
-                break;
-            case 'f':
-                occ.get(5).nb += 1;
-                break;
-            case 'g':
-                occ.get(6).nb += 1;
-                break;
-            case 'h':
-                occ.get(7).nb += 1;
-                break;
-            case 'i':
-                occ.get(8).nb += 1;
-                break;
-            case 'j':
-                occ.get(9).nb += 1;
-                break;
-            case 'k':
-                occ.get(10).nb += 1;
-                break;
-            case 'l':
-                occ.get(11).nb += 1;
-                break;
-            case 'm':
-                occ.get(12).nb += 1;
-                break;
-            case 'n':
-                occ.get(13).nb += 1;
-                break;
-            case 'o':
-                occ.get(14).nb += 1;
-                break;
-            case 'p':
-                occ.get(15).nb += 1;
-                break;
-            case 'q':
-                occ.get(16).nb += 1;
-                break;
-            case 'r':
-                occ.get(17).nb += 1;
-                break;
-            case 's':
-                occ.get(18).nb += 1;
-                break;
-            case 't':
-                occ.get(19).nb += 1;
-                break;
-            case 'u':
-                occ.get(20).nb += 1;
-                break;
-            case 'v':
-                occ.get(21).nb += 1;
-                break;
-            case 'w':
-                occ.get(22).nb += 1;
-                break;
-            case 'x':
-                occ.get(23).nb += 1;
-                break;
-            case 'y':
-                occ.get(24).nb += 1;
-                break;
-            case 'z':
-                occ.get(25).nb += 1;
-                break;
-            default:
-            	break;
-			}
-		}
-		triBulleDecroissant(occ);
-		LinkedList<TupleC> lifo = new LinkedList<TupleC>();
-		LinkedList<Character> tmp = new LinkedList<Character>();
-		boolean lettre = true;
-		int f = 0;
-		int z = 0;
-		while(lifo.size()<26 && z < 4){
-			Tuple p = occ.get(f);
-            if(tab.isEmpty()){
-                System.err.println("Le texte est mal encrypter");
-                System.exit(-1);
-            }
-			char lettreP = tab.get(0);
-			int deb = -1, fin = -1;
-			lifo.add(new TupleC(p.lettre,lettreP));
-			ArrayList<Tuple> liste = new ArrayList<Tuple>();
-			for(int i = 0;i < s.length();i++){
-				//System.err.println("je m'occupe d'une lettre (1) : " + s.charAt(i));
-				if(s.charAt(i) == ' ' || i == s.length()-1 || s.charAt(i) == '\n'){
-					//System.err.println("fin d'un mot");
-					if(!liste.isEmpty()){
-					if(!verifMot(fin+1,liste,lifo)){
-						System.err.println("faux pour : " + verifMot(fin+1,liste,lifo));
-						lettre = false;
-					}
-					}
-					System.err.println("reinitialisation");
-					deb = -1;
-					fin = -1;
-					liste.clear();
-				}
-				else{
-					if(deb == -1){
-						//System.err.println("debut d'un mot (2)");
-						deb = i;
-					}
-					fin += 1;
-					if(s.charAt(i) == p.lettre){
-						//System.err.println("une lettre en cours (3)");
-						liste.add(new Tuple(lettreP,fin));
-					}
-					else{
-						//System.err.println("une lettre non connu (3)");
-						for(int k = 0;k < lifo.size();k++){
-							//System.err.println("une lettre non connu (4)");
-							if(s.charAt(i) == lifo.get(k).lettre1){
-								//System.err.println("une lettre de la liste (5)");
-								liste.add(new Tuple(lifo.get(k).lettre2,fin));
-							}
-						}
-					}
-				}
-			}
-			System.err.println("fin du for");
-			if(lettre){
-				f++;
-				tab.remove(0);
-			}
-			else{
-				char tmpp = tab.remove(0);
-				tab.add(tmpp);
-				lifo.removeLast();
-			}
-			lettre = true;
-			z++;
-		}
-		for(int i = 0;i < lifo.size();i++){
-			System.err.println(lifo.get(i).lettre1 + " = " + lifo.get(i).lettre2);
-		}
-		return null;
-	}
+
 }
