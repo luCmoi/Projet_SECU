@@ -1,3 +1,22 @@
+Securite TP
+
+Utilisation :
+	Le programme s'utilise comme les exemples montrés dans le sujet (avec une majuscule a Decrypt/Chiffre/Dechiffre soit :
+java securiteL3/Decrypt c texte 1 motConnu	(Cesar avec un mot connu)	
+java securiteL3/Decrypt c texte 2			(Cesar par fréquence)
+java securiteL3/Decrypt c texte 3			(Cesar par force brute)
+java securiteL3/Decrypt v texte 			(Vigenere)
+java securiteL3/Decrypt v texte taille		(Vigenere avec taille de la clée)
+java securiteL3/Decrypt p texte			(Permutation)
+
+Tronc Commun :
+
+	Nous avons utilisé une interface Code commune étendue par chacune des trois méthodes de codage. Dans cette interface nous avons définis les fonctions basique chiffre et déchiffre (à l'aide du default introduis avec java 8). Nous avons également utilisé un StringBuilder au lieu de l'objet String classique pour un gain de temps sur nos concatenation (très nombreuses). Enfin nous avons, la aussi pour un gain de temps, transformé notre lexique en un nouveau plus rapide à traduire en arbre dans lequel il est stocké, ce afin de pouvoir voir très rapidement si un mot lui appartient.
+
+Cesar :
+
+	Notre class Cesar implémente les trois fonctions de décryptage possible. Ces fonctions ont un cœur commun (le split du texte pour travailler mot à mot et la traduction/test du texte a l'aide d'une clée). La force brute essai tous l'alphabet, la méthode par fréquence le fait aussi mais dans un ordre précis (la lettre la plus présente est remplacée par la plus fréquente dans la langue fran^aise et si cela échoue par la suivante...). Enfin la méthode avec mot connu cherche un mot de même taille dans le texte, voit si l'écart entre ses lettres est le même que celui du mot connu et utilise, le cas échéant, l'écart entre ces deux mots comme clée.
+
 Permutation :
 
 Permutation complÃ¨te :
