@@ -51,9 +51,9 @@ public class Noeud {
             if (pattern[profondeur] == '.') {
                 if (listeNoeud != null) {
                     boolean verif = true;
-                    for (int i = 0; i < 26; i++) {
+                    for (int i = 0; i < TAILLE_ALPHABET; i++) {
                         for(int j = 0;j < lifo.size();j++){
-                            if((char) ('a' + i) == lifo.get(j).lettre2) verif = false;
+                            if((char) (DEBUT_ALPHABET_ASCII + i) == lifo.get(j).lettre2) verif = false;
                         }
                         if (this.listeNoeud[i] != null && this.listeNoeud[i].peut_finir && verif) {
                             in = true;
@@ -62,24 +62,24 @@ public class Noeud {
                     }
                 }
             } else {
-                if (listeNoeud != null && this.listeNoeud[pattern[profondeur] - 97] != null && this.listeNoeud[pattern[profondeur] - 97].peut_finir)
+                if (listeNoeud != null && this.listeNoeud[pattern[profondeur] - DEBUT_ALPHABET_ASCII] != null && this.listeNoeud[pattern[profondeur] - DEBUT_ALPHABET_ASCII].peut_finir)
                     in = true;
             }
             return in;
         }
         if (pattern[profondeur] == '.') {
             boolean verif = true;
-            for (int i = 0; i < 26; i++) {
+            for (int i = 0; i < TAILLE_ALPHABET; i++) {
                 for(int j = 0;j < lifo.size();j++){
-                    if((char) ('a' + i) == lifo.get(j).lettre2) verif = false;
+                    if((char) (DEBUT_ALPHABET_ASCII + i) == lifo.get(j).lettre2) verif = false;
                 }
                 if (listeNoeud != null && listeNoeud[i] != null)
-                    in |= listeNoeud[i].is_mot_possible(pattern, mot + (char) ('a' + i), profondeur + 1, liste,lifo);
+                    in |= listeNoeud[i].is_mot_possible(pattern, mot + (char) (DEBUT_ALPHABET_ASCII + i), profondeur + 1, liste,lifo);
                 verif = true;
             }
         } else {
-            if (listeNoeud != null && listeNoeud[pattern[profondeur] - 97] != null)
-                in |= listeNoeud[pattern[profondeur] - 97].is_mot_possible(pattern, mot + pattern[profondeur], profondeur + 1, liste,lifo);
+            if (listeNoeud != null && listeNoeud[pattern[profondeur] - DEBUT_ALPHABET_ASCII] != null)
+                in |= listeNoeud[pattern[profondeur] - DEBUT_ALPHABET_ASCII].is_mot_possible(pattern, mot + pattern[profondeur], profondeur + 1, liste,lifo);
         }
         return in;
     }
