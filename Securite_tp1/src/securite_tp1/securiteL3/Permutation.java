@@ -271,6 +271,10 @@ public class Permutation implements Code {
 		int z = 0;
 		while(lifo.size()<26 && z < 4){
 			Tuple p = occ.get(f);
+            if(tab.isEmpty()){
+                System.err.println("Le texte est mal encrypter");
+                System.exit(-1);
+            }
 			char lettreP = tab.get(0);
 			int deb = -1, fin = -1;
 			lifo.add(new TupleC(p.lettre,lettreP));
