@@ -1,0 +1,8 @@
+Permutation :
+
+Permutation complète :
+Lors du début de la permutation nous avons une pile contenant toutes les lettres de l’alphabet de la moins fréquente en bas de la pile à la plus fréquente en haut de la pile. De plus, il y a une liste comprenant toutes les lettres de l’alphabet comprenant dans un ordre décroissant de la plus présente à la moins présente dans le texte crypté.
+Le programme récupère la première lettre de cette liste et la remplace dans tous les mots par la lettre crypté la plus présente et vérifie si ce remplacement est possible :
+- Si oui, il associe les deux lettres dans un tuple et les rajoute a la liste et recommence avec les suivantes
+- Si non, il met la lettre de la pile dans une pile temporaire et recommence jusqu’a ce que la lettre fonctionne et remet tous les éléments de la liste temporaire dans la liste principale
+On continue jusqu’à ce que le nombre de tuple soit égale à 26 (réussi) où jusqu’a ce que la pile principale soit vide (texte encrypté non valide) 
