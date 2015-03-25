@@ -33,7 +33,6 @@ public class decrypt {
                 if (read < N) {
                     break;
                 }
-
             }
             br.close();
         } catch (Exception r) {
