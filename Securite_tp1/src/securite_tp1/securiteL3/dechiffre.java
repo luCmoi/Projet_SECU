@@ -2,7 +2,7 @@ package securiteL3;
 
 import java.io.*;
 
-public class Dechiffre {
+public class dechiffre {
 
     public static void checkargs(String[] args) {
         if (args.length != 3 || !(args[0].equals("c") || args[0].equals("p") || args[0].equals("v"))) {

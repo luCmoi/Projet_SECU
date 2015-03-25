@@ -5,7 +5,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class Decrypt {
+public class decrypt {
 
     public static void checkargs(String[] args) {
         if (args.length < 2 || !(args[0].equals("c") || args[0].equals("p") || args[0].equals("v"))) {

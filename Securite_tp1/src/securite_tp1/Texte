@@ -1,0 +1,11 @@
+ceci est un exemple pour tester vos algorithmes
+ce texte ne contient pas de majuscules ni de caracteres de ponctuation
+il va permettre de tester vos differents systemes de chiffrement
+dans le premier chiffre le texte chiffre est obtenu en modifiant
+ chaque lettre du texte en clair par une lettre a distance fixe
+dans le chiffrage par permutation  etant donnee une permutation des
+ lettres chaque lettre  est chiffree par sa valeur dans la permutation
+le dernier chiffre  realise un decalage different suivant la
+position de la lettre dans le texte
+le decalage est definie par une clef
+dans cette clef chaque lettre correspond a un decalage

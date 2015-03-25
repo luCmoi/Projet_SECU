@@ -89,7 +89,7 @@ public class Vigenere implements Code {
             for (int j = 0; j < TAILLE_ALPHABET; j++) {
                 if (tab_freq[i][j] > tab_freq[i][max]) max = j;
             }
-            int c = (char) ((DEBUT_ALPHABET_ASCII + max - 'e') + DEBUT_ALPHABET_ASCII);
+            int c = (char) ((DEBUT_ALPHABET_ASCII + max - FREQUENCE_FRANCAIS[0]) + DEBUT_ALPHABET_ASCII);
             if (c < DEBUT_ALPHABET_ASCII) c += TAILLE_ALPHABET;
             key.append((char) c);
         }
@@ -101,7 +101,7 @@ public class Vigenere implements Code {
         int taille = 1;
         Arbre arbre = new Arbre();
         boolean finish = false;
-        while (!finish && taille < tab.length/3) {
+        while (!finish && taille < s.length()/3) {
             this.cle = avec_taille(s, taille);
             finish = true;
             for (String mot : tab) {

@@ -49,9 +49,10 @@ public class Cesar implements Code {
         char pred = motConnu.charAt(0);
         for (int i = 1; i < motConnu.length(); i++) {
             ecarts[i] = motConnu.charAt(i) - pred;
+            if (ecarts[i]<0) ecarts[i] = TAILLE_ALPHABET + ecarts[i];
             pred = motConnu.charAt(i);
         }
-        ecarts[0] = pred - motConnu.charAt(0);
+        ecarts[0] = motConnu.charAt(0) - pred;
         boolean mauvaisMot;
         int decallage;
         for (String[] ligne : texteSplit) {
@@ -60,7 +61,11 @@ public class Cesar implements Code {
                 if (mot.length() == motConnu.length()) {
                     pred = mot.charAt(0);
                     for (int i = 1; i < motConnu.length(); i++) {
-                        if (mot.charAt(i) - pred == ecarts[i]) {
+                        int ecartMot = mot.charAt(i) - pred;
+                        if (ecartMot<0) ecartMot = TAILLE_ALPHABET + ecartMot;
+                        if (ecartMot == ecarts[i]) {
+                            pred = mot.charAt(i);
+                        } else {
                             mauvaisMot = true;
                             break;
                         }
