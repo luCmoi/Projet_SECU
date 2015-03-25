@@ -116,10 +116,10 @@ public class Cesar implements Code {
     public int decryptParcour(Arbre arbre, String[][] texteSplit, int cle) {
         for (String[] ligne : texteSplit) {
             for (String mot : ligne) {
-                String trad = dechiffre(mot, "" + cle);
-                if (trad.equals("")) {
-                    return -1;
+                if (mot.equals("")){
+                    continue;
                 }
+                String trad = dechiffre(mot, "" + cle);
                 if (!arbre.chercheMot(trad)) {
                     return -1;
                 }
