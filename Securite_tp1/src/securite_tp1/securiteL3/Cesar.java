@@ -24,18 +24,27 @@ public class Cesar implements Code {
 
     public String decrypt(String... args) {
         String[][] texteSplit = splitation(args[0]);
+        int cle = -1;
         switch (Integer.parseInt(args[1])) {
             case 1:
-                return decryptMot(texteSplit, args[2]);
+                cle =  decryptMot(texteSplit, args[2]);
+                break;
             case 2:
-                return decryptFreq(texteSplit);
+                cle = decryptFreq(texteSplit);
+                break;
             case 3:
-                return decryptFB(texteSplit);
+                cle = decryptFB(texteSplit);
+                break;
+        }
+        if (cle != -1){
+            return dechiffre(args[0],""+cle);
+        }else{
+            System.err.println("Le texte n'a pas pu être décrypté.");
         }
         return null;
     }
 
-    public String decryptMot(String[][] texteSplit, String motConnu) {
+    public int decryptMot(String[][] texteSplit, String motConnu) {
         int[] ecarts = new int[motConnu.length()];
         Arbre arbre = new Arbre();
         char pred = motConnu.charAt(0);
@@ -64,36 +73,36 @@ public class Cesar implements Code {
                         }
                         String texteRetour = decryptParcour(arbre, texteSplit, decallage);
                         if (texteRetour != null) {
-                            return texteRetour;
+                            return decallage;
                         }
                     }
                 }
             }
         }
-        return null;
+        return -1;
     }
 
-    public String decryptFreq(String[][] texteSplit) {
+    public int decryptFreq(String[][] texteSplit) {
         Arbre arbre = new Arbre();
         for(char lettre : FREQUENCE_FRANCAIS) {
             int cle = get_freq(texteSplit,lettre);
             String texteRetour = decryptParcour(arbre, texteSplit, cle);
             if (texteRetour != null) {
-                return texteRetour;
+                return cle;
             }
         }
-        return null;
+        return -1;
     }
 
-    public String decryptFB(String[][] texteSplit) {
+    public int decryptFB(String[][] texteSplit) {
         Arbre arbre = new Arbre();
         for (int i = 0; i < TAILLE_ALPHABET; i++) {
             String texteRetour = decryptParcour(arbre, texteSplit, i);
             if (texteRetour != null) {
-                return texteRetour;
+                return i;
             }
         }
-        return null;
+        return -1;
     }
 
     public String[][] splitation(String texte) {
@@ -147,5 +156,4 @@ public class Cesar implements Code {
         int cle = (max - (lettre - DEBUT_ALPHABET_ASCII));
         return (cle < 0) ? (char) (cle + TAILLE_ALPHABET) : (char) cle;
     }
-
 }
