@@ -1,6 +1,5 @@
 package securiteL3;
 
-import java.awt.*;
 
 public class Cesar implements Code {
 
@@ -27,7 +26,7 @@ public class Cesar implements Code {
         int cle = -1;
         switch (Integer.parseInt(args[1])) {
             case 1:
-                cle =  decryptMot(texteSplit, args[2]);
+                cle = decryptMot(texteSplit, args[2]);
                 break;
             case 2:
                 cle = decryptFreq(texteSplit);
@@ -36,9 +35,9 @@ public class Cesar implements Code {
                 cle = decryptFB(texteSplit);
                 break;
         }
-        if (cle != -1){
-            return dechiffre(args[0],""+cle);
-        }else{
+        if (cle != -1) {
+            return dechiffre(args[0], "" + cle);
+        } else {
             System.err.println("Le texte n'a pas pu être décrypté.");
         }
         return null;
@@ -53,8 +52,8 @@ public class Cesar implements Code {
             pred = motConnu.charAt(i);
         }
         ecarts[0] = pred - motConnu.charAt(0);
-        boolean mauvaisMot = false;
-        int decallage = -1;
+        boolean mauvaisMot;
+        int decallage;
         for (String[] ligne : texteSplit) {
             for (String mot : ligne) {
                 mauvaisMot = false;
@@ -71,10 +70,11 @@ public class Cesar implements Code {
                         if (decallage < 0) {
                             decallage += TAILLE_ALPHABET;
                         }
-                        String texteRetour = decryptParcour(arbre, texteSplit, decallage);
-                        if (texteRetour != null) {
-                            return decallage;
-                        }
+                        //String texteRetour = decryptParcour(arbre, texteSplit, decallage);
+                        //if (texteRetour != null) {
+                        //    return decallage;
+                        //}
+                        return decryptParcour(arbre, texteSplit, decallage);
                     }
                 }
             }
@@ -84,11 +84,15 @@ public class Cesar implements Code {
 
     public int decryptFreq(String[][] texteSplit) {
         Arbre arbre = new Arbre();
-        for(char lettre : FREQUENCE_FRANCAIS) {
-            int cle = get_freq(texteSplit,lettre);
-            String texteRetour = decryptParcour(arbre, texteSplit, cle);
+        for (char lettre : FREQUENCE_FRANCAIS) {
+            int cle = get_freq(texteSplit, lettre);
+            /*String texteRetour = decryptParcour(arbre, texteSplit, cle);
             if (texteRetour != null) {
                 return cle;
+            }*/
+            int boucle = decryptParcour(arbre, texteSplit, cle);
+            if (boucle != -1) {
+                return boucle;
             }
         }
         return -1;
@@ -97,9 +101,13 @@ public class Cesar implements Code {
     public int decryptFB(String[][] texteSplit) {
         Arbre arbre = new Arbre();
         for (int i = 0; i < TAILLE_ALPHABET; i++) {
-            String texteRetour = decryptParcour(arbre, texteSplit, i);
+            /*String texteRetour = decryptParcour(arbre, texteSplit, i);
             if (texteRetour != null) {
                 return i;
+            }*/
+            int boucle = decryptParcour(arbre, texteSplit, i);
+            if (boucle != -1) {
+                return boucle;
             }
         }
         return -1;
@@ -114,9 +122,9 @@ public class Cesar implements Code {
         return texteSplit;
     }
 
-    public String decryptParcour(Arbre arbre, String[][] texteSplit, int cle) {
-        StringBuilder retour = new StringBuilder("");
-        boolean debutLigne = false;
+    public int decryptParcour(Arbre arbre, String[][] texteSplit, int cle) {
+        /*StringBuilder retour = new StringBuilder("");
+        boolean debutLigne;
         for (String[] ligne : texteSplit) {
             debutLigne = true;
             for (String mot : ligne) {
@@ -137,7 +145,16 @@ public class Cesar implements Code {
             Toolkit.getDefaultToolkit().beep();
             return retour.substring(0, retour.length() - 1);
         }
-        return null;
+        return null;*/
+        for (String[] ligne : texteSplit) {
+            for (String mot : ligne) {
+                String trad = dechiffre(mot, "" + cle);
+                if (!arbre.chercheMot(trad) || trad.equals("")) {
+                    return -1;
+                }
+            }
+        }
+        return cle;
     }
 
     char get_freq(String[][] s, char lettre) {
