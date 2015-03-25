@@ -1,6 +1,9 @@
 package securiteL3;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class Chiffre {
 
@@ -15,21 +18,18 @@ public class Chiffre {
         checkargs(args);
         StringBuilder text = new StringBuilder();
         String string;
-        int read, N = 1024 * 1024;
-        char[] buffer = new char[N];
-
         try {
-            FileReader fr = new FileReader(args[2]);
-            BufferedReader br = new BufferedReader(fr);
-            while (true) {
-
-                read = br.read(buffer, 0, N);
-                text.append(buffer, 0, read);
-
-                if (read < N) {
-                    break;
+            InputStream ips = new FileInputStream(args[2]);
+            InputStreamReader ipsr = new InputStreamReader(ips);
+            BufferedReader br = new BufferedReader(ipsr);
+            String ligne;
+            while ((ligne = br.readLine()) != null) {
+                if (ligne.equals("\n")) {
+                    text.append(ligne);
+                } else {
+                    text.append(ligne);
+                    text.append("\n");
                 }
-
             }
             br.close();
         } catch (Exception r) {
@@ -59,6 +59,6 @@ public class Chiffre {
     }
 
     public static void chiffreVigenere(String cle, String text) {
-        System.out.print((new Vigenere(cle)).chiffre(text, cle));
+        System.out.println((new Vigenere(cle)).chiffreText(text, cle));
     }
 }

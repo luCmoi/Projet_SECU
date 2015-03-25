@@ -9,12 +9,7 @@ public interface Code {
     static final char[] FREQUENCE_FRANCAIS = {'e','a','s','i','t','n','r','u','l','o','d','c','p','m','v','q','f','b','g','h','j','x','y','z','w','k'};
 
     public default char chiffre(char c, int cle) {
-
         if (c == '\n' || c == ' ') return c;
-        if (!in_alpha(c)){
-            System.err.println("Erreur :"+c+"caractère interdit");
-            System.exit(1);
-        }
         if (c <= FIN_ALPHABET_ASCII || c >= DEBUT_ALPHABET_ASCII) {
             char d = (char) (c + cle);
             return (d > FIN_ALPHABET_ASCII) ? (char) (d - TAILLE_ALPHABET) : d;
@@ -29,10 +24,6 @@ public interface Code {
 
     public default char dechiffre(char c, int cle) {
         if (c == '\n' || c == ' ') return c;
-        if (!in_alpha(c)){
-            System.err.println("Erreur :"+c+"caractère interdit");
-            System.exit(1);
-        }
         char d = (char) (c - cle);
         return (d < DEBUT_ALPHABET_ASCII) ? (char) (d + TAILLE_ALPHABET) : d;
     }

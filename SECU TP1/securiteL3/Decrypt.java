@@ -1,9 +1,6 @@
 package securiteL3;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 public class Decrypt {
 
@@ -70,7 +67,7 @@ public class Decrypt {
     }
 
     public static void decryptVigenere(String text, String[] args) {
-        if (args.length == 3) System.out.print(new Vigenere("").decrypt(text, args[2]));
-        else System.out.print(new Vigenere("").decrypt(text));
+        if (args.length == 3) System.out.println(new Vigenere("").decrypt(text, args[2]));
+        else System.out.println(new Vigenere("").decrypt(text));
     }
 }

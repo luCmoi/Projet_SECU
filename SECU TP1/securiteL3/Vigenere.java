@@ -55,15 +55,13 @@ public class Vigenere implements Code {
             i++;
         }
         sans_taille(args[0], text);
-        System.err.println(this.cle);
-        return dechiffre(args[0], this.cle);
+        return dechiffreText(args[0], this.cle);
     }
 
     public String decrypt(String s, String cle) {
         int taille = Integer.parseInt(cle);
         this.cle = avec_taille(s, taille);
-        System.err.println(this.cle);
-        return dechiffre(s, this.cle);
+        return dechiffreText(s, this.cle);
     }
 
 
