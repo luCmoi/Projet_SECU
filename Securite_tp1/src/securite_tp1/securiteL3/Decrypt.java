@@ -61,8 +61,8 @@ public class Decrypt {
     }
 
     public static void decryptCesar(String[] args, String text) {
-        if (args.length == 3) System.out.println(new Cesar().decrypt(text, args[2]));
-        else System.out.println(new Cesar().decrypt(text, args[2], args[3]));
+        if (args.length == 3) System.out.print(new Cesar().decrypt(text, args[2]));
+        else System.out.print(new Cesar().decrypt(text, args[2], args[3]));
     }
 
     public static void decryptPermutation(String text) {

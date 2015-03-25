@@ -51,7 +51,7 @@ public class Dechiffre {
     }
 
     public static void dechiffreCesar(String cle, String text) {
-        System.out.println(new Cesar().dechiffre(text, cle));
+        System.out.print(new Cesar().dechiffre(text, cle));
     }
 
     public static void dechiffrePermutation(String cle, String text) {

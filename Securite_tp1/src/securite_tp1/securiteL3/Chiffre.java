@@ -50,7 +50,7 @@ public class Chiffre {
     }
 
     public static void chiffreCesar(String cle, String text) {
-        System.out.println(new Cesar().chiffreText(text, cle));
+        System.out.print(new Cesar().chiffreText(text, cle));
     }
 
 
