@@ -19,6 +19,17 @@ public class Permutation implements Code {
 			this.nb = 0;
 		}
 	}
+
+    public class TupleC {
+
+        public char lettre1;
+        public char lettre2;
+
+        public TupleC(char l, char ll) {
+            this.lettre1 = l;
+            this.lettre2 = ll;
+        }
+    }
 	
 	ArrayList<Tuple> occ;
 	LinkedList<Character> tab =  new LinkedList<Character>();
@@ -92,7 +103,8 @@ public class Permutation implements Code {
     public String chiffre(String s, String cle) {
         StringBuilder result = new StringBuilder("");
         if (cle.length() == TAILLE_ALPHABET && verif(cle)) {
-            for (int i = 0; i < s.length(); i++) {
+            int taille = s.length();
+            for (int i = 0; i < taille; i++) {
                 char c = s.charAt(i);
                 if (c == '\n' || c == ' ') result.append(c);
                 else if (c <= FIN_ALPHABET_ASCII || c >= DEBUT_ALPHABET_ASCII) {
@@ -158,7 +170,6 @@ public class Permutation implements Code {
         Stack<Character> tmp = new Stack<Character>();
         boolean lettre = true;
         int f = 0;
-        int z = 0;
         while(lifo.size()<TAILLE_ALPHABET){
             Tuple p = occ.get(f);
             if(tab.isEmpty()){
@@ -189,9 +200,9 @@ public class Permutation implements Code {
                         liste.add(new Tuple(lettreP,fin));
                     }
                     else{
-                        for(int k = 0;k < lifo.size();k++){
-                            if(s.charAt(i) == lifo.get(k).lettre1){
-                                liste.add(new Tuple(lifo.get(k).lettre2,fin));
+                        for (TupleC aLifo : lifo) {
+                            if (s.charAt(i) == aLifo.lettre1) {
+                                liste.add(new Tuple(aLifo.lettre2, fin));
                             }
                         }
                     }
@@ -207,7 +218,6 @@ public class Permutation implements Code {
                 tmp.push(lifo.removeLast().lettre2);
             }
             lettre = true;
-            z++;
         }
         StringBuilder mot = new StringBuilder();
         for(int j = 0;j < TAILLE_ALPHABET;j++){
@@ -219,6 +229,7 @@ public class Permutation implements Code {
         }
         return(dechiffre(s, mot.toString()));
     }
+
 
     public boolean verifMot(int taille, ArrayList<Tuple> liste, LinkedList<TupleC> lifo){
         StringBuilder mot = new StringBuilder();

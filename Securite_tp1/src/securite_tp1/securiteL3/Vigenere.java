@@ -6,9 +6,11 @@ public class Vigenere implements Code {
 
     private String cle;
     private int mod = 0;
+    private int taille_cle;
 
     public Vigenere(String cle) {
         this.cle = cle;
+        this.taille_cle = cle.length();
     }
 
 
@@ -20,9 +22,9 @@ public class Vigenere implements Code {
             if (c == ' ') res.append(' ');
             else if (c == '\n') res.append('\n');
             else {
-                res.append(chiffre(c, this.cle.charAt(mod) - 97));
-                mod++;
-                mod = mod % this.cle.length();
+                res.append(chiffre(c, this.cle.charAt(mod++) - 97));
+                if (mod == this.taille_cle) mod=0;
+                //mod %= this.cle.length();
             }
         }
         return res.toString();
@@ -36,9 +38,9 @@ public class Vigenere implements Code {
             if (c == ' ') res.append(' ');
             else if (c == '\n') res.append('\n');
             else {
-                res.append(dechiffre(c, this.cle.charAt(mod) - 97));
-                mod++;
-                mod = mod % this.cle.length();
+                res.append(dechiffre(c, this.cle.charAt(mod++) - 97));
+                if (mod == this.taille_cle) mod=0;
+                //mod %= this.cle.length();
             }
         }
         return res.toString();
@@ -98,11 +100,11 @@ public class Vigenere implements Code {
     }
 
     void sans_taille(String s, String[] tab) {
-        int taille = 1;
+        this.taille_cle = 1;
         Arbre arbre = new Arbre();
         boolean finish = false;
-        while (!finish && taille < s.length()/3) {
-            this.cle = avec_taille(s, taille);
+        while (!finish && this.taille_cle < s.length()/3) {
+            this.cle = avec_taille(s, this.taille_cle);
             finish = true;
             for (String mot : tab) {
                 if (mot.equals("") || mot.equals(" ")) continue;
@@ -113,7 +115,7 @@ public class Vigenere implements Code {
                 }
             }
             this.mod = 0;
-            taille++;
+            this.taille_cle++;
         }
     }
 

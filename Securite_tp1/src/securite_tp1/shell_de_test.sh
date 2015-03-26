@@ -48,8 +48,8 @@ fi
 
 
 echo decrypt Vigenère
-java securiteL3/decrypt v $1.vige 9 >$1.clair
-if diff $1 $1.clair  >&2
+java securiteL3/decrypt v $1.vige 9 >$1.clair.taille
+if diff $1 $1.clair.taille  >&2
 then echo decrypt Vigenère réussi
 else echo decrypt Vigenère raté
 fi

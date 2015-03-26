@@ -1,9 +1,6 @@
 package securiteL3;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 public class decrypt {
 
@@ -19,7 +16,7 @@ public class decrypt {
         long end;
         checkargs(args);
         StringBuilder text = new StringBuilder();
-        int read, N = 1024 * 1024;
+        int read, N = 1024 * 8;
         char[] buffer = new char[N];
 
         try {
@@ -65,7 +62,7 @@ public class decrypt {
     }
 
     public static void decryptPermutation(String text) {
-        System.out.println(new Permutation().decrypt(text));
+        System.out.print(new Permutation().decrypt(text));
     }
 
     public static void decryptVigenere(String text, String[] args) {

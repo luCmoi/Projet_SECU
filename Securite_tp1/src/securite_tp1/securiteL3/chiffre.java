@@ -15,7 +15,7 @@ public class chiffre {
         checkargs(args);
         StringBuilder text = new StringBuilder();
         String string;
-        int read, N = 1024 * 1024;
+        int read, N = 1024 * 8;
         char[] buffer = new char[N];
 
         try {
@@ -55,7 +55,7 @@ public class chiffre {
 
 
     public static void chiffrePermutation(String cle, String text) {
-        System.out.println(new Permutation().chiffreText(text, cle));
+        System.out.print(new Permutation().chiffre(text, cle));
     }
 
     public static void chiffreVigenere(String cle, String text) {

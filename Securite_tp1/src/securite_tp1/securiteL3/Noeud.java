@@ -16,11 +16,11 @@ public class Noeud {
         peut_finir = fin;
     }
 
-    public int addChar(String ligne, int i) {
+    public int addChar(char[] ligne, int i) {
         int j = i;
         char c;
         do {
-            c = ligne.charAt(j);
+            c = ligne[j];
             switch (c) {
                 case '.':
                     j++;
@@ -45,15 +45,15 @@ public class Noeud {
 
     }
 
-    public boolean is_mot_possible(char[] pattern, String mot, int profondeur, Set<String> liste, LinkedList<TupleC> lifo) {
+    public boolean is_mot_possible(char[] pattern, String mot, int profondeur, Set<String> liste, LinkedList<Permutation.TupleC> lifo) {
         boolean in = false;
         if (profondeur == pattern.length - 1) {
             if (pattern[profondeur] == '.') {
                 if (listeNoeud != null) {
                     boolean verif = true;
                     for (int i = 0; i < TAILLE_ALPHABET; i++) {
-                        for(int j = 0;j < lifo.size();j++){
-                            if((char) (DEBUT_ALPHABET_ASCII + i) == lifo.get(j).lettre2) verif = false;
+                        for (Permutation.TupleC aLifo : lifo) {
+                            if ((char) (DEBUT_ALPHABET_ASCII + i) == aLifo.lettre2) verif = false;
                         }
                         if (this.listeNoeud[i] != null && this.listeNoeud[i].peut_finir && verif) {
                             in = true;
@@ -68,18 +68,18 @@ public class Noeud {
             return in;
         }
         if (pattern[profondeur] == '.') {
-            boolean verif = true;
+            //boolean verif = true;
             for (int i = 0; i < TAILLE_ALPHABET; i++) {
-                for(int j = 0;j < lifo.size();j++){
-                    if((char) (DEBUT_ALPHABET_ASCII + i) == lifo.get(j).lettre2) verif = false;
-                }
+                /*for (TupleC aLifo : lifo) {
+                    //if ((char) (DEBUT_ALPHABET_ASCII + i) == aLifo.lettre2) verif = false;
+                }*/
                 if (listeNoeud != null && listeNoeud[i] != null)
                     in |= listeNoeud[i].is_mot_possible(pattern, mot + (char) (DEBUT_ALPHABET_ASCII + i), profondeur + 1, liste,lifo);
-                verif = true;
+                //verif = true;
             }
         } else {
             if (listeNoeud != null && listeNoeud[pattern[profondeur] - DEBUT_ALPHABET_ASCII] != null)
-                in |= listeNoeud[pattern[profondeur] - DEBUT_ALPHABET_ASCII].is_mot_possible(pattern, mot + pattern[profondeur], profondeur + 1, liste,lifo);
+                in = listeNoeud[pattern[profondeur] - DEBUT_ALPHABET_ASCII].is_mot_possible(pattern, mot + pattern[profondeur], profondeur + 1, liste, lifo);
         }
         return in;
     }

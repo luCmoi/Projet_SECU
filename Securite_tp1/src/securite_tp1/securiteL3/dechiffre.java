@@ -15,7 +15,7 @@ public class dechiffre {
         checkargs(args);
         StringBuilder text = new StringBuilder();
         String string;
-        int read, N = 1024 * 1024;
+        int read, N = 1024 * 8;
         char[] buffer = new char[N];
 
         try {
@@ -55,7 +55,7 @@ public class dechiffre {
     }
 
     public static void dechiffrePermutation(String cle, String text) {
-        System.out.println(new Permutation().dechiffreText(text, cle));
+        System.out.print(new Permutation().dechiffre(text, cle));
     }
 
     public static void dechiffreVigenere(String cle, String text) {

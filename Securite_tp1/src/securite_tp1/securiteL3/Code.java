@@ -37,25 +37,6 @@ public interface Code {
         return (d < DEBUT_ALPHABET_ASCII) ? (char) (d + TAILLE_ALPHABET) : d;
     }
 
-
-    public default String dechiffreText(String text, String cle) {
-        String tab[] = text.split("\n");
-        StringBuilder res = new StringBuilder("");
-        for (String s : tab) {
-            res.append(this.dechiffre(s, cle) + "\n");
-        }
-        return res.substring(0, res.length() - 1);
-    }
-
-    public default String chiffreText(String text, String cle) {
-        String tab[] = text.split("\n");
-        StringBuilder res = new StringBuilder("");
-        for (String s : tab) {
-            res.append(this.chiffre(s, cle) + "\n");
-        }
-        return res.substring(0, res.length() - 1);
-    }
-
     public String dechiffre(String s, String cle);
 
     public String decrypt(String... s);
