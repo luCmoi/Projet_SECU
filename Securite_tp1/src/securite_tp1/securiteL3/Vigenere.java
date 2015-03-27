@@ -23,8 +23,7 @@ public class Vigenere implements Code {
             else if (c == '\n') res.append('\n');
             else {
                 res.append(chiffre(c, this.cle.charAt(mod++) - 97));
-                if (mod == this.taille_cle) mod=0;
-                //mod %= this.cle.length();
+                mod %= this.cle.length();
             }
         }
         return res.toString();
@@ -39,8 +38,7 @@ public class Vigenere implements Code {
             else if (c == '\n') res.append('\n');
             else {
                 res.append(dechiffre(c, this.cle.charAt(mod++) - 97));
-                if (mod == this.taille_cle) mod=0;
-                //mod %= this.cle.length();
+                mod %= this.cle.length();
             }
         }
         return res.toString();
@@ -103,7 +101,7 @@ public class Vigenere implements Code {
         this.taille_cle = 1;
         Arbre arbre = new Arbre();
         boolean finish = false;
-        while (!finish && this.taille_cle < s.length()/3) {
+        while (!finish) {
             this.cle = avec_taille(s, this.taille_cle);
             finish = true;
             for (String mot : tab) {
@@ -112,6 +110,10 @@ public class Vigenere implements Code {
                 if (!arbre.chercheMot(a)) {
                     finish = false;
                     break;
+                }
+                else if (this.taille_cle == s.length()/3){
+                    System.out.println("Erreur Taille de la clé trop grande");
+                    System.exit(1);
                 }
             }
             this.mod = 0;
