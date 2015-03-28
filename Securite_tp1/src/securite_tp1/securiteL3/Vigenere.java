@@ -111,8 +111,9 @@ public class Vigenere implements Code {
                 String a = dechiffre(mot, this.cle);
                 if (!arbre.chercheMot(a)){
                     marge++;
-                    if((marge / length) >MARGE_D_ERREUR) {
-                        marge=0;
+                    //System.err.println("ratio :"+(length / marge));
+                    if((length / marge) >= MARGE_D_ERREUR) {
+                        //marge=0;
                         finish = false;
                         break;
                     }
@@ -122,9 +123,12 @@ public class Vigenere implements Code {
                     System.exit(1);
                 }
             }
+            //System.err.println(marge);
             this.mod = 0;
+            marge = 0;
             this.taille_cle++;
         }
+
     }
 
 
