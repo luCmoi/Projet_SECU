@@ -49,7 +49,7 @@ public class Cesar implements Code {
         char pred = motConnu.charAt(0);
         for (int i = 1; i < motConnu.length(); i++) {
             ecarts[i] = motConnu.charAt(i) - pred;
-            if (ecarts[i]<0) ecarts[i] = TAILLE_ALPHABET + ecarts[i];
+            if (ecarts[i] < 0) ecarts[i] = TAILLE_ALPHABET + ecarts[i];
             pred = motConnu.charAt(i);
         }
         ecarts[0] = motConnu.charAt(0) - pred;
@@ -62,7 +62,7 @@ public class Cesar implements Code {
                     pred = mot.charAt(0);
                     for (int i = 1; i < motConnu.length(); i++) {
                         int ecartMot = mot.charAt(i) - pred;
-                        if (ecartMot<0) ecartMot = TAILLE_ALPHABET + ecartMot;
+                        if (ecartMot < 0) ecartMot = TAILLE_ALPHABET + ecartMot;
                         if (ecartMot == ecarts[i]) {
                             pred = mot.charAt(i);
                         } else {
@@ -76,7 +76,7 @@ public class Cesar implements Code {
                             decallage += TAILLE_ALPHABET;
                         }
                         int boucle = decryptParcour(arbre, texteSplit, decallage);
-                        if (boucle != -1){
+                        if (boucle != -1) {
                             return boucle;
                         }
                     }
@@ -119,14 +119,22 @@ public class Cesar implements Code {
     }
 
     public int decryptParcour(Arbre arbre, String[][] texteSplit, int cle) {
+        int marge = 0;
+        int length = 0;
+        for (String[] ligne : texteSplit) {
+            length += ligne.length;
+        }
         for (String[] ligne : texteSplit) {
             for (String mot : ligne) {
-                if (mot.equals("")){
+                if (mot.equals("")) {
                     continue;
                 }
                 String trad = dechiffre(mot, "" + cle);
                 if (!arbre.chercheMot(trad)) {
-                    return -1;
+                    marge++;
+                    if ((marge / length) > MARGE_D_ERREUR) {
+                        return -1;
+                    }
                 }
             }
         }
