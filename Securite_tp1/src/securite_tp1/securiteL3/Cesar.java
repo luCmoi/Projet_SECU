@@ -132,7 +132,7 @@ public class Cesar implements Code {
                 String trad = dechiffre(mot, "" + cle);
                 if (!arbre.chercheMot(trad)) {
                     marge++;
-                    if ((marge / length) > MARGE_D_ERREUR) {
+                    if ((length / marge) > MARGE_D_ERREUR) {
                         return -1;
                     }
                 }
