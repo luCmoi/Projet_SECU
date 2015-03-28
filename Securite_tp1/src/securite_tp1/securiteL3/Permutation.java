@@ -3,17 +3,17 @@ package securiteL3;
 import java.util.*;
 
 public class Permutation implements Code {
-	
+
 	class Tuple{
-		
+
 		int nb;
 		char lettre;
-		
+
 		public Tuple(char lettre, int nb){
 			this.nb = nb;
-			this.lettre = lettre;		
+			this.lettre = lettre;
 		}
-		
+
 		public Tuple(char lettre){
 			this.lettre = lettre;
 			this.nb = 0;
@@ -30,11 +30,11 @@ public class Permutation implements Code {
             this.lettre2 = ll;
         }
     }
-	
+
 	ArrayList<Tuple> occ;
 	LinkedList<Character> tab =  new LinkedList<Character>();
 	Arbre a;
-	
+
 	public static void tableauA(LinkedList<Character> tab3){
 		tab3.add('e');
 		tab3.add('s');

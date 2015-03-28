@@ -11,11 +11,6 @@ public class Noeud {
     Noeud listeNoeud[] = null;
     boolean peut_finir = false;
 
-
-    public Noeud(boolean fin) {
-        peut_finir = fin;
-    }
-
     public int addChar(char[] ligne, int i) {
         int j = i;
         char c;
@@ -31,7 +26,7 @@ public class Noeud {
                     break;
                 default:
                     if (this.listeNoeud == null) listeNoeud = new Noeud[TAILLE_ALPHABET];
-                    listeNoeud[c - DEBUT_ALPHABET_ASCII] = new Noeud(false);
+                    listeNoeud[c - DEBUT_ALPHABET_ASCII] = new Noeud();
                     j = listeNoeud[c - DEBUT_ALPHABET_ASCII].addChar(ligne, j + 1);
             }
         } while (true);

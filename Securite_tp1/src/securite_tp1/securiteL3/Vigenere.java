@@ -99,6 +99,8 @@ public class Vigenere implements Code {
 
     void sans_taille(String s, String[] tab) {
         this.taille_cle = 1;
+        int marge = 0;
+        int length = tab.length;
         Arbre arbre = new Arbre();
         boolean finish = false;
         while (!finish) {
@@ -107,11 +109,15 @@ public class Vigenere implements Code {
             for (String mot : tab) {
                 if (mot.equals("") || mot.equals(" ")) continue;
                 String a = dechiffre(mot, this.cle);
-                if (!arbre.chercheMot(a)) {
-                    finish = false;
-                    break;
+                if (!arbre.chercheMot(a)){
+                    marge++;
+                    if((marge / length) >MARGE_D_ERREUR) {
+                        marge=0;
+                        finish = false;
+                        break;
+                    }
                 }
-                else if (this.taille_cle == s.length()/3){
+                if (this.taille_cle >= s.length()/20){
                     System.out.println("Erreur Taille de la clé trop grande");
                     System.exit(1);
                 }

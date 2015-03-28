@@ -16,7 +16,7 @@ public class Arbre {
 
     public Arbre() {
         for (int i = 0; i < TAILLE_ALPHABET; i++) {
-            racine[i] = new Noeud(false);
+            racine[i] = new Noeud();
         }
         String fichier = "./lexiqueA.txt";
         int read, N = 1024 * 8;
@@ -26,12 +26,10 @@ public class Arbre {
         try {
             FileReader fr = new FileReader(fichier);
             BufferedReader br = new BufferedReader(fr);
-            while (true) {
+            read = N+1;
+            while (read >= N) {
                 read = br.read(buffer, 0, N);
                 text.append(buffer, 0, read);
-                if (read < N) {
-                    break;
-                }
             }
             br.close();
         } catch (Exception r) {
