@@ -22,20 +22,17 @@
 
 
 int add_to_list(list_diff_t *listDiffT, char* buff){
-    /* Iterate through the list till we encounter the last node.*/
-
-    // TODO: check error
-
+    #ifdef DEBUG
     printf("add to list\n");
-    fflush(stdout);
+    #endif
 
     while (listDiffT->liste[listDiffT->first] != NULL){
-        if(listDiffT->first >= NOMBRE_MAX_DIFFUSEUR-1){
+        if(listDiffT->first >= NOMBRE_MAX_DIFFUSEUR){
             return -1;
         }
         listDiffT->first++;
     }
-    if(listDiffT->nombre >= NOMBRE_MAX_DIFFUSEUR-1){
+    if(listDiffT->nombre > NOMBRE_MAX_DIFFUSEUR){
         return -1;
     }
     listDiffT->liste[listDiffT->first] = malloc(sizeof(diffuseur_t));

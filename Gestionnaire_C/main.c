@@ -28,8 +28,10 @@ void * fonctionThread(void * desc_client_diff){
     char * name = strsep(&buff, " ");
     if (strncmp(name,REGI, 4) == 0){
         int place = add_to_list(liste_diffuseur, buff);
+        #ifdef DEBUG
         printf_diffuseur_list(liste_diffuseur);
-        retour = ask_ruok(descSock, liste_diffuseur, place);
+        #endif
+        if(place != -1) retour = ask_ruok(descSock, liste_diffuseur, place);
     }
     else if(strncmp(name,LIST, 4) == 0) {
         list_diff_to_client(descSock,liste_diffuseur);
@@ -46,7 +48,7 @@ void * fonctionThread(void * desc_client_diff){
 }
 
 int main(int argc, const char* argv[]) {
-    
+
     int i;
     liste_diffuseur = malloc(sizeof(list_diff_t));
     liste_diffuseur->liste  = malloc(sizeof(diffuseur_t*)*NOMBRE_MAX_DIFFUSEUR);

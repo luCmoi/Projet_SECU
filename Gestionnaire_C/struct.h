@@ -40,11 +40,11 @@
 
 
 
-#define DEFAULT_PORT 7895
+#define DEFAULT_PORT 7896
 /**
  *
  */
-#define NOMBRE_MAX_DIFFUSEUR 15
+#define NOMBRE_MAX_DIFFUSEUR 3
 typedef struct diffuseur_s{
     char id[SIZE_ID+1];
     char ip1[SIZE_IP+1];
