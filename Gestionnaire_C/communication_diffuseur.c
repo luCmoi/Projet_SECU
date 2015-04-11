@@ -19,82 +19,99 @@
  *          Sinon apres un temps donnée on ferme la connection et libere la place pour d'autre diffuseur
  *
 */
-diffuseur_t * registration_diffuseur(int desc, char* buff, diffuseur_t *head,int* nbdiff){
-    printf("REGI DIFF\n");
-    // recupe port
-    diffuseur_t *new_diff = malloc(sizeof(diffuseur_t));
+
+
+int add_to_list(list_diff_t *listDiffT, char* buff){
+    /* Iterate through the list till we encounter the last node.*/
 
     // TODO: check error
 
-    strcpy(new_diff->id, strsep(&buff, " "));
-    new_diff->id[SIZE_ID] = '\0';
-    strcpy(new_diff->ip1, strsep(&buff, " "));
-    new_diff->ip1[SIZE_IP] = '\0';
-    strcpy(new_diff->port1, strsep(&buff, " "));
-    new_diff->port1[SIZE_PORT] = '\0';
-    strcpy(new_diff->ip2, strsep(&buff, " "));
-    new_diff->ip2[SIZE_IP] = '\0';
-    strcpy(new_diff->port2, strsep(&buff, " "));
-    new_diff->port1[SIZE_PORT] = '\0';
+    printf("add to list\n");
+    fflush(stdout);
 
-    return add_to_list(head, new_diff,nbdiff);;
-}
-
-
-
-diffuseur_t* add_to_list(diffuseur_t *head, diffuseur_t *diff, int* nbdiff){
-    if(NULL == head){
-        printf("HEad = null");
-        diff->next = NULL;
-        (*nbdiff)++;
-        return diff;
+    while (listDiffT->liste[listDiffT->first] != NULL){
+        if(listDiffT->first >= NOMBRE_MAX_DIFFUSEUR-1){
+            return -1;
+        }
+        listDiffT->first++;
     }
-    if(NULL == diff)
-    {
-        printf("\n Node creation failed \n");
-        return NULL;
+    if(listDiffT->nombre >= NOMBRE_MAX_DIFFUSEUR-1){
+        return -1;
     }
-    printf("HEad != null");
-    (*nbdiff)++;
-    diff->next = head;
+    listDiffT->liste[listDiffT->first] = malloc(sizeof(diffuseur_t));
+    int i;
 
-    return diff;
+    char *tmp = strsep(&buff, " ");
+    for (i = 0; i < SIZE_ID; ++i) {
+        if(i < strlen(tmp))
+            listDiffT->liste[listDiffT->first]->id[i] = tmp[i];
+        else listDiffT->liste[listDiffT->first]->id[i] = '#';
+
+    }
+    tmp = strsep(&buff, " ");
+    for (i = 0; i < SIZE_IP; ++i) {
+        if(i < strlen(tmp))
+            listDiffT->liste[listDiffT->first]->ip1[i] = tmp[i];
+        else listDiffT->liste[listDiffT->first]->ip1[i] = '#';
+    }
+    tmp = strsep(&buff, " ");
+    for (i = 0; i < SIZE_PORT; ++i) {
+        if(i < strlen(tmp))
+            listDiffT->liste[listDiffT->first]->port1[i] = tmp[i];
+        else listDiffT->liste[listDiffT->first]->port1[i] = '#';
+    }
+    for (i = 0; i < SIZE_IP; ++i) {
+        if(i < strlen(tmp))
+            listDiffT->liste[listDiffT->first]->ip2[i] = tmp[i];
+        else listDiffT->liste[listDiffT->first]->ip2[i] = '#';
+    }
+    for (i = 0; i < SIZE_PORT; ++i) {
+        if(i < strlen(tmp))
+            listDiffT->liste[listDiffT->first]->port2[i] = tmp[i];
+        else listDiffT->liste[listDiffT->first]->port2[i] = '#';
+    }
+    listDiffT->liste[listDiffT->first]->id[SIZE_ID] = '\0';
+    listDiffT->liste[listDiffT->first]->ip1[SIZE_IP] = '\0';
+    listDiffT->liste[listDiffT->first]->port1[SIZE_PORT] = '\0';
+    listDiffT->liste[listDiffT->first]->ip2[SIZE_IP] = '\0';
+    listDiffT->liste[listDiffT->first]->port1[SIZE_PORT] = '\0';
+
+    listDiffT->nombre++;
+    listDiffT->first++;
+    return listDiffT->first-1;
 }
 
-diffuseur_t* remove_from_list(diffuseur_t *head, diffuseur_t *diff){
-    return NULL;
+void remove_from_list(list_diff_t *listDiffT, int el){
+    //free(listDiffT->liste[el]);
+    listDiffT->liste[el] = NULL;
+    listDiffT->nombre--;
+    listDiffT->first = (listDiffT->first<el)? listDiffT->first: el;
+    return;
 }
 
-void printf_diffuseur_list(diffuseur_t *head,int* nbdiff){
-    printf("List Diffuseur REGI : %d\n",*nbdiff);
-    diffuseur_t *tmp = head;
-    int i=2;
-    printf("diff 1:\t%s:%s:%s:%s:%s\t next : %p\n", head->id,head->ip1,head->port1, head->ip2, head->port2, head->next);
-    while ((tmp = tmp->next) != NULL){
-        printf("diff %d:\t%s:%s:%s:%s:%s\t next : %p\n",i, tmp->id,tmp->ip1,tmp->port1, tmp->ip2, tmp->port2, tmp->next);
-        i++;
+void printf_diffuseur_list(list_diff_t *listDiffT){
+    int i;
+
+    for (i = 0; i < NOMBRE_MAX_DIFFUSEUR; i++) {
+        if(listDiffT->liste[i] != NULL)
+            printf("diff %d:\t%s:%s:%s:%s:%s\n", i, listDiffT->liste[i]->id,listDiffT->liste[i]->ip1,listDiffT->liste[i]->port1, listDiffT->liste[i]->ip2, listDiffT->liste[i]->port2);
     }
 }
 
 // TODO : time out RUOK
-int ask_ruok(int desc_socket){
-    struct timeval tv;
-
-    tv.tv_sec = 10;
-    tv.tv_usec = 0;
-    while (1){
-        send(desc_socket,"RUOK\n\r",(sizeof(char)*6),0);
-        setsockopt(desc_socket, SOL_SOCKET, SO_RCVTIMEO, (char *)&tv,sizeof(struct timeval));
-
-        char *buff = malloc(sizeof(char)*1024);
-        ssize_t recu=recv(desc_socket,buff,1023*sizeof(char),0);
-        buff[recu]='\0';
-        if(strncmp(buff, IMOK, 4)){
-            printf("NON EGAUX\n");
-           return -1;
+int ask_ruok(int desc_socket, list_diff_t *listDiffT, int place) {
+    while (1) {
+        send(desc_socket, RUOK, (sizeof(char) * SIZE_RUOK), 0);
+        char *buff = malloc(sizeof(char) * 1024);
+        ssize_t recu = recv(desc_socket, buff, 1023 * sizeof(char), 0);
+        buff[recu] = '\0';
+        if (strncmp(buff, IMOK, SIZE_IMOK)) {
+            printf("PAS OK: %s\n", listDiffT->liste[place]->id);
+            remove_from_list(listDiffT, place);
+            printf_diffuseur_list(listDiffT);
+            return -1;
         }
-
+        printf("IMOK :%s\n", listDiffT->liste[place]->id);
     }
-
 
 }

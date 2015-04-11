@@ -6,11 +6,11 @@
 #include <string.h>
 #include "struct.h"
 
-diffuseur_t* add_to_list(diffuseur_t *head, diffuseur_t *diff,int* nbdiff);
-diffuseur_t* remove_from_list(diffuseur_t *head, diffuseur_t *diff);
+int add_to_list(list_diff_t *listDiffT, char* buff);
+void remove_from_list(list_diff_t *listDiffT, int el);
 diffuseur_t * registration_diffuseur(int desc, char* buff, diffuseur_t *head,int* nbdiff);
-void printf_diffuseur_list(diffuseur_t *head,int* nbdiff);
-int ask_ruok(int desc_socket);
+void printf_diffuseur_list(list_diff_t *listDiffT);
+int ask_ruok(int desc_socket, list_diff_t *listDiffT, int place);
 
 
 #endif //TWEETORADIO_COMMUNICATION_DIFFUSEUR_H

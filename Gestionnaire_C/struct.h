@@ -7,8 +7,8 @@
 #define REGI "REGI"
 #define REOK "REOK"
 #define RENO "RENO"
-#define RUOK "RUOK"
-#define IMOK "IMOK"
+#define RUOK "RUOK\r\n"
+#define IMOK "IMOK\r\n"
 
 
 /**
@@ -17,6 +17,8 @@
 #define LIST "LIST"
 #define LINB "LINB"
 #define ITEM "ITEM"
+#define END_LINE "\r\n"
+
 
 /**
  * Taille des messages
@@ -25,14 +27,14 @@
 #define SIZE_IP 15
 #define SIZE_PORT 4
 
-#define SIZE_REGI 55
+#define SIZE_REGI 57
 #define SIZE_REOK 4
 #define SIZE_RENO 4
-#define SIZE_RUOK 4
-#define SIZE_IMOK 4
+#define SIZE_RUOK 6
+#define SIZE_IMOK 6
 #define SIZE_LIST 4
-#define SIZE_LINB 4
-#define SIZE_ITEM 4
+#define SIZE_LINB 9
+#define SIZE_ITEM 57
 #define SIZE_NB_DIFF 2
 
 
@@ -49,10 +51,13 @@ typedef struct diffuseur_s{
     char ip2[SIZE_IP+1];
     char port1[SIZE_PORT+1];
     char port2[SIZE_PORT+1];
-    struct diffuseur_s *next;
-
 }diffuseur_t;
 
-extern diffuseur_t *head;
+typedef struct list_diff_s{
+    diffuseur_t **liste;
+    int first;
+    int nombre;
+} list_diff_t;
+
 
 #endif //TWEETORADIO_STRUCT_H
