@@ -49,17 +49,13 @@ int initialise_diffuseur(char *buff, diffuseur_t *diff){
 int add_to_list(list_diff_t *listDiffT, char* buff, pthread_mutex_t *verrou){
 
     pthread_mutex_lock(verrou);
+    while (listDiffT->liste[listDiffT->first] != NULL && listDiffT->first < listDiffT->max){
+        listDiffT->first++;
+    }
+    
     if(listDiffT->first >= listDiffT->max){
         return -1;
     }
-    while (listDiffT->liste[listDiffT->first] != NULL){
-        listDiffT->first++;
-    }
-
-    do{
-        listDiffT->first++;
-
-    }while (listDiffT->liste[listDiffT->first] != NULL);
 
     printf("Ajout de %s dans la liste des diffuseurs\n", listDiffT->liste[listDiffT->first]->id);
     listDiffT->liste[listDiffT->first] = malloc(sizeof(diffuseur_t));
