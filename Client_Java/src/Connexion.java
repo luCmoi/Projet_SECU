@@ -1,6 +1,3 @@
-import com.sun.deploy.util.SessionState;
-
-import java.awt.*;
 import java.io.*;
 import java.net.Socket;
 
@@ -25,6 +22,7 @@ public class Connexion {
     //Recupere la liste des diffuseurs auprès du gestionnaire connecté
     public void getListe() {
         new Thread(new Runnable() {
+
             @Override
             public void run() {
                 if (socket == null) {
@@ -37,7 +35,8 @@ public class Connexion {
                                 br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                             }
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            Client.afficher("Erreur : Impossible de communiquer");
+                            return;
                         }
                         //Envoi de list
                         pw.print("LIST\r\n");
@@ -69,7 +68,7 @@ public class Connexion {
                             Client.afficher("La lecture a échouée");
                         }
                     } else {
-                        Client.afficher("Vous n'êtes pas connecter a un gestionnaire\n");
+                        Client.afficher("Vous n'êtes pas connecté a un gestionnaire\n");
                     }
                 } else {
                     Client.afficher("Vous n'êtes connecté a rien\n");
