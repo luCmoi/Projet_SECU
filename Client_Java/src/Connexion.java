@@ -25,7 +25,7 @@ public class Connexion {
 
             @Override
             public void run() {
-                if (socket == null) {
+                if (socket != null) {
                     if (gestionnaire) {
                         try {
                             if (pw == null) {
@@ -56,7 +56,7 @@ public class Connexion {
                                     }
                                     lecture = br.readLine().split(" ");
                                     if (lecture[0].equals("ITEM")) {
-                                        Client.diffuseurs.add(new DiffuseurConnus(lecture[1], lecture[2], Integer.parseInt(lecture[3]), lecture[4], Integer.parseInt(lecture[5])));
+                                        Client.diffuseursConnus.add(new Diffuseur(lecture[1], lecture[2], Integer.parseInt(lecture[3]), lecture[4], Integer.parseInt(lecture[5])));
                                         lu++;
                                         Client.afficher("Nouveau diffuseur : " + lecture[1] + "(Ip : " + lecture[2] + ", Port : " + lecture[3] + ", Ip machine : " + lecture[4] + ", Port machine : " + lecture[5] + ")");
                                     }

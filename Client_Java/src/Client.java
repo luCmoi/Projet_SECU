@@ -25,18 +25,16 @@ public class Client {
                 lecture = sc.nextLine();
                 //Lecture d'un message different qu'un message affiché
                 if (!(lecture.equals(sortieStandard.poll()))) {
-                    sortieStandard.addFirst(lecture);
                     lectureSplit = lecture.split(" ");
                     taille = lectureSplit.length;
                     //Commande
-                    if ('-' == lectureSplit[0].charAt(0)) {
+                    if (lectureSplit[0].length()>0 && '-' == lectureSplit[0].charAt(0)) {
                         //Liste des commandes
                         if ("-help".equals(lectureSplit[0])) {
                             afficher("Liste des commandes : \n");
-                            afficher("-help : Liste des commandes");
+                            afficher("-help : Liste des co-mmandes");
                             afficher("-name nouveauNom : Change le nom d'utilisateur");
                             afficher("-connectG adresse port : Se connecter a un gestionnaire et ajouter ses diffuseurs");
-                            afficher("-abonne ip port : Ecouter un diffuseur \n");
                             afficher("-abonne nom : Se connecter a un diffuseur connu\n");
                         }//Changer de nom
                         else if ("-name".equals(lectureSplit[0])) {
