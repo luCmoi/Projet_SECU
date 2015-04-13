@@ -1,6 +1,3 @@
-import com.sun.deploy.util.SessionState;
-
-import java.awt.*;
 import java.io.*;
 import java.net.Socket;
 
@@ -25,9 +22,10 @@ public class Connexion {
     //Recupere la liste des diffuseurs auprès du gestionnaire connecté
     public void getListe() {
         new Thread(new Runnable() {
+
             @Override
             public void run() {
-                if (socket == null) {
+                if (socket != null) {
                     if (gestionnaire) {
                         try {
                             if (pw == null) {
@@ -37,7 +35,8 @@ public class Connexion {
                                 br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                             }
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            Client.afficher("Erreur : Impossible de communiquer");
+                            return;
                         }
                         //Envoi de list
                         pw.print("LIST\r\n");
@@ -57,7 +56,7 @@ public class Connexion {
                                     }
                                     lecture = br.readLine().split(" ");
                                     if (lecture[0].equals("ITEM")) {
-                                        Client.diffuseurs.add(new DiffuseurConnus(lecture[1], lecture[2], Integer.parseInt(lecture[3]), lecture[4], Integer.parseInt(lecture[5])));
+                                        Client.diffuseursConnus.add(new Diffuseur(lecture[1], lecture[2], Integer.parseInt(lecture[3]), lecture[4], Integer.parseInt(lecture[5])));
                                         lu++;
                                         Client.afficher("Nouveau diffuseur : " + lecture[1] + "(Ip : " + lecture[2] + ", Port : " + lecture[3] + ", Ip machine : " + lecture[4] + ", Port machine : " + lecture[5] + ")");
                                     }
@@ -69,7 +68,7 @@ public class Connexion {
                             Client.afficher("La lecture a échouée");
                         }
                     } else {
-                        Client.afficher("Vous n'êtes pas connecter a un gestionnaire\n");
+                        Client.afficher("Vous n'êtes pas connecté a un gestionnaire\n");
                     }
                 } else {
                     Client.afficher("Vous n'êtes connecté a rien\n");

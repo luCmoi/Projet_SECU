@@ -1,4 +1,3 @@
-import java.net.DatagramSocket;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -8,7 +7,9 @@ public class Client {
     private static String nom = "Default";
     public static ArrayDeque<String> sortieStandard = new ArrayDeque<String>();
     public static Connexion connexion;
-    public static ArrayList<DiffuseurConnus> diffuseurs = new ArrayList<DiffuseurConnus>();
+    public static ArrayList<Diffuseur> diffuseursConnus = new ArrayList<Diffuseur>();
+    public static ArrayList<Diffuseur> diffuseursConnecte = new ArrayList<Diffuseur>();
+
 
     //Runnable qui s'occupe d'écouter en continu le terminal
     static class RunnableRecep implements Runnable {
@@ -24,18 +25,17 @@ public class Client {
                 lecture = sc.nextLine();
                 //Lecture d'un message different qu'un message affiché
                 if (!(lecture.equals(sortieStandard.poll()))) {
-                    sortieStandard.addFirst(lecture);
                     lectureSplit = lecture.split(" ");
                     taille = lectureSplit.length;
                     //Commande
-                    if ('-' == lectureSplit[0].charAt(0)) {
+                    if (lectureSplit[0].length()>0 && '-' == lectureSplit[0].charAt(0)) {
                         //Liste des commandes
                         if ("-help".equals(lectureSplit[0])) {
                             afficher("Liste des commandes : \n");
-                            afficher("-help : Liste des commandes");
+                            afficher("-help : Liste des co-mmandes");
                             afficher("-name nouveauNom : Change le nom d'utilisateur");
-                            afficher("-connectG adresse port : Se connecter a un gestionnaire");
-                            afficher("-connect -d adresse port : Se connecter a un diffuseur\n");
+                            afficher("-connectG adresse port : Se connecter a un gestionnaire et ajouter ses diffuseurs");
+                            afficher("-abonne nom : Se connecter a un diffuseur connu\n");
                         }//Changer de nom
                         else if ("-name".equals(lectureSplit[0])) {
                             if (taille > 1) {
@@ -47,14 +47,16 @@ public class Client {
                         } //Se connecter (Pour l'instant uniquement gestionnaire)
                         else if ("-connectG".equals(lectureSplit[0])) {
                             if (taille <= 3) {
-                                    connexion = new Connexion(lectureSplit[1],Integer.parseInt(lectureSplit[2]),true);
+                                connexion = new Connexion(lectureSplit[1], Integer.parseInt(lectureSplit[2]), true);
                             } else {
                                 afficher("Mauvaise utilisation de -connectG tapez -help pour recevoir la liste des commandes\n");
                             }
                         }//Sur un gestionnaire recuperer la liste
-                        else if ("-liste".equals(lectureSplit[0]) && connexion!=null){
+                        else if ("-liste".equals(lectureSplit[0]) && connexion != null) {
                             connexion.getListe();
-                        }else{
+                        } else if ("-abonne".equals(lectureSplit[0])) {
+                            Diffuseur.connect(diffuseursConnus, lectureSplit[1]);
+                        } else {
                             afficher("Commande non reconnue tapez -help pour recevoir la liste des commandes\n");
                         }
                     }
