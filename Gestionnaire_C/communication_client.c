@@ -1,7 +1,9 @@
-#include <netinet/in.h>
-#include <netinet/tcp.h>
 #include "communication_client.h"
 
+/**
+ * Envoi la liste des diffuseur au client
+ * Verrou
+ */
 void list_diff_to_client(int desc_socket, list_diff_t *listDiffT,int max, pthread_mutex_t *verrou) {
     pthread_mutex_lock(verrou);
     printf("Un clien a demander la list des diffuseurs\n");

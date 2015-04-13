@@ -7,6 +7,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <pthread.h>
+#include <netinet/in.h>
 #include "struct.h"
 
 void list_diff_to_client(int desc, list_diff_t *listDiffT, int max, pthread_mutex_t *verrou);

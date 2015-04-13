@@ -1,10 +1,10 @@
-
 #include "communication_diffuseur.h"
 
 /**
  * Ajoute un diffuseur a la liste des diffuseurs
  * retourne la position du diffuseur dans la liste
  * retourn -1 si liste pleine
+ * Verrou
  */
 int add_to_list(list_diff_t *listDiffT, char* buff, int max, pthread_mutex_t *verrou){
 
@@ -67,6 +67,7 @@ int add_to_list(list_diff_t *listDiffT, char* buff, int max, pthread_mutex_t *ve
 
 /**
  * supprime un diffuseur de la liste des diffuseurs
+ * Verrou
  */
 void remove_from_list(list_diff_t *listDiffT, int el, pthread_mutex_t *verrou){
     pthread_mutex_lock(verrou);
@@ -88,7 +89,6 @@ void remove_from_list(list_diff_t *listDiffT, int el, pthread_mutex_t *verrou){
  * Demande au diffuseur s'il est toujour connecté
  * inf-loop
  */
-// TODO : time out RUOK
 int ask_ruok(int desc_socket, list_diff_t *listDiffT, int place, struct pollfd *p) {
     p[0].fd=desc_socket;
     p[0].events=POLLIN;
