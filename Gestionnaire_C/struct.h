@@ -59,7 +59,8 @@ typedef struct list_diff_s{
     diffuseur_t **liste;
     int first;
     int nombre;
+    int max;
 } list_diff_t;
 
-void printf_diffuseur_list(list_diff_t *listDiffT, int max);
+void printf_diffuseur_list(list_diff_t *listDiffT);
 #endif //TWEETORADIO_STRUCT_H

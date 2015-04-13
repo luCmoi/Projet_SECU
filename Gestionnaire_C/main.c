@@ -12,7 +12,6 @@
 
 pthread_mutex_t pthread_mutex_t1= PTHREAD_MUTEX_INITIALIZER;
 list_diff_t *liste_diffuseur;
-int max_diff;
 
 void* fonctionThread(void *desc_client_diff){
     int descSock = *(int *)desc_client_diff;
@@ -33,9 +32,9 @@ void* fonctionThread(void *desc_client_diff){
             return NULL;
         }
         */
-        place = add_to_list(liste_diffuseur, buff, max_diff, &pthread_mutex_t1);
+        place = add_to_list(liste_diffuseur, buff, &pthread_mutex_t1);
 
-        printf_diffuseur_list(liste_diffuseur, max_diff);
+        printf_diffuseur_list(liste_diffuseur);
         if(place != -1) {
             send(descSock, REOK, sizeof(char)*(SIZE_REOK), 0);
             retour = ask_ruok(descSock, liste_diffuseur,place, p );
@@ -53,13 +52,13 @@ void* fonctionThread(void *desc_client_diff){
             return NULL;
         }
         */
-        list_diff_to_client(descSock,liste_diffuseur, max_diff, &pthread_mutex_t1);
+        list_diff_to_client(descSock,liste_diffuseur, &pthread_mutex_t1);
 
     }
 
     if(!retour) {
         remove_from_list(liste_diffuseur, place, &pthread_mutex_t1);
-        printf_diffuseur_list(liste_diffuseur, max_diff);
+        printf_diffuseur_list(liste_diffuseur);
         fflush(stdout);
     }
     close(descSock);
@@ -70,7 +69,7 @@ void* fonctionThread(void *desc_client_diff){
 int main(int argc, const char* argv[]) {
 
     int port = DEFAULT_PORT;
-    max_diff = NOMBRE_MAX_DIFFUSEUR;
+    int max_diff = NOMBRE_MAX_DIFFUSEUR;
     if(argc > 1){
         port = atoi(argv[1]);
         if(argc == 3)
@@ -84,6 +83,7 @@ int main(int argc, const char* argv[]) {
     };
     liste_diffuseur->first = 0;
     liste_diffuseur->nombre = 0;
+    liste_diffuseur->max = max_diff;
 
 
     int retour = 0;

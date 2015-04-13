@@ -4,10 +4,10 @@
  * Envoi la liste des diffuseur au client
  * Verrou
  */
-void list_diff_to_client(int desc_socket, list_diff_t *listDiffT,int max, pthread_mutex_t *verrou) {
+void list_diff_to_client(int desc_socket, list_diff_t *listDiffT, pthread_mutex_t *verrou) {
     pthread_mutex_lock(verrou);
     printf("Un clien a demander la list des diffuseurs\n");
-    printf_diffuseur_list(listDiffT, max);
+    printf_diffuseur_list(listDiffT);
     char mess[SIZE_LINB];
     sprintf(mess, "%s %2d%s", LINB, listDiffT->nombre, END_LINE);
 
@@ -16,7 +16,7 @@ void list_diff_to_client(int desc_socket, list_diff_t *listDiffT,int max, pthrea
     item[SIZE_ITEM] = '\0';
     int i;
 
-    for (i = 0; i < max; i++) {
+    for (i = 0; i < listDiffT->max; i++) {
         if (listDiffT->liste[i] != NULL) {
             fflush(stdout);
             sprintf(item, "%s %s %s %s %s %s %s", ITEM, listDiffT->liste[i]->id,

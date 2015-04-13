@@ -1,66 +1,71 @@
 #include "communication_diffuseur.h"
 
+int initialise_diffuseur(char *buff, diffuseur_t *diff){
+    int i;
+    buff = strsep(&buff, " ");
+    for (i = 0; i < SIZE_ID; ++i) {
+        if(i < strlen(buff))
+            diff->id[i] = buff[i];
+        else diff->id[i] = '#';
+
+    }
+    buff = strsep(&buff, " ");
+    for (i = 0; i < SIZE_IP; ++i) {
+        if(i < strlen(buff))
+            diff->ip1[i] = buff[i];
+        else diff->ip1[i] = '#';
+    }
+    buff = strsep(&buff, " ");
+    for (i = 0; i < SIZE_PORT; ++i) {
+        if(i < strlen(buff))
+            diff->port1[i] = buff[i];
+        else diff->port1[i] = '#';
+    }
+    for (i = 0; i < SIZE_IP; ++i) {
+        if(i < strlen(buff))
+            diff->ip2[i] = buff[i];
+        else diff->ip2[i] = '#';
+    }
+    for (i = 0; i < SIZE_PORT; ++i) {
+        if(i < strlen(buff))
+            diff->port2[i] = buff[i];
+        else diff->port2[i] = '#';
+    }
+
+    diff->id[SIZE_ID] = '\0';
+    diff->ip1[SIZE_IP] = '\0';
+    diff->port1[SIZE_PORT] = '\0';
+    diff->ip2[SIZE_IP] = '\0';
+    diff->port1[SIZE_PORT] = '\0';
+    return 0;
+}
+
 /**
  * Ajoute un diffuseur a la liste des diffuseurs
  * retourne la position du diffuseur dans la liste
  * retourn -1 si liste pleine
  * Verrou
  */
-int add_to_list(list_diff_t *listDiffT, char* buff, int max, pthread_mutex_t *verrou){
+int add_to_list(list_diff_t *listDiffT, char* buff, pthread_mutex_t *verrou){
 
     pthread_mutex_lock(verrou);
-    while (listDiffT->liste[listDiffT->first] != NULL){
-        if(listDiffT->first >= max){
-            return -1;
-        }
-        listDiffT->first++;
-    }
-    if(listDiffT->nombre > max){
+    if(listDiffT->first >= listDiffT->max){
         return -1;
     }
-    listDiffT->liste[listDiffT->first] = malloc(sizeof(diffuseur_t));
-    int i;
+    while (listDiffT->liste[listDiffT->first] != NULL){
+        listDiffT->first++;
+    }
 
-    char *tmp = strsep(&buff, " ");
-    for (i = 0; i < SIZE_ID; ++i) {
-        if(i < strlen(tmp))
-            listDiffT->liste[listDiffT->first]->id[i] = tmp[i];
-        else listDiffT->liste[listDiffT->first]->id[i] = '#';
+    do{
+        listDiffT->first++;
 
-    }
-    tmp = strsep(&buff, " ");
-    for (i = 0; i < SIZE_IP; ++i) {
-        if(i < strlen(tmp))
-            listDiffT->liste[listDiffT->first]->ip1[i] = tmp[i];
-        else listDiffT->liste[listDiffT->first]->ip1[i] = '#';
-    }
-    tmp = strsep(&buff, " ");
-    for (i = 0; i < SIZE_PORT; ++i) {
-        if(i < strlen(tmp))
-            listDiffT->liste[listDiffT->first]->port1[i] = tmp[i];
-        else listDiffT->liste[listDiffT->first]->port1[i] = '#';
-    }
-    for (i = 0; i < SIZE_IP; ++i) {
-        if(i < strlen(tmp))
-            listDiffT->liste[listDiffT->first]->ip2[i] = tmp[i];
-        else listDiffT->liste[listDiffT->first]->ip2[i] = '#';
-    }
-    for (i = 0; i < SIZE_PORT; ++i) {
-        if(i < strlen(tmp))
-            listDiffT->liste[listDiffT->first]->port2[i] = tmp[i];
-        else listDiffT->liste[listDiffT->first]->port2[i] = '#';
-    }
+    }while (listDiffT->liste[listDiffT->first] != NULL);
+
     printf("Ajout de %s dans la liste des diffuseurs\n", listDiffT->liste[listDiffT->first]->id);
-
-    listDiffT->liste[listDiffT->first]->id[SIZE_ID] = '\0';
-    listDiffT->liste[listDiffT->first]->ip1[SIZE_IP] = '\0';
-    listDiffT->liste[listDiffT->first]->port1[SIZE_PORT] = '\0';
-    listDiffT->liste[listDiffT->first]->ip2[SIZE_IP] = '\0';
-    listDiffT->liste[listDiffT->first]->port1[SIZE_PORT] = '\0';
-
+    listDiffT->liste[listDiffT->first] = malloc(sizeof(diffuseur_t));
+    initialise_diffuseur(buff,listDiffT->liste[listDiffT->first]);
     listDiffT->nombre++;
     listDiffT->first++;
-
     pthread_mutex_unlock(verrou);
     return listDiffT->first-1;
 }

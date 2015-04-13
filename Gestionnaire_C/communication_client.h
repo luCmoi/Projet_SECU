@@ -10,5 +10,5 @@
 #include <netinet/in.h>
 #include "struct.h"
 
-void list_diff_to_client(int desc, list_diff_t *listDiffT, int max, pthread_mutex_t *verrou);
+void list_diff_to_client(int desc, list_diff_t *listDiffT, pthread_mutex_t *verrou);
 #endif //TWEETORADIO_COMMUNICATION_CLIENT_H
