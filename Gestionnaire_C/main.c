@@ -10,15 +10,9 @@
 #include "communication_diffuseur.h"
 #include "communication_client.h"
 
-
+// TODO : Ajouter les verrou 
 list_diff_t *liste_diffuseur;
-
-int args(int argc, const char* argv[]){
-    if(argc == 2){
-
-    }
-    return 0;
-}
+int max_diff;
 
 void * fonctionThread(void * desc_client_diff){
     int descSock = *(int *)desc_client_diff;
@@ -34,13 +28,12 @@ void * fonctionThread(void * desc_client_diff){
     int place = -1;
     char * name = strsep(&buff, " ");
     if (strncmp(name,REGI, 4) == 0){
-        place = add_to_list(liste_diffuseur, buff);
-        #ifdef DEBUG
-        printf_diffuseur_list(liste_diffuseur);
-        #endif
+        place = add_to_list(liste_diffuseur, buff, max_diff);
+
+        printf_diffuseur_list(liste_diffuseur, max_diff);
         if(place != -1) {
             send(descSock, REOK, sizeof(char)*(SIZE_REOK), 0);
-            retour = ask_ruok(descSock, liste_diffuseur, place,p );
+            retour = ask_ruok(descSock, liste_diffuseur,place, p );
         }
         else{
             send(descSock, RENO, sizeof(char)*(SIZE_RENO), 0);
@@ -51,14 +44,10 @@ void * fonctionThread(void * desc_client_diff){
 
     }
 
-    if(retour == -1) {
-        #ifdef DEBUG
-        printf("remove diffuseur");
-        #endif
+    if(!retour) {
         remove_from_list(liste_diffuseur, place);
-        #ifdef DEBUG
-        printf_diffuseur_list(liste_diffuseur);
-        #endif
+        printf_diffuseur_list(liste_diffuseur, max_diff);
+        fflush(stdout);
     }
     close(descSock);
     return NULL;
@@ -66,11 +55,17 @@ void * fonctionThread(void * desc_client_diff){
 }
 
 int main(int argc, const char* argv[]) {
-
+    int port = DEFAULT_PORT;
+    max_diff = NOMBRE_MAX_DIFFUSEUR;
+    if(argc > 1){
+        port = atoi(argv[1]);
+        if(argc == 3)
+            max_diff = atoi(argv[2]);
+    }
     int i;
     liste_diffuseur = malloc(sizeof(list_diff_t));
-    liste_diffuseur->liste  = malloc(sizeof(diffuseur_t*)*NOMBRE_MAX_DIFFUSEUR);
-    for(i = 0; i<NOMBRE_MAX_DIFFUSEUR; i++){
+    liste_diffuseur->liste  = malloc(sizeof(diffuseur_t*)*max_diff);
+    for(i = 0; i<max_diff; i++){
         liste_diffuseur->liste[i] = NULL;
     };
     liste_diffuseur->first = 0;
@@ -82,7 +77,7 @@ int main(int argc, const char* argv[]) {
     struct sockaddr_in address_sock;
 
     address_sock.sin_family=AF_INET;
-    address_sock.sin_port=htons(DEFAULT_PORT);
+    address_sock.sin_port=htons(port);
     address_sock.sin_addr.s_addr=htonl(INADDR_ANY);
 
     retour = bind(sockServer,(struct sockaddr *)&address_sock,sizeof(struct sockaddr_in));
