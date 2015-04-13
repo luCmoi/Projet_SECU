@@ -10,25 +10,25 @@
 #include "communication_diffuseur.h"
 #include "communication_client.h"
 
-// TODO : Ajouter les verrou 
+// TODO : Ajouter les verrou
+
+pthread_mutex_t pthread_mutex_t1= PTHREAD_MUTEX_INITIALIZER;
 list_diff_t *liste_diffuseur;
 int max_diff;
 
-void * fonctionThread(void * desc_client_diff){
+void* fonctionThread(void *desc_client_diff){
     int descSock = *(int *)desc_client_diff;
 
     struct pollfd p[1];
-
-
-
     char *buff = malloc(sizeof(char)*1024);
     ssize_t recu = recv(descSock, buff, 1023 * sizeof(char), 0);
     buff[recu] = '\0';
-    int retour = 0;
+    printf("%ld\n",recu);
+    int retour = 1;
     int place = -1;
     char * name = strsep(&buff, " ");
     if (strncmp(name,REGI, 4) == 0){
-        place = add_to_list(liste_diffuseur, buff, max_diff);
+        place = add_to_list(liste_diffuseur, buff, max_diff, &pthread_mutex_t1);
 
         printf_diffuseur_list(liste_diffuseur, max_diff);
         if(place != -1) {
@@ -40,12 +40,12 @@ void * fonctionThread(void * desc_client_diff){
         }
     }
     else if(strncmp(name,LIST, 4) == 0) {
-        list_diff_to_client(descSock,liste_diffuseur);
+        list_diff_to_client(descSock,liste_diffuseur, max_diff, &pthread_mutex_t1);
 
     }
 
     if(!retour) {
-        remove_from_list(liste_diffuseur, place);
+        remove_from_list(liste_diffuseur, place, &pthread_mutex_t1);
         printf_diffuseur_list(liste_diffuseur, max_diff);
         fflush(stdout);
     }
@@ -55,6 +55,7 @@ void * fonctionThread(void * desc_client_diff){
 }
 
 int main(int argc, const char* argv[]) {
+
     int port = DEFAULT_PORT;
     max_diff = NOMBRE_MAX_DIFFUSEUR;
     if(argc > 1){
@@ -63,7 +64,7 @@ int main(int argc, const char* argv[]) {
             max_diff = atoi(argv[2]);
     }
     int i;
-    liste_diffuseur = malloc(sizeof(list_diff_t));
+    liste_diffuseur = malloc(sizeof(list_diff_t*));
     liste_diffuseur->liste  = malloc(sizeof(diffuseur_t*)*max_diff);
     for(i = 0; i<max_diff; i++){
         liste_diffuseur->liste[i] = NULL;

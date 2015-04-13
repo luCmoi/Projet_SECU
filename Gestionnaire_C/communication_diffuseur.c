@@ -1,3 +1,4 @@
+
 #include "communication_diffuseur.h"
 
 /**
@@ -5,9 +6,9 @@
  * retourne la position du diffuseur dans la liste
  * retourn -1 si liste pleine
  */
-int add_to_list(list_diff_t *listDiffT, char* buff, int max){
+int add_to_list(list_diff_t *listDiffT, char* buff, int max, pthread_mutex_t *verrou){
 
-
+    pthread_mutex_lock(verrou);
     while (listDiffT->liste[listDiffT->first] != NULL){
         if(listDiffT->first >= max){
             return -1;
@@ -59,13 +60,16 @@ int add_to_list(list_diff_t *listDiffT, char* buff, int max){
 
     listDiffT->nombre++;
     listDiffT->first++;
+
+    pthread_mutex_unlock(verrou);
     return listDiffT->first-1;
 }
 
 /**
  * supprime un diffuseur de la liste des diffuseurs
  */
-void remove_from_list(list_diff_t *listDiffT, int el){
+void remove_from_list(list_diff_t *listDiffT, int el, pthread_mutex_t *verrou){
+    pthread_mutex_lock(verrou);
     printf("Supress de %s de la liste des diffuseurs\n", listDiffT->liste[el]->id);
 
     if(el == -1 )
@@ -74,22 +78,11 @@ void remove_from_list(list_diff_t *listDiffT, int el){
     listDiffT->liste[el] = NULL;
     listDiffT->nombre--;
     listDiffT->first = (listDiffT->first<el)? listDiffT->first: el;
+    pthread_mutex_unlock(verrou);
     return;
 }
 
-/**
- * Affiche la liste des diffuseurs
- */
-void printf_diffuseur_list(list_diff_t *listDiffT, int max){
-    int i;
-    printf("Liste diffuseur\n");
-    printf("-------------\n");
-    for (i = 0; i < max; i++) {
-        if(listDiffT->liste[i] != NULL)
-            printf("diff %d:\t%s:%s:%s:%s:%s\n", i, listDiffT->liste[i]->id,listDiffT->liste[i]->ip1,listDiffT->liste[i]->port1, listDiffT->liste[i]->ip2, listDiffT->liste[i]->port2);
-    }
-    printf("-------------\n");
-}
+
 
 /**
  * Demande au diffuseur s'il est toujour connecté

@@ -1,6 +1,8 @@
 #ifndef TWEETORADIO_STRUCT_H
 #define TWEETORADIO_STRUCT_H
 
+#include <stdio.h>
+
 /**
  * Mot clé Communication DIFFUSEUR
  */
@@ -34,7 +36,7 @@
 #define SIZE_IMOK 6
 #define SIZE_LIST 4
 #define SIZE_LINB 9
-#define SIZE_ITEM 57
+#define SIZE_ITEM 58
 #define SIZE_NB_DIFF 2
 
 
@@ -59,5 +61,5 @@ typedef struct list_diff_s{
     int nombre;
 } list_diff_t;
 
-
+void printf_diffuseur_list(list_diff_t *listDiffT, int max);
 #endif //TWEETORADIO_STRUCT_H

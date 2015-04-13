@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -Wall -g -Werror
-SOURCES = main.c communication_diffuseur.c communication_client.c
+SOURCES = main.c communication_diffuseur.c communication_client.c struct.c
 OBJECTS=$(SOURCES:.c=.o)
 EXECUTABLE=gestionnaireC
 
