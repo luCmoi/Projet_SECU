@@ -1,7 +1,4 @@
-import java.io.*;
-import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.Socket;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -11,7 +8,7 @@ public class Client {
     private static String nom = "Default";
     public static ArrayDeque<String> sortieStandard = new ArrayDeque<String>();
     public static Connexion connexion;
-    public static ArrayList<DatagramSocket> diffuseurs = new ArrayList<DatagramSocket>();
+    public static ArrayList<DiffuseurConnus> diffuseurs = new ArrayList<DiffuseurConnus>();
 
     //Runnable qui s'occupe d'écouter en continu le terminal
     static class RunnableRecep implements Runnable {
