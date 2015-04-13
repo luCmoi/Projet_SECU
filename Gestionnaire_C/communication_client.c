@@ -10,7 +10,7 @@ void list_diff_to_client(int desc_socket, list_diff_t *listDiffT){
     sprintf(mess, "%s %2d%s", LINB, listDiffT->nombre, END_LINE);
 
     send(desc_socket,mess,(sizeof(char)*(SIZE_LINB)),0);
-    char item[SIZE_ITEM];
+    char item[SIZE_ITEM+1];
     item[SIZE_ITEM] = '\0';
     int i;
     for(i = 0; i < NOMBRE_MAX_DIFFUSEUR; i++){

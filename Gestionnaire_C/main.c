@@ -6,6 +6,7 @@
 #include <sys/socket.h>
 #include <netdb.h>
 #include <pthread.h>
+#include <sys/poll.h>
 #include "communication_diffuseur.h"
 #include "communication_client.h"
 
@@ -21,26 +22,43 @@ int args(int argc, const char* argv[]){
 
 void * fonctionThread(void * desc_client_diff){
     int descSock = *(int *)desc_client_diff;
+
+    struct pollfd p[1];
+
+
+
     char *buff = malloc(sizeof(char)*1024);
-    ssize_t recu=recv(descSock,buff,1023*sizeof(char),0);
-    buff[recu]='\0';
+    ssize_t recu = recv(descSock, buff, 1023 * sizeof(char), 0);
+    buff[recu] = '\0';
     int retour = 0;
+    int place = -1;
     char * name = strsep(&buff, " ");
     if (strncmp(name,REGI, 4) == 0){
-        int place = add_to_list(liste_diffuseur, buff);
+        place = add_to_list(liste_diffuseur, buff);
         #ifdef DEBUG
         printf_diffuseur_list(liste_diffuseur);
         #endif
-        if(place != -1) retour = ask_ruok(descSock, liste_diffuseur, place);
+        if(place != -1) {
+            send(descSock, REOK, sizeof(char)*(SIZE_REOK), 0);
+            retour = ask_ruok(descSock, liste_diffuseur, place,p );
+        }
+        else{
+            send(descSock, RENO, sizeof(char)*(SIZE_RENO), 0);
+        }
     }
     else if(strncmp(name,LIST, 4) == 0) {
         list_diff_to_client(descSock,liste_diffuseur);
 
     }
 
-    if(retour == -1){
-        //errx(2, "Erreur : connexion client/diffuseur");
-
+    if(retour == -1) {
+        #ifdef DEBUG
+        printf("remove diffuseur");
+        #endif
+        remove_from_list(liste_diffuseur, place);
+        #ifdef DEBUG
+        printf_diffuseur_list(liste_diffuseur);
+        #endif
     }
     close(descSock);
     return NULL;

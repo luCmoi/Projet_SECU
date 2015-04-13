@@ -1,4 +1,6 @@
-#include <sys/socket.h>
+#include <fcntl.h>
+#include <netinet/in.h>
+#include <netinet/tcp.h>
 #include "communication_diffuseur.h"
 
 /**
@@ -80,6 +82,8 @@ int add_to_list(list_diff_t *listDiffT, char* buff){
 
 void remove_from_list(list_diff_t *listDiffT, int el){
     //free(listDiffT->liste[el]);
+    if(el == -1 )
+        return;
     listDiffT->liste[el] = NULL;
     listDiffT->nombre--;
     listDiffT->first = (listDiffT->first<el)? listDiffT->first: el;
@@ -96,19 +100,48 @@ void printf_diffuseur_list(list_diff_t *listDiffT){
 }
 
 // TODO : time out RUOK
-int ask_ruok(int desc_socket, list_diff_t *listDiffT, int place) {
+int ask_ruok(int desc_socket, list_diff_t *listDiffT, int place, struct pollfd *p) {
+    p[0].fd=desc_socket;
+    p[0].events=POLLIN;
+    fcntl( desc_socket, F_SETFL, O_NONBLOCK);
+    int flag = 1;
     while (1) {
+        #ifdef DEBUG
+        printf("send RUOK\n");
+        #endif
+        setsockopt(desc_socket, IPPROTO_TCP, TCP_NODELAY, (char *) &flag, sizeof(int));
         send(desc_socket, RUOK, (sizeof(char) * SIZE_RUOK), 0);
+
+        #ifdef DEBUG
+        printf("poll 10sec\n");
+        #endif
+        poll(p,1,10000);
         char *buff = malloc(sizeof(char) * 1024);
-        ssize_t recu = recv(desc_socket, buff, 1023 * sizeof(char), 0);
-        buff[recu] = '\0';
-        if (strncmp(buff, IMOK, SIZE_IMOK)) {
-            printf("PAS OK: %s\n", listDiffT->liste[place]->id);
-            remove_from_list(listDiffT, place);
-            printf_diffuseur_list(listDiffT);
-            return -1;
+        #ifdef DEBUG
+        printf("Pollin?\n");
+        #endif
+        if(p[place].revents==POLLIN){
+            printf("ok\n");
+            ssize_t recu = recv(desc_socket, buff, 1023 * sizeof(char), 0);
+            buff[recu] = '\0';
+            if (strncmp(buff, IMOK, SIZE_IMOK)) {
+                #ifdef DEBUG
+                printf("%s != IMOK: %s\n", buff, listDiffT->liste[place]->id);
+                #endif
+                return 0;
+            }
+            #ifdef DEBUG
+            printf("IMOK :%s\n", listDiffT->liste[place]->id);
+            #endif
         }
-        printf("IMOK :%s\n", listDiffT->liste[place]->id);
+        else {
+            #ifdef DEBUG
+            printf("TIME OUT: %s\n", listDiffT->liste[place]->id);
+            #endif
+            return 0;
+        }
+
+        return 1;
     }
 
 }

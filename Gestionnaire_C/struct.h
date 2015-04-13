@@ -5,8 +5,8 @@
  * Mot clé Communication DIFFUSEUR
  */
 #define REGI "REGI"
-#define REOK "REOK"
-#define RENO "RENO"
+#define REOK "REOK\r\n"
+#define RENO "RENO\r\n"
 #define RUOK "RUOK\r\n"
 #define IMOK "IMOK\r\n"
 
@@ -28,8 +28,8 @@
 #define SIZE_PORT 4
 
 #define SIZE_REGI 57
-#define SIZE_REOK 4
-#define SIZE_RENO 4
+#define SIZE_REOK 6
+#define SIZE_RENO 6
 #define SIZE_RUOK 6
 #define SIZE_IMOK 6
 #define SIZE_LIST 4
@@ -40,11 +40,11 @@
 
 
 
-#define DEFAULT_PORT 7896
+#define DEFAULT_PORT 7897
 /**
  *
  */
-#define NOMBRE_MAX_DIFFUSEUR 3
+#define NOMBRE_MAX_DIFFUSEUR 10
 typedef struct diffuseur_s{
     char id[SIZE_ID+1];
     char ip1[SIZE_IP+1];
