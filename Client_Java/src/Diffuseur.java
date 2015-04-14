@@ -1,4 +1,3 @@
-import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
@@ -40,6 +39,14 @@ public class Diffuseur {
         }
     }
 
+    public static void deconnect(ArrayList<Diffuseur> liste, String nom){
+        for (Diffuseur dc : liste) {
+            if (dc.id.equals(nom)) {
+                dc.ecoute.interrupt();
+            }
+        }
+    }
+
     public static void ecoute(Diffuseur dc, MulticastSocket ms) {
         dc.ecoute = new Thread(new RunEcoute(ms));
         dc.ecoute.start();
@@ -55,7 +62,7 @@ public class Diffuseur {
         public void run() {
             byte[] data = new byte[1024];
             DatagramPacket paquet = new DatagramPacket(data,data.length);
-            while (true){
+            while (!Thread.currentThread().isInterrupted()){
                 try {
                     ms.receive(paquet);
                     String[] paquetSplit = new String(paquet.getData(),0,paquet.getLength()).split(" ",4);

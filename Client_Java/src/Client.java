@@ -18,7 +18,7 @@ public class Client {
 
         @Override
         public void run() {
-            String lecture = new String();
+            String lecture;
             String[] lectureSplit;
             int taille = 0;
             while (true) {
@@ -35,7 +35,8 @@ public class Client {
                             afficher("-help : Liste des co-mmandes");
                             afficher("-name nouveauNom : Change le nom d'utilisateur");
                             afficher("-connectG adresse port : Se connecter a un gestionnaire et ajouter ses diffuseurs");
-                            afficher("-abonne nom : Se connecter a un diffuseur connu\n");
+                            afficher("-abonne nom : Se connecter a un diffuseur connu");
+                            afficher("-desabonne nom : Se déconnecter a un diffuseur connecté\n");
                         }//Changer de nom
                         else if ("-name".equals(lectureSplit[0])) {
                             if (taille > 1) {
@@ -54,9 +55,22 @@ public class Client {
                         }//Sur un gestionnaire recuperer la liste
                         else if ("-liste".equals(lectureSplit[0]) && connexion != null) {
                             connexion.getListe();
+                            //Se connecte a un diffuseur
                         } else if ("-abonne".equals(lectureSplit[0])) {
-                            Diffuseur.connect(diffuseursConnus, lectureSplit[1]);
-                        } else {
+                            if (taille > 1) {
+                                Diffuseur.connect(diffuseursConnus, lectureSplit[1]);
+                            } else {
+                                afficher("Mauvais nombre d'arguments");
+                            }
+                        }//Se deconnecte a un diffuseur
+                        else if ("-desabonne".equals(lectureSplit[0])){
+                            if (taille > 1) {
+                                Diffuseur.deconnect(diffuseursConnecte, lectureSplit[1]);
+                            } else {
+                                afficher("Mauvais nombre d'arguments");
+                            }
+                        }
+                        else {
                             afficher("Commande non reconnue tapez -help pour recevoir la liste des commandes\n");
                         }
                     }
