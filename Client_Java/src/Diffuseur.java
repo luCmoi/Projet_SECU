@@ -14,11 +14,8 @@ public class Diffuseur {
     String ip2;
     int port2;
     Thread ecoute;
-<<<<<<< HEAD
     PrintWriter pw;
-=======
     boolean show = false;
->>>>>>> origin/master
 
     public Diffuseur(String id, String ip1, int port1, String ip2, int port2) {
         this.id = id;
@@ -38,12 +35,6 @@ public class Diffuseur {
         for (Diffuseur dc : liste) {
             //Cherche si le diffuseur est dans la liste
             if (dc.id.equals(nom)) {
-<<<<<<< HEAD
-                if (Client.diffuseursConnecte.contains(dc)) {
-                    Client.afficher("Vous écoutez déja ce diffuseur");
-                    return;
-                }
-=======
                 return dc;
             }
         }
@@ -94,13 +85,12 @@ public class Diffuseur {
             if (Client.diffuseursConnecte.contains(dc)) {
                 Client.afficher("Vous écoutez déja ce diffuseur");
             } else {
->>>>>>> origin/master
                 try {
                     //Démarre l'écoute
                     MulticastSocket ms = new MulticastSocket(dc.port1);
                     ms.joinGroup(InetAddress.getByName(dc.ip1));
                     Client.diffuseursConnecte.add(dc);
-                    dc.ecoute(ms);
+                    dc.ecoute(ms, dc);
                 } catch (Exception e) {
                     Client.afficher("Erreur impossible de se connecter au diffuseur : " + e.getMessage());
                 }
@@ -108,59 +98,37 @@ public class Diffuseur {
         }
     }
 
-<<<<<<< HEAD
-    public static void deconnect(ArrayList<Diffuseur> liste, String nom) {
-        for (Diffuseur dc : liste) {
-            if (dc.id.equals(nom)) {
-                dc.ecoute.interrupt();
-                return;
-            }
-=======
     //Deconnection en udp a un diffuseur
     public static void deconnectUDP(String nom) {
         Diffuseur dc = cherche(false, nom);
         if (dc != null) {
             dc.ecoute.interrupt();
             Client.diffuseursConnecte.remove(dc);
->>>>>>> origin/master
         }
         Client.afficher("Vous n'etes pas connecté a ce diffuseur.");
     }
 
-<<<<<<< HEAD
-    public static void ecoute(Diffuseur dc, MulticastSocket ms) {
-        dc.ecoute = new Thread(new RunEcoute(ms,dc));
-        dc.ecoute.start();
-    }
-
-    public static void changeSortie (Diffuseur dc, String sortie){
-
+    public static void changeSortie(String nom, String sortie) {
+        Diffuseur dc = cherche(false, nom);
         try {
-            pw = new PrintWriter(new BufferedWriter(new FileWriter(sortie)));
+            dc.pw = new PrintWriter(new BufferedWriter(new FileWriter(sortie)));
         } catch (IOException e) {
             Client.afficher("Impossible de rediriger la sortie : " + e.getMessage());
         }
     }
 
-    public static class RunEcoute implements Runnable {
-=======
     //Abonne a un diffuseur
-    public void ecoute(MulticastSocket ms) {
-        ecoute = new Thread(new RunEcoute(ms));
+    public void ecoute(MulticastSocket ms, Diffuseur dc) {
+        ecoute = new Thread(new RunEcoute(ms, dc));
         show = true;
         ecoute.start();
     }
 
     public class RunEcoute implements Runnable {
->>>>>>> origin/master
         MulticastSocket ms;
         Diffuseur container;
 
-<<<<<<< HEAD
         public RunEcoute(MulticastSocket ms, Diffuseur container) {
-=======
-        public RunEcoute(MulticastSocket ms) {
->>>>>>> origin/master
             this.ms = ms;
             this.container = container;
         }
@@ -174,15 +142,10 @@ public class Diffuseur {
                     ms.receive(paquet);
                     String[] paquetSplit = new String(paquet.getData(), 0, paquet.getLength()).split(" ", 4);
                     if (paquetSplit[0].equals("DIFF")) {
-<<<<<<< HEAD
                         if (container.pw == null) {
                             Client.afficher(paquetSplit[2] + " : " + paquetSplit[3]);
                         } else {
                             container.pw.println(paquetSplit[2] + " : " + paquetSplit[3]);
-=======
-                        if (show) {
-                            Client.afficher(paquetSplit[2] + " : " + paquetSplit[3]);
->>>>>>> origin/master
                         }
                     }
                 } catch (Exception e) {

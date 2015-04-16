@@ -1,4 +1,3 @@
-import java.io.PrintWriter;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -33,13 +32,14 @@ public class Client {
                         //Liste des commandes
                         if ("-help".equals(lectureSplit[0])) {
                             afficher("Liste des commandes : \n");
-                            afficher("-help : Liste des co-mmandes");
+                            afficher("-help : Liste des commandes");
                             afficher("-name nouveauNom : Change le nom d'utilisateur");
                             afficher("-connectG adresse port : Se connecter a un gestionnaire et ajouter ses diffuseurs");
                             afficher("-abonne nom : Se connecter a un diffuseur connu");
                             afficher("-desabonne nom : Se déconnecter a un diffuseur connecté");
                             afficher("-hide nom : Cacher temporairement les message d'un diffuseur connecté");
                             afficher("-show nom : Afficher les message d'un diffuseur connecté");
+                            afficher("-redirect nom sortie : Redirect la sortie d'un diffuseur vers un terminal ouvert");
                             afficher("-liste connu/connecte : Affiche la liste des diffuseur connu/connecté\n");
                         }//Changer de nom
                         else if ("-name".equals(lectureSplit[0])) {
@@ -90,7 +90,7 @@ public class Client {
                             } else {
                                 afficher("Mauvais nombre d'arguments\n");
                             }
-                        }else if ("-liste".equals(lectureSplit[0])) {
+                        } else if ("-liste".equals(lectureSplit[0])) {
                             if (taille > 1) {
                                 if ("connu".equals(lectureSplit[1])) {
                                     Diffuseur.liste(true);
@@ -99,6 +99,12 @@ public class Client {
                                 } else {
                                     afficher("Mauvais utilisation de -liste : ");
                                     afficher("-liste connu/connecte : Affiche la liste des diffuseur connu/connecté\n");
+                                }
+                            } else if ("-redirect".equals(lectureSplit[0])) {
+                                if (taille > 2) {
+                                    Diffuseur.changeSortie(lectureSplit[1],lectureSplit[2]);
+                                } else {
+                                    afficher("Mauvais nombre d'arguments\n");
                                 }
                             } else {
                                 afficher("Mauvais nombre d'arguments\n");
