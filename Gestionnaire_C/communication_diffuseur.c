@@ -52,7 +52,7 @@ int add_to_list(list_diff_t *listDiffT, char* buff, pthread_mutex_t *verrou){
     while (listDiffT->liste[listDiffT->first] != NULL && listDiffT->first < listDiffT->max){
         listDiffT->first++;
     }
-    
+
     if(listDiffT->first >= listDiffT->max){
         return -1;
     }
@@ -96,6 +96,7 @@ int ask_ruok(int desc_socket, list_diff_t *listDiffT, int place, struct pollfd *
     fcntl( desc_socket, F_SETFL, O_NONBLOCK);
     int flag = 1;
     while (1) {
+        sleep(10);
         #ifdef DEBUG
         printf("%s; send RUOK\n", listDiffT->liste[place]->id);
         #endif
@@ -105,7 +106,7 @@ int ask_ruok(int desc_socket, list_diff_t *listDiffT, int place, struct pollfd *
         #ifdef DEBUG
         printf("%s: poll 10sec\n", listDiffT->liste[place]->id);
         #endif
-        poll(p,1,10000);
+        poll(p,1,4000);
         char *buff = malloc(sizeof(char) * 1024);
         if(p[0].revents==POLLIN){
             ssize_t recu = recv(desc_socket, buff, 1023 * sizeof(char), 0);
