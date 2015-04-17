@@ -1,7 +1,4 @@
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
@@ -122,6 +119,41 @@ public class Diffuseur {
         ecoute = new Thread(new RunEcoute(ms, dc));
         show = true;
         ecoute.start();
+    }
+
+    public static void newTerm() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Process p = null;
+                    p = Runtime.getRuntime().exec("gnome-terminal");
+                    PrintWriter pw = new PrintWriter(new OutputStreamWriter(p.getOutputStream()));
+                    pw.println("ls");
+                    pw.flush();
+                    System.out.println(new BufferedReader(new InputStreamReader(p.getInputStream())).readLine());
+                    System.out.println(new BufferedReader(new InputStreamReader(p.getInputStream())).readLine());
+                    System.out.println(new BufferedReader(new InputStreamReader(p.getInputStream())).readLine());
+                    System.out.println(new BufferedReader(new InputStreamReader(p.getInputStream())).readLine());
+                    p.waitFor();
+                } catch (Exception e) {
+                    try {
+                        Process p = null;
+                        p = Runtime.getRuntime().exec("xterm");
+                        PrintWriter pw = new PrintWriter(new OutputStreamWriter(p.getOutputStream()));
+                        pw.println("ls");
+                        pw.flush();
+                        System.out.println(new BufferedReader(new InputStreamReader(p.getInputStream())).readLine());
+                        System.out.println(new BufferedReader(new InputStreamReader(p.getInputStream())).readLine());
+                        System.out.println(new BufferedReader(new InputStreamReader(p.getInputStream())).readLine());
+                        System.out.println(new BufferedReader(new InputStreamReader(p.getInputStream())).readLine());
+                        p.waitFor();
+                    } catch (Exception ee) {
+                        ee.printStackTrace();
+                    }
+                }
+            }
+        }).start();
     }
 
     public class RunEcoute implements Runnable {
