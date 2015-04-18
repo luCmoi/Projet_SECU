@@ -11,11 +11,17 @@ int initialise_diffuseur(char *buff, diffuseur_t *diff){
 
     }
     token = strsep(&buff, " ");
-    for (i = 0; i < SIZE_IP; ++i) {
-        if(i < strlen(token))
+    if(strlen(token) == SIZE_IP){
+        for (i = 0; i < SIZE_IP; ++i) {
             diff->ip1[i] = token[i];
-        else diff->ip1[i] = '#';
+        }
     }
+    else {
+        int a1, a2, a3, a4;
+        sscanf(token, "%i.%i.%i.%i", &a1, &a2, &a3, &a4);
+        snprintf(diff->ip1, sizeof(diff->ip1), "%03i.%03i.%03i.%03i", a1, a2, a3, a4);
+    }
+
     token = strsep(&buff, " ");
     for (i = 0; i < SIZE_PORT; ++i) {
         if(i < strlen(token))
@@ -23,10 +29,15 @@ int initialise_diffuseur(char *buff, diffuseur_t *diff){
         else diff->port1[i] = '#';
     }
     token = strsep(&buff, " ");
-    for (i = 0; i < SIZE_IP; ++i) {
-        if(i < strlen(token))
+    if(strlen(token) == SIZE_IP){
+        for (i = 0; i < SIZE_IP; ++i) {
             diff->ip2[i] = token[i];
-        else diff->ip2[i] = '#';
+        }
+    }
+    else {
+        int a1, a2, a3, a4;
+        sscanf(token, "%i.%i.%i.%i", &a1, &a2, &a3, &a4);
+        snprintf(diff->ip2, sizeof(diff->ip2), "%03i.%03i.%03i.%03i", a1, a2, a3, a4);
     }
     token = strsep(&buff, " ");
     for (i = 0; i < SIZE_PORT; ++i) {

@@ -9,7 +9,12 @@ void list_diff_to_client(int desc_socket, list_diff_t *listDiffT, pthread_mutex_
     printf("Un clien a demander la list des diffuseurs\n");
     printf_diffuseur_list(listDiffT);
     char mess[SIZE_LINB];
-    sprintf(mess, "%s %2d%s", LINB, listDiffT->nombre, END_LINE);
+    if(listDiffT->nombre < 10){
+        sprintf(mess, "%s 0%d%s", LINB, listDiffT->nombre, END_LINE);
+    }
+    else {
+        sprintf(mess, "%s %d%s", LINB, listDiffT->nombre, END_LINE);
+    }
 
     send(desc_socket, mess, (sizeof(char) * (SIZE_LINB)), 0);
     char item[SIZE_ITEM + 1];
