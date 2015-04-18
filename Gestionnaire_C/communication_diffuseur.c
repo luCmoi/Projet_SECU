@@ -2,33 +2,36 @@
 
 int initialise_diffuseur(char *buff, diffuseur_t *diff){
     int i;
-    buff = strsep(&buff, " ");
+    char *token;
+    token = strsep(&buff, " ");
     for (i = 0; i < SIZE_ID; ++i) {
-        if(i < strlen(buff))
-            diff->id[i] = buff[i];
+        if(i < strlen(token))
+            diff->id[i] = token[i];
         else diff->id[i] = '#';
 
     }
-    buff = strsep(&buff, " ");
+    token = strsep(&buff, " ");
     for (i = 0; i < SIZE_IP; ++i) {
-        if(i < strlen(buff))
-            diff->ip1[i] = buff[i];
+        if(i < strlen(token))
+            diff->ip1[i] = token[i];
         else diff->ip1[i] = '#';
     }
-    buff = strsep(&buff, " ");
+    token = strsep(&buff, " ");
     for (i = 0; i < SIZE_PORT; ++i) {
-        if(i < strlen(buff))
-            diff->port1[i] = buff[i];
+        if(i < strlen(token))
+            diff->port1[i] = token[i];
         else diff->port1[i] = '#';
     }
+    token = strsep(&buff, " ");
     for (i = 0; i < SIZE_IP; ++i) {
-        if(i < strlen(buff))
-            diff->ip2[i] = buff[i];
+        if(i < strlen(token))
+            diff->ip2[i] = token[i];
         else diff->ip2[i] = '#';
     }
+    token = strsep(&buff, " ");
     for (i = 0; i < SIZE_PORT; ++i) {
-        if(i < strlen(buff))
-            diff->port2[i] = buff[i];
+        if(i < strlen(token))
+            diff->port2[i] = token[i];
         else diff->port2[i] = '#';
     }
 
@@ -57,9 +60,10 @@ int add_to_list(list_diff_t *listDiffT, char* buff, pthread_mutex_t *verrou){
         return -1;
     }
 
-    printf("Ajout de %s dans la liste des diffuseurs\n", listDiffT->liste[listDiffT->first]->id);
+    //printf("regi : %s", buff);
     listDiffT->liste[listDiffT->first] = malloc(sizeof(diffuseur_t));
     initialise_diffuseur(buff,listDiffT->liste[listDiffT->first]);
+    printf("Ajout de %s dans la liste des diffuseurs\n", listDiffT->liste[listDiffT->first]->id);
     listDiffT->nombre++;
     listDiffT->first++;
     pthread_mutex_unlock(verrou);
@@ -87,7 +91,7 @@ void remove_from_list(list_diff_t *listDiffT, int el, pthread_mutex_t *verrou){
 
 
 /**
- * Demande au diffuseur s'il est toujour connecté
+ * Demande au diffuseur s'il est toujours connecté
  * inf-loop
  */
 int ask_ruok(int desc_socket, list_diff_t *listDiffT, int place, struct pollfd *p) {
