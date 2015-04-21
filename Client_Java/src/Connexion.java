@@ -196,7 +196,7 @@ public class Connexion {
                         dispose();
                     }
                 } else {
-                    Client.afficher("Vous n'êtes connecté a rien\n");
+                    Client.afficher("Vous n'êtes connecté à rien\n");
                     dispose();
                 }
             }
