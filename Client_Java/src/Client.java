@@ -6,7 +6,6 @@ public class Client {
 
     public static String nom = "Default";
     public static ArrayDeque<String> sortieStandard = new ArrayDeque<String>();
-    public static Connexion connexion;
     public static ArrayList<Diffuseur> diffuseursConnus = new ArrayList<Diffuseur>();
     public static ArrayList<Diffuseur> diffuseursConnecte = new ArrayList<Diffuseur>();
 
@@ -34,9 +33,11 @@ public class Client {
                             afficher("Liste des commandes : \n");
                             afficher("-help : Liste des commandes");
                             afficher("-name nouveauNom : Change le nom d'utilisateur");
-                            afficher("-connectG adresse port : Se connecter a un gestionnaire et ajouter ses diffuseurs");
+                            afficher("-listeG adresse port : Se connecter a un gestionnaire et ajouter ses diffuseurs à la listee des connus");
                             afficher("-abonne nom : Se connecter a un diffuseur connu");
                             afficher("-desabonne nom : Se déconnecter a un diffuseur connecté");
+                            afficher("-post nomDiffuseur message : Envois un message de 140 char max a un diffuseur");
+                            afficher("-ancien nomDiffuseur nombre : Demande la liste des anciens messages a un diffuseur");
                             afficher("-hide nom : Cacher temporairement les message d'un diffuseur connecté");
                             afficher("-show nom : Afficher les message d'un diffuseur connecté");
                             afficher("-redirect nom sortie : Redirect la sortie d'un diffuseur vers un terminal ouvert");
@@ -49,11 +50,11 @@ public class Client {
                                 nom = "Default";
                             }
                             afficher("Votre nouveau nom est " + nom + "\n");
-                        } //Se connecter (Pour l'instant uniquement gestionnaire)
-                        else if ("-connectG".equals(lectureSplit[0])) {
+                        } //Se connecter et récuperer la liste d'un gestionnaire
+                        else if ("-listeG".equals(lectureSplit[0])) {
                             if (taille >= 3) {
                                 try {
-                                    connexion = new Connexion(lectureSplit[1], Integer.parseInt(lectureSplit[2]), true);
+                                    new Connexion(lectureSplit[1], Integer.parseInt(lectureSplit[2])).getListe();
                                 } catch (Exception e) {
                                     Client.afficher("Un port doit etre un nombre\n");
                                 }
@@ -61,9 +62,6 @@ public class Client {
                                 afficher("Mauvaise utilisation de -connectG ; ");
                                 afficher("-connectG adresse port : Se connecter a un gestionnaire et ajouter ses diffuseur\n");
                             }
-                        }//Sur un gestionnaire recuperer la liste
-                        else if ("-liste".equals(lectureSplit[0]) && connexion != null) {
-                            connexion.getListe();
                             //Se connecte a un diffuseur
                         } else if ("-abonne".equals(lectureSplit[0])) {
                             if (taille > 1) {
@@ -87,6 +85,18 @@ public class Client {
                         } else if ("-show".equals(lectureSplit[0])) {
                             if (taille > 1) {
                                 Diffuseur.show(lectureSplit[1]);
+                            } else {
+                                afficher("Mauvais nombre d'arguments\n");
+                            }
+                        } else if ("-post".equals(lectureSplit[0])) {
+                            if (taille > 2) {
+                                Diffuseur.post(lectureSplit[1], lectureSplit[2]);
+                            } else {
+                                afficher("Mauvais nombre d'arguments\n");
+                            }
+                        } else if ("-ancien".equals(lectureSplit[0])) {
+                            if (taille > 2) {
+                                Diffuseur.ancien(lectureSplit[1],lectureSplit[2]);
                             } else {
                                 afficher("Mauvais nombre d'arguments\n");
                             }
@@ -119,7 +129,7 @@ public class Client {
     }
 
     public static void main(String[] args) {
-        Diffuseur.newTerm();
+        //Diffuseur.newTerm();
         afficher("Bonjour, votre nom est default, taper -help pour recevoir la liste des commandes.\n");
         new Thread(new RunnableRecep()).start();
     }

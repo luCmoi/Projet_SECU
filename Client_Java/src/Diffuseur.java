@@ -156,6 +156,21 @@ public class Diffuseur {
         }).start();
     }
 
+    public static void post(String nom, String message) {
+        Diffuseur dc = cherche(true, nom);
+        if (dc != null) {
+            new Connexion(dc.ip2, dc.port2).post(message);
+        }
+    }
+
+    public static void ancien(String nom, String nombre) {
+        Diffuseur dc = cherche(true, nom);
+        if (dc != null) {
+                new Connexion(dc.ip2, dc.port2).affiche(nombre);
+        }
+    }
+
+
     public class RunEcoute implements Runnable {
         MulticastSocket ms;
         Diffuseur container;
