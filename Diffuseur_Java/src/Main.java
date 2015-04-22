@@ -8,10 +8,10 @@ public class Main {
     }
 
     public static void main(String [] args){
-        Diffuseur d = new Diffuseur("Allo", 1234, "225.77.13.99", 9999);
-        Diff_to_Gestionnaire dtg = new Diff_to_Gestionnaire(d, 7896);
+        Diffuseur d = new Diffuseur("LINUX ", 1234, "225.77.13.99", 9999);
+        Diff_to_Gestionnaire dtg = new Diff_to_Gestionnaire(d, 7895);
         Diff_to_multi dtm = new Diff_to_multi(d);
-        d.initatise_messages("/media/data/git/Projet_Tweetoradio/text_diff_coree.txt");
+        d.initatise_messages("/media/data/git/Projet_Tweetoradio/linux");
         Thread t = new Thread(dtm);
         t.start();
         t = new Thread(dtg);

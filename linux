@@ -1,0 +1,48 @@
+Linux est le nom couramment donné à tout système d'exploitation libre fonctionnant avec le noyau Linux.
+C'est une implémentation libre du système UNIX respectant les spécifications POSIX.
+Ce système est né de la rencontre entre le mouvement du logiciel libre et le modèle de développement collaboratif et
+décentralisé via Internet. Son nom vient du créateur du noyau Linux, Linus Torvalds.
+La Free Software Foundation préfère utiliser le nom GNU/Linux, ce qui a conduit à une certaine controverse.
+
+Les systèmes basés sur Linux sont majoritaires pour les super-ordinateurs et les smartphones. Sur les serveurs informatiques,
+le marché est partagé avec les autres Unix et Windows. Il est largement utilisé comme système
+embarqué dans les appareils électroniques : télévision, modem, GPS, etc. Il reste en revanche utilisé par une minorité des ordinateurs personnels de bureau, sa plate-forme d'origine, bien que cela tende à augmenter.
+
+Le système avec toutes ses applications est distribué sous la forme de distributions Linux comme Slackware,
+Debian ou Red Hat Enterprise Linux.
+
+Naissance de Linux
+
+En 1991, les compatibles PC dominent le marché des ordinateurs personnels et fonctionnent généralement avec les systèmes
+d'exploitation MS-DOS, Windows ou OS/2. Les PC basés sur le microprocesseur Intel 80386, vendus depuis 1986,
+commencent à être abordables. Mais les systèmes grand public restent attachés à la compatibilité avec les
+anciens processeurs 16 bits d'Intel et exploitent mal les capacités 32 bits et l'unité de gestion mémoire du 80386.
+
+C'est cette année que l’étudiant finlandais Linus Torvalds, indisposé par la faible disponibilité du
+serveur informatique UNIX de l’université d'Helsinki, entreprend le développement d’un noyau de système d'exploitation, qu’on
+appellera plus tard le « noyau Linux ». Linus désire alors surtout comprendre le fonctionnement de son
+ordinateur fondé sur un Intel 80386.
+
+Linus Torvalds fait son apprentissage avec le système d’exploitation Minix. Comme le concepteur de Minix —
+Andrew Tanenbaum — refuse d’intégrer les contributions visant à améliorer Minix, Linus décide de programmer un
+remplaçant de Minix. Il commence par développer un simple émulateur de terminal, qu’il utilise pour se connecter
+via un modem au serveur informatique de son université. Après l’ajout de diverses fonctionnalités dont un système
+de fichiers compatible avec celui de Minix, Linus oriente son projet vers quelque chose de plus ambitieux :
+un noyau aux normes POSIX. À ce noyau, il adapte de nombreux composants disponibles du système d’exploitation
+GNU pour obtenir un système d’exploitation plus complet.
+
+Le 26 août 1991, il annonce1 sur le forum Usenet news:comp.os.minix qu'il écrit un système d'exploitation,
+mais en tant que « hobby, qui ne sera pas grand et professionnel comme gnu ». Le 5 octobre 1991, il annonce la
+disponibilité d’une ébauche de la version 0.02 de son noyau, la version 0.01 ayant eu une diffusion plus que
+confidentielle2 Enfin en février 1992, la version 0.12 est diffusée sous la Licence publique générale GNU (GNU GPL)
+à la place de la licence ad hoc qui interdisait jusque-là la redistribution commerciale3.
+
+Depuis, des centaines de passionnés et des entreprises de toutes tailles participent au projet, dont
+Linus Torvalds est toujours le coordinateur. Eric Raymond décrit dans l'essai La Cathédrale et le Bazar (2001)
+le modèle de développement du noyau Linux et d’une partie des logiciels libres4.
+
+Initialement appelé Freax par son créateur, le projet trouve son nom définitif grâce à Ari Lemmke5,
+administrateur du serveur FTP ftp.funet.fi, qui héberge le travail de Linus Torvalds dans un répertoire nommé
+Linux. C’est la première apparition d’un terme composé à partir de « Linus » et « UNIX », qui deviendra par
+la suite une marque déposée au nom de Linus Torvalds6. Le manchot Tux, dessiné par Larry Ewing en 1996, devient
+la mascotte du projet.

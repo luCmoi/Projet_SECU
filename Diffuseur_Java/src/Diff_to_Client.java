@@ -32,6 +32,8 @@ public class Diff_to_Client implements Runnable{
                     // TODO : ajout du message taille != 3
                 }
                 diff.ajoute_message(new Message(tab[2], tab[1]));
+                pw.print("ACKM\r\n");
+                pw.flush();
 
             }
             else if(message.startsWith("LAST")){
