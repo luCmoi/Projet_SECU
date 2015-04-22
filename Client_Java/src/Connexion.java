@@ -1,4 +1,5 @@
 import java.io.*;
+import java.lang.System;
 import java.net.Socket;
 
 public class Connexion {
@@ -40,7 +41,7 @@ public class Connexion {
                             long timer = System.currentTimeMillis();
                             int taille = Integer.parseInt(lecture[1]);
                             int lu = 0;
-                            Client.afficher("Liste de diffuseurs disponibles : " + taille);
+                            Client.afficher("Liste de diffusetu eurs disponibles : " + taille);
                             //Lecture des diffuseurs
                             while (lu < taille) {
                                 //Temps d'attente dépassé
@@ -204,4 +205,3 @@ public class Connexion {
         ).start();
     }
 }
-

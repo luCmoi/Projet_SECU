@@ -21,6 +21,7 @@ public class Diff_to_Client implements Runnable{
             BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintWriter pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
             String message = br.readLine();
+            System.out.println(message);
             if (message == null){
                 // TODO : erreur message reçu du client null
             }

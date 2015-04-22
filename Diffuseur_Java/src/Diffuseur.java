@@ -1,8 +1,5 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetSocketAddress;
 import java.util.ArrayList;
 
 public class Diffuseur{

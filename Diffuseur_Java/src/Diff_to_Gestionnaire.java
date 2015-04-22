@@ -25,6 +25,7 @@ public class Diff_to_Gestionnaire implements Runnable{
                 BufferedReader br = new BufferedReader(new InputStreamReader(sock.getInputStream()));
                 PrintWriter pw = new PrintWriter(new OutputStreamWriter(sock.getOutputStream()));
                 String reg = "REGI " + diff.getId() + " " + diff.getIp_multibroadcast() + " " + diff.getPort_multi_diffusion() + " " + servAddr + " " + diff.getPort_user_message() + "\r\n";
+                System.out.println(reg);
                 pw.println(reg);
                 pw.flush();
 
