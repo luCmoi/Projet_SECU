@@ -90,7 +90,7 @@ public class Connexion {
 
 
     public String rempli(String mess, int taille) {
-        Character[] message = new Character[taille];
+        char[] message = new char[taille];
         for (int i = 0; i < message.length; i++) {
             if (i < mess.length()) {
                 message[i] = mess.charAt(i);
@@ -98,23 +98,23 @@ public class Connexion {
                 message[i] = '#';
             }
         }
-        return message.toString();
+        return new String(message);
     }
 
     public String rempliDevan(String mess, int taille) {
-        Character[] message = new Character[taille];
+        char[] message = new char[taille];
         int i;
         for (i = mess.length(); i >= 0; i--) {
             message[message.length - (mess.length() - i)] = mess.charAt(mess.length() - i);
         }
         for (i = 0; i < taille; i++) {
-            if (message[i] == null) {
+            if (message[i]=='\0') {
                 message[i] = '0';
             } else {
                 break;
             }
         }
-        return message.toString();
+        return new String(message);
     }
 
     public void post(final String message) {
