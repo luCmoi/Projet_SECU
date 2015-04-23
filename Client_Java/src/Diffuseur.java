@@ -121,37 +121,52 @@ public class Diffuseur {
         ecoute.start();
     }
 
-    public static void newTerm() {
+    public void recupNom() {
+        String line;
+        String file_path = "/tmp/lectureNomTerm";
+
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file_path));
+            line = br.readLine();
+            br.close();
+        } catch (Exception e) {
+            Client.afficher("Echec a la lecture du nom de terminal " + e.getMessage());
+            return;
+        }
+        new File(file_path).delete();
+        try {
+            pw = new PrintWriter(new BufferedWriter(new FileWriter(line)));
+        } catch (IOException e) {
+            Client.afficher("Impossible de rediriger la sortie : " + e.getMessage());
+        }
+    }
+
+    public void newTerm() {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    Process p = null;
-                    p = Runtime.getRuntime().exec("gnome-terminal");
-                    PrintWriter pw = new PrintWriter(new OutputStreamWriter(p.getOutputStream()));
-                    pw.println("ls");
-                    pw.flush();
-                    System.out.println(new BufferedReader(new InputStreamReader(p.getInputStream())).readLine());
-                    System.out.println(new BufferedReader(new InputStreamReader(p.getInputStream())).readLine());
-                    System.out.println(new BufferedReader(new InputStreamReader(p.getInputStream())).readLine());
-                    System.out.println(new BufferedReader(new InputStreamReader(p.getInputStream())).readLine());
+                    Process p;
+                    String file_path = "/tmp/lectureNomTerm";
+                    String cmd[] = new String[]{"gnome-terminal", "-e", "bash -c \"tty 1> " + file_path + "; exec bash\""};
+                    p = Runtime.getRuntime().exec(cmd);
                     p.waitFor();
+                    Thread.sleep(500);
+                    Diffuseur.this.recupNom();
                 } catch (Exception e) {
                     try {
-                        Process p = null;
-                        p = Runtime.getRuntime().exec("xterm");
-                        PrintWriter pw = new PrintWriter(new OutputStreamWriter(p.getOutputStream()));
-                        pw.println("ls");
-                        pw.flush();
-                        System.out.println(new BufferedReader(new InputStreamReader(p.getInputStream())).readLine());
-                        System.out.println(new BufferedReader(new InputStreamReader(p.getInputStream())).readLine());
-                        System.out.println(new BufferedReader(new InputStreamReader(p.getInputStream())).readLine());
-                        System.out.println(new BufferedReader(new InputStreamReader(p.getInputStream())).readLine());
+                        Process p;
+                        String file_path = "/tmp/lectureNomTerm";
+                        String cmd[] = new String[]{"xterm", "-e", "bash -c \"tty 1> " + file_path + "; exec bash\""};
+                        p = Runtime.getRuntime().exec(cmd);
                         p.waitFor();
+                        Thread.sleep(500);
+                        Diffuseur.this.recupNom();
                     } catch (Exception ee) {
                         ee.printStackTrace();
                     }
                 }
+
             }
         }).start();
     }
@@ -166,7 +181,7 @@ public class Diffuseur {
     public static void ancien(String nom, String nombre) {
         Diffuseur dc = cherche(true, nom);
         if (dc != null) {
-                new Connexion(dc.ip2, dc.port2).affiche(nombre);
+            new Connexion(dc.ip2, dc.port2).affiche(nombre);
         }
     }
 
@@ -182,6 +197,7 @@ public class Diffuseur {
 
         @Override
         public void run() {
+            container.newTerm();
             byte[] data = new byte[1024];
             DatagramPacket paquet = new DatagramPacket(data, data.length);
             while (!Thread.currentThread().isInterrupted()) {

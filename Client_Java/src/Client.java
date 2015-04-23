@@ -96,7 +96,7 @@ public class Client {
                             }
                         } else if ("-ancien".equals(lectureSplit[0])) {
                             if (taille > 2) {
-                                Diffuseur.ancien(lectureSplit[1],lectureSplit[2]);
+                                Diffuseur.ancien(lectureSplit[1], lectureSplit[2]);
                             } else {
                                 afficher("Mauvais nombre d'arguments\n");
                             }
@@ -112,7 +112,7 @@ public class Client {
                                 }
                             } else if ("-redirect".equals(lectureSplit[0])) {
                                 if (taille > 2) {
-                                    Diffuseur.changeSortie(lectureSplit[1],lectureSplit[2]);
+                                    Diffuseur.changeSortie(lectureSplit[1], lectureSplit[2]);
                                 } else {
                                     afficher("Mauvais nombre d'arguments\n");
                                 }

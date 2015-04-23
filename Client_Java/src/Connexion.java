@@ -109,7 +109,7 @@ public class Connexion {
             message[message.length - (mess.length() - i)] = mess.charAt(mess.length() - i);
         }
         for (i = 0; i < taille; i++) {
-            if (message[i]=='\0') {
+            if (message[i] == '\0') {
                 message[i] = '0';
             } else {
                 break;
@@ -185,10 +185,10 @@ public class Connexion {
                     pw.flush();
                     try {
                         //Reçu des messages
-                        String [] lecture;
-                        while(!br.readLine().equals("ENDM")){
+                        String[] lecture;
+                        while (!br.readLine().equals("ENDM")) {
                             lecture = br.readLine().split(" ");
-                            Client.afficher(lecture[2]+" : "+lecture[3]);
+                            Client.afficher(lecture[2] + " : " + lecture[3]);
                         }
                         Client.afficher("");
                         dispose();
