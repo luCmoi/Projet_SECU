@@ -129,12 +129,6 @@ public class Diffuseur {
                     Process p = null;
                     p = Runtime.getRuntime().exec("gnome-terminal");
                     PrintWriter pw = new PrintWriter(new OutputStreamWriter(p.getOutputStream()));
-                    pw.println("ls");
-                    pw.flush();
-                    System.out.println(new BufferedReader(new InputStreamReader(p.getInputStream())).readLine());
-                    System.out.println(new BufferedReader(new InputStreamReader(p.getInputStream())).readLine());
-                    System.out.println(new BufferedReader(new InputStreamReader(p.getInputStream())).readLine());
-                    System.out.println(new BufferedReader(new InputStreamReader(p.getInputStream())).readLine());
                     p.waitFor();
                 } catch (Exception e) {
                     try {
