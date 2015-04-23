@@ -21,17 +21,19 @@ public class Diff_to_Client implements Runnable{
             BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintWriter pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
             String message = br.readLine();
-            System.out.println(message);
+
             if (message == null){
                 // TODO : erreur message reçu du client null
             }
             else if(message.startsWith("MESS")){
+                System.out.println(message);
                 // TODO : ajout du message client dans la liste
 
-                String [] tab = message.split(message);
+                String [] tab = message.split(" ", 3);
                 if (tab.length != 3){
                     // TODO : ajout du message taille != 3
                 }
+                System.out.println(tab.length);
                 diff.ajoute_message(new Message(tab[2], tab[1]));
                 pw.print("ACKM\r\n");
                 pw.flush();
@@ -39,6 +41,11 @@ public class Diff_to_Client implements Runnable{
             }
             else if(message.startsWith("LAST")){
                 // TODO : envoi des n derniers messages diffusé
+                String [] tab = message.split(" ");
+                if (tab.length != 3){
+                    // TODO : Last n messsages != 2
+                }
+
             }
 
 
@@ -46,6 +53,7 @@ public class Diff_to_Client implements Runnable{
             pw.close();
             socket.close();
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("Communication failed. Quitting...");
             System.out.println("Connection closed. Try again later.");
             System.exit(0);

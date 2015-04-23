@@ -65,6 +65,7 @@ public class Diffuseur{
     }
 
     public void ajoute_message(Message mess){
+        System.out.println("\n\n\n\ncurr: "+this.curent_message);
         this.liste_message.add(this.curent_message, mess);
     }
 
@@ -135,7 +136,8 @@ public class Diffuseur{
     }
 
     public String getNext_message(){
-        return this.getNext_message_M().id + " " + this.getNext_message_M().message;
+        this.getNext_message_M().setAlready_send(true);
+        return this.getNext_message_M().getId() + " " + this.getNext_message_M().getMessage();
     }
 
     public void setCurent_message() {
