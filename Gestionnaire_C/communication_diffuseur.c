@@ -3,9 +3,8 @@
 int initialise_diffuseur(char *buff, diffuseur_t *diff){
     int i;
     char *token;
-    printf("buff :%s.\n", buff);
+    int a1, a2, a3, a4;
     token = strsep(&buff, " ");
-    printf("id :%s.\n", token);
     for (i = 0; i < SIZE_ID; ++i) {
         if(i < strlen(token))
             diff->id[i] = token[i];
@@ -13,44 +12,20 @@ int initialise_diffuseur(char *buff, diffuseur_t *diff){
 
     }
     token = strsep(&buff, " ");
-    printf("ip :%s.\n", token);
-    if(strlen(token) == SIZE_IP){
-        for (i = 0; i < SIZE_IP; ++i) {
-            diff->ip1[i] = token[i];
-        }
-    }
-    else {
-        int a1, a2, a3, a4;
-        sscanf(token, "%i.%i.%i.%i", &a1, &a2, &a3, &a4);
-        snprintf(diff->ip1, sizeof(diff->ip1), "%03i.%03i.%03i.%03i", a1, a2, a3, a4);
-    }
+    sscanf(token, "%i.%i.%i.%i", &a1, &a2, &a3, &a4);
+    snprintf(diff->ip1, sizeof(diff->ip1), "%03i.%03i.%03i.%03i", a1, a2, a3, a4);
 
     token = strsep(&buff, " ");
-    printf("po :%s.\n", token);
-    for (i = 0; i < SIZE_PORT; ++i) {
-        if(i < strlen(token))
-            diff->port1[i] = token[i];
-        else diff->port1[i] = '#';
-    }
+    sscanf(token, "%i", &a1);
+    snprintf(diff->port1, sizeof(diff->port1), "%04i", a1);
+
     token = strsep(&buff, " ");
-    printf("ip :%s.\n", token);
-    if(strlen(token) == SIZE_IP){
-        for (i = 0; i < SIZE_IP; ++i) {
-            diff->ip2[i] = token[i];
-        }
-    }
-    else {
-        int a1, a2, a3, a4;
-        sscanf(token, "%i.%i.%i.%i", &a1, &a2, &a3, &a4);
-        snprintf(diff->ip2, sizeof(diff->ip2), "%03i.%03i.%03i.%03i", a1, a2, a3, a4);
-    }
+    sscanf(token, "%i.%i.%i.%i", &a1, &a2, &a3, &a4);
+    snprintf(diff->ip2, sizeof(diff->ip2), "%03i.%03i.%03i.%03i", a1, a2, a3, a4);
+
     token = strsep(&buff, " ");
-    printf("po :%s.\n", token);
-    for (i = 0; i < SIZE_PORT; ++i) {
-        if(i < strlen(token))
-            diff->port2[i] = token[i];
-        else diff->port2[i] = '#';
-    }
+    sscanf(token, "%i", &a1);
+    snprintf(diff->port2, sizeof(diff->port2), "%04i", a1);
 
     diff->id[SIZE_ID] = '\0';
     diff->ip1[SIZE_IP] = '\0';

@@ -69,7 +69,7 @@ public class Diffuseur{
         this.liste_message.add(this.curent_message, mess);
     }
 
-    public void ajoute_message_to_current_place(Message mess, int place){
+        public void ajoute_message_to_current_place(Message mess, int place){
         this.liste_message.add(place, mess);
     }
 
