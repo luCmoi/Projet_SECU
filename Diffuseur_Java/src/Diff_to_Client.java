@@ -3,6 +3,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class Diff_to_Client implements Runnable{
 
@@ -42,8 +43,14 @@ public class Diff_to_Client implements Runnable{
             else if(message.startsWith("LAST")){
                 // TODO : envoi des n derniers messages diffusé
                 String [] tab = message.split(" ");
-                if (tab.length != 3){
+                if (tab.length != 2){
                     // TODO : Last n messsages != 2
+                }
+                int nb_message = Integer.parseInt(tab[1]); // TODO : check error type
+                ArrayList<Message> liste = diff.get_last_n_message(nb_message);
+                for (Message  m : liste){
+                    pw.print("OLDM \r\n");
+                    pw.flush();
                 }
 
             }

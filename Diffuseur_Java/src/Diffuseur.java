@@ -69,8 +69,24 @@ public class Diffuseur{
         this.liste_message.add(this.curent_message, mess);
     }
 
-        public void ajoute_message_to_current_place(Message mess, int place){
+    public void ajoute_message_to_current_place(Message mess, int place){
         this.liste_message.add(place, mess);
+    }
+
+    /**
+     * Donne les n derniers messages envoyer par le diffuseur
+     * @param n
+     * @return
+     */
+    public ArrayList<Message> get_last_n_message(int n){
+        ArrayList<Message> liste = new ArrayList<Message>();
+        int i = curent_message;
+        while (n != 0){
+            if(i < 0 ) i = liste_message.size()-1;
+            liste.add(liste_message.get(i));
+            n--;
+        }
+        return liste;
     }
 
      // *************

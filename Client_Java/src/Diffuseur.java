@@ -209,6 +209,7 @@ public class Diffuseur {
                             Client.afficher(paquetSplit[2] + " : " + paquetSplit[3]);
                         } else {
                             container.pw.println(paquetSplit[2] + " : " + paquetSplit[3]);
+                            container.pw.flush();
                         }
                     }
                 } catch (Exception e) {

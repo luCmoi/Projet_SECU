@@ -1,20 +1,20 @@
 #! /usr/bin/bash
 
-echo "Lancement du Gestionnaire\n"
+echo -e "Lancement du Gestionnaire\n"
 cd ./Gestionnaire_C
-gnome-terminal -e "bash -c \"make cleanall; make; ./gestionnaireC 7895 10; exec bash\""
+gnome-terminal -e "bash -c \"make cleanall; make; ./gestionnaireC 7895 10; exec bash\"" --title="Gestionnaire" 2> /dev/null
 
 
 
-echo "Lancement du Diffuseur\n"
+echo -e "Lancement du Diffuseur\n"
 
 cd ../Diffuseur_Java/src
-gnome-terminal -e "bash -c \"javac *.java; java Main\""
+gnome-terminal --tab -e "bash -c \"javac *.java; java Main\"" --title="Diffuseur" 2> /dev/null
 
 cd ../../
 
-echo "Lancement du Client\n"
+echo -e "Lancement du Client\n"
 cd ./Client_Java/src
-gnome-terminal -e "bash -c \"javac *.java; java Client\""
+gnome-terminal -e "bash -c \"javac *.java; java Client\"" --title="Client" 2> /dev/null
 
-cd ../..
+cd ..
