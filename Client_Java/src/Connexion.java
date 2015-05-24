@@ -105,8 +105,8 @@ public class Connexion {
     public String rempliDevan(String mess, int taille) {
         char[] message = new char[taille];
         int i;
-        for (i = mess.length(); i >= 0; i--) {
-            message[message.length - (mess.length() - i)] = mess.charAt(mess.length() - i);
+        for (i = mess.length(); i >= 1; i--) {
+            message[message.length - 1 - (mess.length() - i)] = mess.charAt(mess.length() - i);
         }
         for (i = 0; i < taille; i++) {
             if (message[i] == '\0') {
