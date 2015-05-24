@@ -51,9 +51,10 @@ public class Connexion {
                                 }
                                 lecture = br.readLine().split(" ");
                                 if (lecture[0].equals("ITEM")) {
-                                    Client.diffuseursConnus.add(new Diffuseur(lecture[1], lecture[2], Integer.parseInt(lecture[3]), lecture[4], Integer.parseInt(lecture[5])));
+                                    Diffuseur tmp = new Diffuseur(lecture[1], lecture[2], Integer.parseInt(lecture[3]), lecture[4], Integer.parseInt(lecture[5]));
+                                    Client.diffuseursConnus.add(tmp);
                                     lu++;
-                                    Client.afficher("Nouveau diffuseur : " + lecture[1] + " (Ip : " + lecture[2] + ", Port : " + lecture[3] + ", Ip machine : " + lecture[4] + ", Port machine : " + lecture[5] + ") ");
+                                    Client.afficher("Nouveau diffuseur : " + tmp.afficheId() + " (Ip : " + lecture[2] + ", Port : " + lecture[3] + ", Ip machine : " + lecture[4] + ", Port machine : " + lecture[5] + ") ");
                                 }
                             }
                             Client.afficher("");
