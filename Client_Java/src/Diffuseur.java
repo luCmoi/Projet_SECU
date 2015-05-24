@@ -22,6 +22,27 @@ public class Diffuseur {
         this.port2 = port2;
     }
 
+    public String afficheId() {
+        int i;
+        for (i = id.length() - 1; i > 0; i--) {
+            if (id.charAt(i) != '#') {
+                break;
+            }
+        }
+        return id.substring(0, i + 1);
+    }
+
+    public static String traduitId(String nom){
+        if (nom.length()<8) {
+            for (int i = nom.length(); i < 8; i++) {
+                nom = nom + '#';
+            }
+            return nom;
+        }else {
+            return  nom;
+        }
+    }
+
     public static Diffuseur cherche(boolean connu, String nom) {
         ArrayList<Diffuseur> liste;
         if (connu) {
@@ -41,6 +62,7 @@ public class Diffuseur {
 
     //Pause l'écoute d'un diffuseur
     public static void hide(String nom) {
+        nom = traduitId(nom);
         Diffuseur dc = cherche(false, nom);
         if (dc != null) {
             dc.show = false;
@@ -49,6 +71,7 @@ public class Diffuseur {
 
     //Reprend l'écoute d'un diffuseur
     public static void show(String nom) {
+        nom = traduitId(nom);
         Diffuseur dc = cherche(false, nom);
         if (dc != null) {
             dc.show = true;
@@ -69,7 +92,7 @@ public class Diffuseur {
             Client.afficher("Liste vide");
         } else {
             for (Diffuseur dc : liste) {
-                Client.afficher(dc.id + " (Ip : " + dc.ip1 + ", Port : " + dc.port1 + ", Ip machine : " + dc.ip2 + ", Port machine : " + dc.port2 + ") ");
+                Client.afficher(dc.afficheId() + " (Ip : " + dc.ip1 + ", Port : " + dc.port1 + ", Ip machine : " + dc.ip2 + ", Port machine : " + dc.port2 + ") ");
             }
         }
         Client.afficher("\n");
@@ -77,6 +100,7 @@ public class Diffuseur {
 
     //Connection en udp a un diffuseur
     public static void connectUDP(String nom) {
+        nom = traduitId(nom);
         Diffuseur dc = cherche(true, nom);
         if (dc != null) {
             if (Client.diffuseursConnecte.contains(dc)) {
@@ -97,6 +121,7 @@ public class Diffuseur {
 
     //Deconnection en udp a un diffuseur
     public static void deconnectUDP(String nom) {
+        nom = traduitId(nom);
         Diffuseur dc = cherche(false, nom);
         if (dc != null) {
             dc.ecoute.interrupt();
@@ -106,6 +131,7 @@ public class Diffuseur {
     }
 
     public static void changeSortie(String nom, String sortie) {
+        nom = traduitId(nom);
         Diffuseur dc = cherche(false, nom);
         try {
             dc.pw = new PrintWriter(new BufferedWriter(new FileWriter(sortie)));

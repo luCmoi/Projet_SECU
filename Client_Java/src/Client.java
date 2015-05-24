@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -131,7 +132,6 @@ public class Client {
     }
 
     public static void main(String[] args) {
-        //Diffuseur.newTerm();
         afficher("Bonjour, votre nom est default, taper -help pour recevoir la liste des commandes.\n");
         new Thread(new RunnableRecep()).start();
     }
