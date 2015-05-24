@@ -14,7 +14,7 @@ public class Main {
         file_path = "/home/renaud/Documents/test_Term/src/t";
         cmd = new String[]{"gnome-terminal", "-e", "bash -c \"tty 1> " + file_path + "; exec bash\""};
 
-        rt = Runtime&.getRuntime();
+        rt = Runtime.getRuntime();
         proc = rt.exec(cmd);
         proc.waitFor();
         Thread.sleep(500);

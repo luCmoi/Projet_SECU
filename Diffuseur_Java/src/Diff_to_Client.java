@@ -49,9 +49,12 @@ public class Diff_to_Client implements Runnable{
                 int nb_message = Integer.parseInt(tab[1]); // TODO : check error type
                 ArrayList<Message> liste = diff.get_last_n_message(nb_message);
                 for (Message  m : liste){
-                    pw.print("OLDM \r\n");
+                    pw.print("OLDM 1 " + m.getId() + " " + m.getMessage() + "\r\n");
+                    
                     pw.flush();
                 }
+                pw.print("ENDM\r\n");
+                pw.flush();
 
             }
 
