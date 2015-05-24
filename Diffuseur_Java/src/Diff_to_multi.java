@@ -19,7 +19,7 @@ public class Diff_to_multi  implements Runnable{
             while (true){
                 Thread.sleep(1000);
                 String s = "DIFF " + diff.getNum_message() + " " + diff.getNext_message() + "\r\n";
-                System.out.println(s);
+                //System.out.println(s);
                 data = s.getBytes();
                 diff.setCurent_message();
                 diff.setNum_message();

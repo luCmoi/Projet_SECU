@@ -22,43 +22,29 @@ public class Diff_to_Client implements Runnable{
             BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintWriter pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
             String message = br.readLine();
-
-            if (message == null){
-                // TODO : erreur message reçu du client null
-            }
+            if (message == null)return;
             else if(message.startsWith("MESS")){
                 System.out.println(message);
-                // TODO : ajout du message client dans la liste
-
                 String [] tab = message.split(" ", 3);
-                if (tab.length != 3){
-                    // TODO : ajout du message taille != 3
-                }
-                System.out.println(tab.length);
+                if (tab.length != 3) return;
                 diff.ajoute_message(new Message(tab[2], tab[1]));
                 pw.print("ACKM\r\n");
                 pw.flush();
 
             }
             else if(message.startsWith("LAST")){
-                // TODO : envoi des n derniers messages diffusé
                 String [] tab = message.split(" ");
-                if (tab.length != 2){
-                    // TODO : Last n messsages != 2
-                }
+                if (tab.length != 2) return;
                 int nb_message = Integer.parseInt(tab[1]); // TODO : check error type
                 ArrayList<Message> liste = diff.get_last_n_message(nb_message);
                 for (Message  m : liste){
                     pw.print("OLDM 1 " + m.getId() + " " + m.getMessage() + "\r\n");
-                    
                     pw.flush();
                 }
                 pw.print("ENDM\r\n");
                 pw.flush();
 
             }
-
-
             br.close();
             pw.close();
             socket.close();

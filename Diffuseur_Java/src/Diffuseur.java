@@ -51,7 +51,6 @@ public class Diffuseur{
             read = N+1;
             while (read >= N) {
                 read = br.read(buffer, 0, N);
-
                 this.liste_message.add(new Message(String.valueOf(buffer),this.id_diff));
             }
             br.close();
@@ -65,7 +64,7 @@ public class Diffuseur{
     }
 
     public void ajoute_message(Message mess){
-        System.out.println("\n\n\n\ncurr: "+this.curent_message);
+        //System.out.println("\n\n\n\ncurr: "+this.curent_message);
         this.liste_message.add(this.curent_message, mess);
     }
 

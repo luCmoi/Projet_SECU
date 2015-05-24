@@ -14,7 +14,6 @@ public class Diff_to_Gestionnaire implements Runnable{
         this.diff = diff;
         this.port_gestionnaire = port_gestionnaire;
     }
-
     @Override
     public void run() {
 
@@ -31,28 +30,25 @@ public class Diff_to_Gestionnaire implements Runnable{
 
                 String msg = br.readLine();
                 if (!msg.equals("REOK")) {
-                    System.out.println("Erreur : connection gestionnaire");
+                    System.out.println("Erreur : connexion au gestionnaire");
                     br.close();
                     pw.close();
                     sock.close();
-                    System.out.println("Connection closed. Try again later.");
                     System.exit(0);
                 }
 
                 while (true) {
                     msg = br.readLine();
-                    System.out.println("message recu du gest :" + msg);
+                    System.out.println("message recu du gestionnaire :" + msg);
                     if (msg.equals("RUOK")) {
                         pw.println("IMOK\r\n");
-                        System.out.println("message send du gest : IMOK");
                         pw.flush();
                     }
                     else {
-                        System.out.println("message != RUOK :" + msg);
+                        System.out.println("Erreur : message != RUOK " + msg);
                         pw.close();
                         br.close();
                         sock.close();
-                        System.out.println("Connection closed.");
                         System.exit(0);
                     }
                 }
@@ -60,7 +56,6 @@ public class Diff_to_Gestionnaire implements Runnable{
             } catch (Exception e) {
                 System.out.println("Communication failed. Quitting...");
                 sock.close();
-                System.out.println("Connection closed. Try again later.");
                 System.exit(0);
             }
         } catch (Exception e) {
