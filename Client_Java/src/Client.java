@@ -123,9 +123,9 @@ public class Client {
                         } else {
                             afficher("Commande non reconnue tapez -help pour recevoir la liste des commandes\n");
                         }
+                    }   else {
+                        afficher("Commande non reconnue tapez -help pour recevoir la liste des commandes\n");
                     }
-                } else {
-                    afficher("Commande non reconnue tapez -help pour recevoir la liste des commandes\n");
                 }
             }
         }

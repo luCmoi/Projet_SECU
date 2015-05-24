@@ -8,11 +8,30 @@ public class Main {
     }
 
     public static void main(String [] args){
-        int port = Integer.parseInt(args[0]);
-        Diffuseur d = new Diffuseur("LINUX", 1234, "225.77.13.99", 9999);
-        Diff_to_Gestionnaire dtg = new Diff_to_Gestionnaire(d, port);
+
+        String nom_diff = "";
+        String multi_adresse = "";
+        int port_mult = 0;
+        int port_tcp = 0;
+        int portgestionnaire = 0;
+        String file = "";
+        try{
+            nom_diff = args[0];
+            multi_adresse = args[1];
+            port_mult = Integer.parseInt(args[2]);
+            port_tcp = Integer.parseInt(args[3]);
+            portgestionnaire = Integer.parseInt(args[4]);
+            file = args[5];
+        }
+        catch(Exception e){
+            System.out.println("erreur arguments : passage en saisie manuel");
+            // TODO : saisie manuel
+            System.exit(0);
+        }
+        Diffuseur d = new Diffuseur(nom_diff, port_tcp, multi_adresse, port_mult);
+        Diff_to_Gestionnaire dtg = new Diff_to_Gestionnaire(d, portgestionnaire);
         Diff_to_multi dtm = new Diff_to_multi(d);
-        d.initatise_messages("/media/data/git/Projet_Tweetoradio/linux");
+        d.initatise_messages(file);
         Thread t = new Thread(dtm);
         t.start();
         t = new Thread(dtg);

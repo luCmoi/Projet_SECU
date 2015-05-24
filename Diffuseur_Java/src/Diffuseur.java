@@ -63,12 +63,12 @@ public class Diffuseur{
         return true;
     }
 
-    public void ajoute_message(Message mess){
+    public synchronized void ajoute_message(Message mess){
         //System.out.println("\n\n\n\ncurr: "+this.curent_message);
         this.liste_message.add(this.curent_message, mess);
     }
 
-    public void ajoute_message_to_current_place(Message mess, int place){
+    public synchronized void ajoute_message_to_current_place(Message mess, int place){
         this.liste_message.add(place, mess);
     }
 
@@ -77,7 +77,7 @@ public class Diffuseur{
      * @param n
      * @return
      */
-    public ArrayList<Message> get_last_n_message(int n){
+    public synchronized ArrayList<Message> get_last_n_message(int n){
         ArrayList<Message> liste = new ArrayList<Message>();
         int i = curent_message-1;
         while (n != 0){

@@ -36,7 +36,6 @@ public class Diff_to_Gestionnaire implements Runnable{
                     sock.close();
                     System.exit(0);
                 }
-
                 while (true) {
                     msg = br.readLine();
                     System.out.println("message recu du gestionnaire :" + msg);
