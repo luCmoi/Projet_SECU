@@ -80,11 +80,13 @@ public class Diffuseur{
      */
     public ArrayList<Message> get_last_n_message(int n){
         ArrayList<Message> liste = new ArrayList<Message>();
-        int i = curent_message;
+        int i = curent_message-1;
         while (n != 0){
             if(i < 0 ) i = liste_message.size()-1;
+            if(!liste_message.get(i).isAlready_send()) break;
             liste.add(liste_message.get(i));
             n--;
+            i--;
         }
         return liste;
     }
