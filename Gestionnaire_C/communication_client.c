@@ -1,7 +1,7 @@
 #include "communication_client.h"
 
 /**
- * Envoi la liste des diffuseur au client
+ * Envoi la liste des diffuseurs au client
  * Verrou
  */
 void list_diff_to_client(int desc_socket, list_diff_t *listDiffT, pthread_mutex_t *verrou) {
