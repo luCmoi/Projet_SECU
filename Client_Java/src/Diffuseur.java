@@ -198,6 +198,7 @@ public class Diffuseur {
     }
 
     public static void post(String nom, String message) {
+        nom = traduitId(nom);
         Diffuseur dc = cherche(true, nom);
         if (dc != null) {
             new Connexion(dc.ip2, dc.port2).post(message);
@@ -205,6 +206,7 @@ public class Diffuseur {
     }
 
     public static void ancien(String nom, String nombre) {
+        nom = traduitId(nom);
         Diffuseur dc = cherche(true, nom);
         if (dc != null) {
             new Connexion(dc.ip2, dc.port2).affiche(nombre);
