@@ -119,7 +119,7 @@ public class Connexion {
         return new String(message);
     }
 
-    public void post(final String message) {
+    public void post(final String message,final boolean ecoute) {
         new Thread(new Runnable() {
 
             @Override
@@ -137,10 +137,18 @@ public class Connexion {
                         pw.print("MESS " + rempli(Client.nom, 8) + " " + rempli(message, 140) + "\r\n");
                         pw.flush();
                         try {
-                            //Reçu de la réponse
-                            String lecture = br.readLine();
-                            if (lecture.equals("ACKM")) {
-                                Client.afficher("Le message a bien été envoyé");
+                            if (ecoute){
+                                String[] lecture = br.readLine().split(" ",2);
+                                while (!lecture.equals("ENDM")) {
+                                    Client.afficher(lecture[1]);
+                                    lecture = br.readLine().split(" ",2);
+                                }
+                            }else {
+                                //Reçu de la réponse
+                                String lecture = br.readLine();
+                                if (lecture.equals("ACKM")) {
+                                    Client.afficher("Le message a bien été envoyé");
+                                }
                             }
                             Client.afficher("");
                             dispose();
@@ -186,10 +194,10 @@ public class Connexion {
                     pw.flush();
                     try {
                         //Reçu des messages
-                        String[] lecture;
-                        while (!br.readLine().equals("ENDM")) {
-                            lecture = br.readLine().split(" ");
+                        String[] lecture = br.readLine().split(" ");
+                        while (!lecture.equals("ENDM")) {
                             Client.afficher(lecture[2] + " : " + lecture[3]);
+                            lecture = br.readLine().split(" ");
                         }
                         Client.afficher("");
                         dispose();
