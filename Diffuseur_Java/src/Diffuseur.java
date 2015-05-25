@@ -51,7 +51,13 @@ public class Diffuseur{
             read = N+1;
             while (read >= N) {
                 read = br.read(buffer, 0, N);
-                this.liste_message.add(new Message(String.valueOf(buffer),this.id_diff));
+                String mess = String.valueOf(buffer);
+                if (read < N) {
+                    while (mess.length() < 140) {
+                        mess+= "#";
+                    }
+                }
+                this.liste_message.add(new Message(mess,this.id_diff));
             }
             br.close();
         } catch (Exception e) {
