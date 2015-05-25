@@ -28,10 +28,10 @@ public class Main {
             // TODO : saisie manuel
             System.exit(0);
         }
-        Diffuseur d = new Diffuseur(nom_diff, port_tcp, multi_adresse, port_mult);
+        Diffuseur d = new Diffuseur(nom_diff, port_tcp, multi_adresse, port_mult, file);
         Diff_to_Gestionnaire dtg = new Diff_to_Gestionnaire(d, portgestionnaire);
         Diff_to_multi dtm = new Diff_to_multi(d);
-        d.initatise_messages(file);
+
         Thread t = new Thread(dtm);
         t.start();
         t = new Thread(dtg);
@@ -58,7 +58,7 @@ public class Main {
             }
         } catch (Exception e) {
             System.out.println("Failed to create server socket:");
-            e.printStackTrace();
+            System.exit(-1);
         }
     }
 }

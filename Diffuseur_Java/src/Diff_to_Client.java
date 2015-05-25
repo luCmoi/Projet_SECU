@@ -27,18 +27,33 @@ public class Diff_to_Client implements Runnable{
                 System.out.println(message);
                 String [] tab = message.split(" ", 3);
                 if (tab.length != 3) return;
-                diff.ajoute_message(new Message(tab[2], tab[1]));
+                diff.recup_reponse(tab[1] + " " + tab[2]);
                 pw.print("ACKM\r\n");
                 pw.flush();
 
             }
+            // TODO :
             else if(message.startsWith("LAST")){
                 String [] tab = message.split(" ");
                 if (tab.length != 2) return;
-                int nb_message = Integer.parseInt(tab[1]); // TODO : check error type
-                ArrayList<Message> liste = diff.get_last_n_message(nb_message);
-                for (Message  m : liste){
-                    pw.print("OLDM 1 " + m.getId() + " " + m.getMessage() + "\r\n");
+                int nb_message = 0;
+                try {
+                    nb_message = Integer.parseInt(tab[1]);
+                }
+                catch (Exception e){
+                    pw.print("ENDM\r\n");
+                    pw.flush();
+                    br.close();
+                    pw.close();
+                    socket.close();
+                    return;
+                }
+
+                nb_message = Math.min(nb_message, 9999);
+                int size = diff.getHistorique().size()-1;
+                for (int i = size; i> size-nb_message; i--){
+                    Message m = diff.getHistorique().get(i);
+                    pw.print("OLDM " + m.getNum() + " "+ m.getId() + " " + m.getMessage() + "\r\n");
                     pw.flush();
                 }
                 pw.print("ENDM\r\n");

@@ -1,6 +1,7 @@
+
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Diffuseur{
 
@@ -9,28 +10,40 @@ public class Diffuseur{
     private int port_user_message;
     private String ip_multibroadcast;
     private int port_multi_diffusion;
-    private ArrayList<Message> liste_message;
-    private short num_message;
-    private short curent_message;
+    private LinkedList<Message> historique;
+    private LinkedList<Message> msg_to_duffuse;
+    int num_mess = 0;
+    int curr = 0;
 
-    public Diffuseur(String id, int port_user_message, String ip_multibroadcast, int port_multi_diffusion){
+
+    public Diffuseur(String id, int port_user_message, String ip_multibroadcast, int port_multi_diffusion, String file){
         this.id_diff = id;
+        while (this.id_diff.length() < 8){
+            this.id_diff += "#";
+        }
         this.port_user_message = port_user_message;
         this.ip_multibroadcast = ip_multibroadcast;
+        normalize_ip();
         this.port_multi_diffusion = port_multi_diffusion;
-        this.liste_message = new ArrayList<Message>();
-        this.num_message = 0;
-        this.curent_message = 0;
-
+        this.historique = new LinkedList<>();
+        this.msg_to_duffuse = new LinkedList<>();
+        init_Question(file);
 
     }
 
-    public Diffuseur(String id, int port_user_message, String ip_multibroadcast){
-        this.id_diff = id;
-        this.liste_message = new ArrayList<Message>();
-        this.num_message = 0;
-        this.curent_message = 0;
+    public void normalize_ip(){
+        String ss[] = ip_multibroadcast.split("\\.");
+        ip_multibroadcast = "";
+        for (int i = 0; i<ss.length; i++){
+            while (ss[i].length()<3){
+                ss[i] = "0"+ss[i];
+            }
+            ip_multibroadcast += ss[i]+".";
+        }
+        ip_multibroadcast = ip_multibroadcast.substring(0, ip_multibroadcast.length()-1);
     }
+
+
 
 
 
@@ -40,131 +53,98 @@ public class Diffuseur{
     // *************
 
 
-
-    public boolean initatise_messages(String path){
-        int read, N = 140;
-        char[] buffer = new char[N];
-
+    public synchronized void init_Question(String file){
         try {
-            FileReader fr = new FileReader(path);
-            BufferedReader br = new BufferedReader(fr);
-            read = N+1;
-            while (read >= N) {
-                read = br.read(buffer, 0, N);
-                String mess = String.valueOf(buffer);
-                if (read < N) {
-                    while (mess.length() < 140) {
-                        mess+= "#";
-                    }
-                }
-                this.liste_message.add(new Message(mess,this.id_diff));
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String line = br.readLine();
+
+            while (line != null) {
+
+                this.add_to_multi(this.getId() + " " + line);
+                line = br.readLine();
             }
             br.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-
 
         }
-        return true;
-    }
+        catch (Exception e){
 
-    public synchronized void ajoute_message(Message mess){
-        //System.out.println("\n\n\n\ncurr: "+this.curent_message);
-        this.liste_message.add(this.curent_message, mess);
-    }
-
-    public synchronized void ajoute_message_to_current_place(Message mess, int place){
-        this.liste_message.add(place, mess);
-    }
-
-    /**
-     * Donne les n derniers messages envoyer par le diffuseur
-     * @param n
-     * @return
-     */
-    public synchronized ArrayList<Message> get_last_n_message(int n){
-        ArrayList<Message> liste = new ArrayList<Message>();
-        int i = curent_message-1;
-        while (n != 0){
-            if(i < 0 ) i = liste_message.size()-1;
-            if(!liste_message.get(i).isAlready_send()) break;
-            liste.add(liste_message.get(i));
-            n--;
-            i--;
         }
-        return liste;
     }
 
-     // *************
-     // * GET & SET *
-     // *************
+    public void add_to_histo(){
+        historique.add(msg_to_duffuse.get(curr));
+    }
+
+    public String get_next_message(){
+
+        String s =  num_mess + " " + msg_to_duffuse.get(curr).toString();
+        inc_num_mess();
+        inc_cur_mess();
+        add_to_histo();
+        return s;
+    }
+
+    public synchronized void add_to_multi(String s){
+        String ss[] = s.split(" ", 2);
+        inc_num_mess();
+        Message m = new Message(ss[0], ss[1]);
+        msg_to_duffuse.add(m);
+
+    }
+
+    public synchronized void add_to_multi(String s, int n){
+        String ss[] = s.split(" ", 2);
+        inc_num_mess();
+        Message m = new Message(ss[0], ss[1]);
+        msg_to_duffuse.add(n, m);
+
+    }
+    public synchronized void recup_reponse(String s){
+        add_to_multi(s, curr);
+
+    }
+
+    private void inc_cur_mess(){
+        this.curr++;
+        if (this.curr >= msg_to_duffuse.size()) this.curr = 0;
+    }
+
+    private void inc_num_mess(){
+        this.num_mess++;
+        if (this.num_mess > 9999) this.num_mess = 0;
+    }
+
+
+
+
+    // *************
+    // * GET & SET *
+    // *************
+
+
+    public LinkedList<Message> getHistorique() {
+        return historique;
+    }
+
 
     public String getId() {
         return id_diff;
-    }
-
-    public void setId(String id) {
-        this.id_diff = id;
     }
 
     public int getPort_user_message() {
         return port_user_message;
     }
 
-    public void setPort_user_message(int port_user_message) {
-        this.port_user_message = port_user_message;
-    }
-
     public String getIp_multibroadcast() {
         return ip_multibroadcast;
     }
 
-    public void setIp_multibroadcast(String ip_multibroadcast) {
-        this.ip_multibroadcast = ip_multibroadcast;
-    }
 
     public int getPort_multi_diffusion() {
         return port_multi_diffusion;
     }
 
-    public void setPort_multi_diffusion(int port_multi_diffusion) {
-        this.port_multi_diffusion = port_multi_diffusion;
-    }
 
-    public ArrayList<Message> getListe_message() {
-        return liste_message;
-    }
 
-    public Message get_message(int i){
-        return liste_message.get(i);
-    }
 
-    public void setListe_message(ArrayList<Message> liste_message) {
-        this.liste_message = liste_message;
-    }
-
-    public short getNum_message() {
-
-        return num_message;
-    }
-
-    public void setNum_message() {
-        this.num_message++;
-        if (this.num_message > 9999) this.num_message = 0;
-    }
-
-    private Message getNext_message_M() {
-        return liste_message.get(this.curent_message);
-    }
-
-    public String getNext_message(){
-        this.getNext_message_M().setAlready_send(true);
-        return this.getNext_message_M().getId() + " " + this.getNext_message_M().getMessage();
-    }
-
-    public void setCurent_message() {
-        this.curent_message++;
-        if (this.curent_message >= liste_message.size()) this.curent_message = 0;
-    }
 }

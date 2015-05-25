@@ -53,11 +53,13 @@ public class Main {
                 } catch (Exception e) {
                     e.printStackTrace();
                     System.out.println("Problem with client.\n");
+                    System.exit(0);
                 }
             }
         } catch (Exception e) {
             System.out.println("Failed to create server socket:");
-            e.printStackTrace();
+            System.exit(0);
+            //e.printStackTrace();
         }
     }
 }

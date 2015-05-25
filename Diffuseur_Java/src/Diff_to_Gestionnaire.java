@@ -19,14 +19,25 @@ public class Diff_to_Gestionnaire implements Runnable{
 
         try {
             String servAddr = Inet4Address.getLocalHost().getHostAddress();
+            String ss[] = servAddr.split("\\.");
+            servAddr = "";
+            for (int i = 0; i<ss.length; i++){
+                while (ss[i].length()<3){
+                    ss[i] = "0"+ss[i];
+                }
+                servAddr += ss[i]+".";
+            }
+            servAddr = servAddr.substring(0, servAddr.length()-1);
+
             Socket sock = new Socket(servAddr, port_gestionnaire);
             try {
                 BufferedReader br = new BufferedReader(new InputStreamReader(sock.getInputStream()));
                 PrintWriter pw = new PrintWriter(new OutputStreamWriter(sock.getOutputStream()));
                 String reg = "REGI " + diff.getId() + " " + diff.getIp_multibroadcast() + " " + diff.getPort_multi_diffusion() + " " + servAddr + " " + diff.getPort_user_message() + "\r\n";
-                System.out.println(reg);
-                pw.println(reg);
+                System.out.println(reg + reg.length());
+                pw.print(reg);
                 pw.flush();
+
 
                 String msg = br.readLine();
                 if (!msg.equals("REOK")) {
@@ -40,7 +51,7 @@ public class Diff_to_Gestionnaire implements Runnable{
                     msg = br.readLine();
                     System.out.println("message recu du gestionnaire :" + msg);
                     if (msg.equals("RUOK")) {
-                        pw.println("IMOK\r\n");
+                        pw.print("IMOK\r\n");
                         pw.flush();
                     }
                     else {
@@ -59,6 +70,7 @@ public class Diff_to_Gestionnaire implements Runnable{
             }
         } catch (Exception e) {
             System.out.println("Connection failed. Try again later.");
+            System.exit(-1);
         }
 
     }

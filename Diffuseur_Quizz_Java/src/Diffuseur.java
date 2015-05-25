@@ -28,6 +28,7 @@ public class Diffuseur{
         }
         this.port_user_message = port_user_message;
         this.ip_multibroadcast = ip_multibroadcast;
+        normalize_ip();
         this.port_multi_diffusion = port_multi_diffusion;
         this.historique = new LinkedList<>();
         this.questions = new LinkedList<>();
@@ -38,7 +39,17 @@ public class Diffuseur{
     }
 
 
-
+    public void normalize_ip(){
+        String ss[] = ip_multibroadcast.split("\\.");
+        ip_multibroadcast = "";
+        for (int i = 0; i<ss.length; i++){
+            while (ss[i].length()<3){
+                ss[i] = "0"+ss[i];
+            }
+            ip_multibroadcast += ss[i]+".";
+        }
+        ip_multibroadcast = ip_multibroadcast.substring(0, ip_multibroadcast.length()-1);
+    }
 
 
 
@@ -147,9 +158,6 @@ public class Diffuseur{
         return historique;
     }
 
-    public void setHistorique(LinkedList<Message> historique) {
-        this.historique = historique;
-    }
 
     public String getId() {
         return id_diff;

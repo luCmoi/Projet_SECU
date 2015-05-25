@@ -17,19 +17,17 @@ public class Diff_to_multi  implements Runnable{
             DatagramSocket dso=new DatagramSocket();
             byte[]data;
             while (true){
-                Thread.sleep(1000);
-                String s = "DIFF " + diff.getNum_message() + " " + diff.getNext_message() + "\r\n";
-                //System.out.println(s);
+                Thread.sleep(5000);
+                String s = "DIFF " + diff.get_next_message() + "\r\n";
+                System.out.println(s);
                 data = s.getBytes();
-                diff.setCurent_message();
-                diff.setNum_message();
                 InetSocketAddress ia = new InetSocketAddress(diff.getIp_multibroadcast(),diff.getPort_multi_diffusion());
                 DatagramPacket paquet = new DatagramPacket(data, data.length, ia);
                 dso.send(paquet);
-
             }
         } catch(Exception e){
             e.printStackTrace();
+            System.exit(-1);
         }
     }
 }

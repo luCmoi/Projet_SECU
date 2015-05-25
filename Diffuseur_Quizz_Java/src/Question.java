@@ -13,8 +13,6 @@ public class Question extends Message{
         return super.toString();
     }
 
-
-
     public boolean win(String s){
         for (String rep : this.getReponses()) {
             if (s.equals(rep)){
@@ -25,9 +23,6 @@ public class Question extends Message{
     }
 
 
-
-
-
     // *************
     // * GET & SET *
     // *************
@@ -36,16 +31,7 @@ public class Question extends Message{
     public String[] getReponses() {
         return reponses;
     }
-
-    public void setReponses(String[] reponses) {
-        this.reponses = reponses;
-    }
-
     public String[] getHints() {
         return hints;
-    }
-
-    public void setHints(String[] hints) {
-        this.hints = hints;
     }
 }
