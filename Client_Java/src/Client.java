@@ -90,9 +90,9 @@ public class Client {
                                 afficher("Mauvais nombre d'arguments\n");
                             }
                         } else if ("-post".equals(lectureSplit[0])) {
-                            if (taille == 2) {
+                            if (taille == 3) {
                                 Diffuseur.post(lectureSplit[1], lectureSplit[2],false);
-                                if (taille == 3 && lectureSplit[1].equals("-e")){
+                                if (taille == 4 && lectureSplit[1].equals("-e")){
                                     Diffuseur.post(lectureSplit[2], lectureSplit[3],true);
                                 }
                             } else {
