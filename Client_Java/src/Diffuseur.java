@@ -197,11 +197,11 @@ public class Diffuseur {
         }).start();
     }
 
-    public static void post(String nom, String message) {
+    public static void post(String nom, String message, boolean ecoute) {
         nom = traduitId(nom);
         Diffuseur dc = cherche(true, nom);
         if (dc != null) {
-            new Connexion(dc.ip2, dc.port2).post(message);
+            new Connexion(dc.ip2, dc.port2).post(message,ecoute);
         }
     }
 

@@ -37,7 +37,7 @@ public class Client {
                             afficher("-listeG adresse port : Se connecter a un gestionnaire et ajouter ses diffuseurs à la listee des connus");
                             afficher("-abonne nom : Se connecter a un diffuseur connu");
                             afficher("-desabonne nom : Se déconnecter a un diffuseur connecté");
-                            afficher("-post nomDiffuseur message : Envois un message de 140 char max a un diffuseur");
+                            afficher("-post (-e) nomDiffuseur message : Envois un message de 140 char max a un diffuseur écoute une réponse longue si -e");
                             afficher("-ancien nomDiffuseur nombre : Demande la liste des anciens messages a un diffuseur");
                             afficher("-hide nom : Cacher temporairement les message d'un diffuseur connecté");
                             afficher("-show nom : Afficher les message d'un diffuseur connecté");
@@ -90,8 +90,11 @@ public class Client {
                                 afficher("Mauvais nombre d'arguments\n");
                             }
                         } else if ("-post".equals(lectureSplit[0])) {
-                            if (taille > 2) {
-                                Diffuseur.post(lectureSplit[1], lectureSplit[2]);
+                            if (taille == 2) {
+                                Diffuseur.post(lectureSplit[1], lectureSplit[2],false);
+                                if (taille == 3 && lectureSplit[1].equals("-e")){
+                                    Diffuseur.post(lectureSplit[2], lectureSplit[3],true);
+                                }
                             } else {
                                 afficher("Mauvais nombre d'arguments\n");
                             }
