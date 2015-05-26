@@ -34,15 +34,15 @@ public class Client {
                             afficher("Liste des commandes : \n");
                             afficher("-help : Liste des commandes");
                             afficher("-name nouveauNom : Change le nom d'utilisateur");
-                            afficher("-listeG adresse port : Se connecter a un gestionnaire et ajouter ses diffuseurs à la listee des connus");
-                            afficher("-abonne nom : Se connecter a un diffuseur connu");
+                            afficher("-lg adresse port : Se connecter a un gestionnaire et ajouter ses diffuseurs à la listee des connus");
+                            afficher("-a nom : Se connecter a un diffuseur connu");
                             afficher("-desabonne nom : Se déconnecter a un diffuseur connecté");
-                            afficher("-post (-e) nomDiffuseur message : Envois un message de 140 char max a un diffuseur écoute une réponse longue si -e");
+                            afficher("-p (-e) nomDiffuseur message : Envois un message de 140 char max a un diffuseur écoute une réponse longue si -e");
                             afficher("-ancien nomDiffuseur nombre : Demande la liste des anciens messages a un diffuseur");
                             afficher("-hide nom : Cacher temporairement les message d'un diffuseur connecté");
                             afficher("-show nom : Afficher les message d'un diffuseur connecté");
                             afficher("-redirect nom sortie : Redirect la sortie d'un diffuseur vers un terminal ouvert");
-                            afficher("-liste connu/connecte : Affiche la liste des diffuseur connu/connecté\n");
+                            afficher("-l v/c : Affiche la liste des diffuseur vu/connecté\n");
                         }//Changer de nom
                         else if ("-name".equals(lectureSplit[0])) {
                             if (taille > 1) {
@@ -52,7 +52,7 @@ public class Client {
                             }
                             afficher("Votre nouveau nom est " + nom + "\n");
                         } //Se connecter et récuperer la liste d'un gestionnaire
-                        else if ("-listeG".equals(lectureSplit[0])) {
+                        else if ("-lg".equals(lectureSplit[0])) {
                             if (taille >= 3) {
                                 try {
                                     new Connexion(lectureSplit[1], Integer.parseInt(lectureSplit[2])).getListe();
@@ -64,7 +64,7 @@ public class Client {
                                 afficher("-connectG adresse port : Se connecter a un gestionnaire et ajouter ses diffuseur\n");
                             }
                             //Se connecte a un diffuseur
-                        } else if ("-abonne".equals(lectureSplit[0])) {
+                        } else if ("-a".equals(lectureSplit[0])) {
                             if (taille > 1) {
                                 Diffuseur.connectUDP(lectureSplit[1]);
                             } else {
@@ -89,7 +89,7 @@ public class Client {
                             } else {
                                 afficher("Mauvais nombre d'arguments\n");
                             }
-                        } else if ("-post".equals(lectureSplit[0])) {
+                        } else if ("-p".equals(lectureSplit[0])) {
                             if (taille >= 3) {
                                 if (taille >= 4 && lectureSplit[1].equals("-e")) {
                                     Diffuseur.post(lectureSplit[2], lectureSplit[3], true);
@@ -105,11 +105,11 @@ public class Client {
                             } else {
                                 afficher("Mauvais nombre d'arguments\n");
                             }
-                        } else if ("-liste".equals(lectureSplit[0])) {
+                        } else if ("-l".equals(lectureSplit[0])) {
                             if (taille > 1) {
-                                if ("connu".equals(lectureSplit[1])) {
+                                if ("v".equals(lectureSplit[1])) {
                                     Diffuseur.liste(true);
-                                } else if ("connecte".equals(lectureSplit[1])) {
+                                } else if ("c".equals(lectureSplit[1])) {
                                     Diffuseur.liste(false);
                                 } else {
                                     afficher("Mauvais utilisation de -liste : ");
