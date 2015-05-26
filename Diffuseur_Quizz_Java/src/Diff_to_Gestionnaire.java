@@ -67,11 +67,11 @@ public class Diff_to_Gestionnaire implements Runnable{
                 System.out.println("Communication failed. Quitting...");
                 e.printStackTrace();
                 sock.close();
-                    //System.exit(0);
+                System.exit(0);
             }
         } catch (Exception e) {
             System.out.println("Connection failed. Try again later.");
-            //System.exit(0);
+            System.exit(0);
             e.printStackTrace();
         }
 

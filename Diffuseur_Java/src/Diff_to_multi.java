@@ -27,7 +27,7 @@ public class Diff_to_multi  implements Runnable{
             }
         } catch(Exception e){
             e.printStackTrace();
-            //System.exit(-1);
+            System.exit(-1);
         }
     }
 }

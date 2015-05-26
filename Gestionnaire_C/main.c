@@ -47,7 +47,7 @@ void* fonctionThread(void *desc_client_diff){
     else if(strncmp(name,LIST, 4) == 0) {
         //TODO : ajouter un check de la taille du message recu
         if(recu != SIZE_LIST){
-            printf("WARNING message recu taille != 57 : %s\n", name);
+            printf("WARNING message recu taille %ld != %d : %s\n", recu, SIZE_LIST, name);
             printf("taille : %ld\n", recu);
             return NULL;
         }

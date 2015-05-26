@@ -34,7 +34,7 @@
 #define SIZE_RENO 6
 #define SIZE_RUOK 6
 #define SIZE_IMOK 6
-#define SIZE_LIST 4
+#define SIZE_LIST 6
 #define SIZE_LINB 9
 #define SIZE_ITEM 58
 #define SIZE_NB_DIFF 2

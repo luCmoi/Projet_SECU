@@ -17,6 +17,9 @@ public class Message {
             this.id += "#";
         }
         this.message = message;
+        /*while(this.message.length() < 140){
+            this.message += '#';
+        }*/
     }
 
     public String toString(){
@@ -56,4 +59,3 @@ public class Message {
         this.message = message;
     }
 }
-

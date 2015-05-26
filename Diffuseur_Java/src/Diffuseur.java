@@ -87,6 +87,9 @@ public class Diffuseur{
     public synchronized void add_to_multi(String s){
         String ss[] = s.split(" ", 2);
         inc_num_mess();
+        while(ss[1].length() < 140 ){
+            ss[1] += "#";
+        }
         Message m = new Message(ss[0], ss[1]);
         msg_to_duffuse.add(m);
 

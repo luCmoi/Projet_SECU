@@ -139,7 +139,7 @@ public class Connexion {
                         try {
                             if (ecoute){
                                 String[] lecture = br.readLine().split(" ",2);
-                                while (!lecture.equals("ENDM")) {
+                                while (!lecture[0].equals("ENDM")) {
                                     Client.afficher(Diffuseur.afficheId(lecture[1]));
                                     lecture = br.readLine().split(" ",2);
                                 }
@@ -195,7 +195,7 @@ public class Connexion {
                     try {
                         //Reçu des messages
                         String[] lecture = br.readLine().split(" ");
-                        while (!lecture.equals("ENDM")) {
+                        while (!lecture[0].equals("ENDM")) {
                             Client.afficher(lecture[2] + " : " + Diffuseur.afficheId(lecture[3]));
                             lecture = br.readLine().split(" ");
                         }

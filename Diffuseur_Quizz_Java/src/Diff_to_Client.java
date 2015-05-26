@@ -130,7 +130,7 @@ public class Diff_to_Client implements Runnable{
             e.printStackTrace();
             System.out.println("Communication failed. Quitting...");
             System.out.println("Connection closed. Try again later.");
-            //System.exit(0);
+            System.exit(0);
         }
 
     }

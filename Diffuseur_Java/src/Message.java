@@ -1,6 +1,3 @@
-/**
- * Created by renaud on 25/05/15.
- */
 public class Message {
 
 
@@ -17,6 +14,7 @@ public class Message {
             this.id += "#";
         }
         this.message = message;
+        
     }
 
     public String toString(){
@@ -56,4 +54,3 @@ public class Message {
         this.message = message;
     }
 }
-

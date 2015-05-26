@@ -105,13 +105,16 @@ public class Diffuseur{
         String ss[] = s.split(" ", 2);
         add_to_histo(ss[0], ss[1], num_mess);
         inc_num_mess();
+        while(s.length() < 140 ){
+            s += "#";
+        }
         msg_to_diff.add(num_mess + " " + s);
     }
     public synchronized void recup_reponse(String s){
         String tab[] = s.split(" ", 2);
         Question q = questions.get(num_question);
         add_to_multi(s);
-        if(q.win(tab[1])){
+        if(q.win(tab[1].split("#",2)[0])){
             num_inc();
             add_to_multi(this.id_diff + " " + tab[0] +" a répondu " + tab[1]);
             add_to_multi(this.id_diff + " " + tab[0] + " WIN !!");
