@@ -54,7 +54,7 @@ public class Connexion {
                                     Diffuseur tmp = new Diffuseur(lecture[1], lecture[2], Integer.parseInt(lecture[3]), lecture[4], Integer.parseInt(lecture[5]));
                                     Client.diffuseursConnus.add(tmp);
                                     lu++;
-                                    Client.afficher("Nouveau diffuseur : " + tmp.afficheId() + " (Ip : " + lecture[2] + ", Port : " + lecture[3] + ", Ip machine : " + lecture[4] + ", Port machine : " + lecture[5] + ") ");
+                                    Client.afficher("Nouveau diffuseur : " + Diffuseur.afficheId(tmp.id) + " (Ip : " + lecture[2] + ", Port : " + lecture[3] + ", Ip machine : " + lecture[4] + ", Port machine : " + lecture[5] + ") ");
                                 }
                             }
                             Client.afficher("");
@@ -140,7 +140,7 @@ public class Connexion {
                             if (ecoute){
                                 String[] lecture = br.readLine().split(" ",2);
                                 while (!lecture.equals("ENDM")) {
-                                    Client.afficher(Diffuseur.traduitId(lecture[1]));
+                                    Client.afficher(Diffuseur.afficheId(lecture[1]));
                                     lecture = br.readLine().split(" ",2);
                                 }
                             }else {
@@ -196,7 +196,7 @@ public class Connexion {
                         //Reçu des messages
                         String[] lecture = br.readLine().split(" ");
                         while (!lecture.equals("ENDM")) {
-                            Client.afficher(lecture[2] + " : " + Diffuseur.traduitId(lecture[3]));
+                            Client.afficher(lecture[2] + " : " + Diffuseur.afficheId(lecture[3]));
                             lecture = br.readLine().split(" ");
                         }
                         Client.afficher("");

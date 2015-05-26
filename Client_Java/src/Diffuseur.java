@@ -22,7 +22,7 @@ public class Diffuseur {
         this.port2 = port2;
     }
 
-    public String afficheId() {
+    public static String afficheId(String id) {
         int i;
         for (i = id.length() - 1; i > 0; i--) {
             if (id.charAt(i) != '#') {
@@ -92,7 +92,7 @@ public class Diffuseur {
             Client.afficher("Liste vide");
         } else {
             for (Diffuseur dc : liste) {
-                Client.afficher(dc.afficheId() + " (Ip : " + dc.ip1 + ", Port : " + dc.port1 + ", Ip machine : " + dc.ip2 + ", Port machine : " + dc.port2 + ") ");
+                Client.afficher(dc.afficheId(dc.id) + " (Ip : " + dc.ip1 + ", Port : " + dc.port1 + ", Ip machine : " + dc.ip2 + ", Port machine : " + dc.port2 + ") ");
             }
         }
         Client.afficher("\n");
@@ -234,9 +234,9 @@ public class Diffuseur {
                     String[] paquetSplit = new String(paquet.getData(), 0, paquet.getLength()).split(" ", 4);
                     if (paquetSplit[0].equals("DIFF")) {
                         if (container.pw == null) {
-                            Client.afficher(paquetSplit[2] + " : " + Diffuseur.traduitId(paquetSplit[3]));
+                            Client.afficher(paquetSplit[2] + " : " + Diffuseur.afficheId(paquetSplit[3]));
                         } else {
-                            container.pw.println(paquetSplit[2] + " : " + Diffuseur.traduitId(paquetSplit[3]));
+                            container.pw.println(paquetSplit[2] + " : " + Diffuseur.afficheId(paquetSplit[3]));
                             container.pw.flush();
                         }
                     }
