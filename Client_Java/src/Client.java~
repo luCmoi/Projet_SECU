@@ -37,7 +37,7 @@ public class Client {
                             afficher("-lg adresse port : Se connecter a un gestionnaire et ajouter ses diffuseurs à la listee des connus");
                             afficher("-a nom : Se connecter a un diffuseur connu");
                             afficher("-d nom : Se déconnecter a un diffuseur connecté");
-                            afficher("-p (-e) nomDiffuseur message : Envois un message de 140 char max a un diffuseur et écoute une réponse longue si -e");
+                            afficher("-p (-e) nomDiffuseur message : Envois un message de 140 char max a un diffuseur écoute une réponse longue si -e");
                             afficher("-ancien nomDiffuseur nombre : Demande la liste des anciens messages a un diffuseur");
                             afficher("-hide nom : Cacher temporairement les message d'un diffuseur connecté");
                             afficher("-show nom : Afficher les message d'un diffuseur connecté");

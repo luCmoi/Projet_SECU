@@ -127,7 +127,7 @@ public class Diff_to_Client implements Runnable{
             pw.close();
             socket.close();
         } catch (Exception e) {
-            //e.printStackTrace();
+            ..e.printStackTrace();
             System.out.println("Communication failed. Quitting...");
             System.out.println("Connection closed. Try again later.");
             System.exit(0);

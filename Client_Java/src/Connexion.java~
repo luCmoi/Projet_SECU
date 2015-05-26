@@ -41,12 +41,12 @@ public class Connexion {
                             long timer = System.currentTimeMillis();
                             int taille = Integer.parseInt(lecture[1]);
                             int lu = 0;
-                            Client.afficher("Liste de diffuseurs disponibles : " + taille);
+                            Client.afficher("Liste de diffusetu eurs disponibles : " + taille);
                             //Lecture des diffuseurs
                             while (lu < taille) {
                                 //Temps d'attente dépassé
                                 if (System.currentTimeMillis() - timer > 60000) {
-                                    Client.afficher("Delai dépassé, arret de l'attente de nouveau diffuseurs");
+                                    Client.afficher("Delai dépassé arret de l'attente de nouveau diffuseurs");
                                     break;
                                 }
                                 lecture = br.readLine().split(" ");

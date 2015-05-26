@@ -30,7 +30,7 @@ public class Diff_to_multi  implements Runnable{
 		
             }
         } catch(Exception e){
-	System.out.println("Erreur lors de la diffusion des messages");
+	System.out.println("Erreur lors de la diffusion des messages")
             //e.printStackTrace();
             System.exit(-1);
         }

@@ -15,12 +15,14 @@ public class Main {
         int port_tcp = 0;
         int portgestionnaire = 0;
         String file = "";
+        String adresse = "";
         try{
             multi_adresse = args[0];
             port_mult = Integer.parseInt(args[1]);
             port_tcp = Integer.parseInt(args[2]);
             portgestionnaire = Integer.parseInt(args[3]);
-            file = args[4];
+		adresse = args[4];
+            file = args[5];
         }
         catch(Exception e){
             System.out.println("erreur arguments : passage en saisie manuel");
@@ -28,7 +30,7 @@ public class Main {
             System.exit(0);
         }
         Diffuseur d = new Diffuseur(nom_diff, port_tcp, multi_adresse, port_mult, file);
-        Diff_to_Gestionnaire dtg = new Diff_to_Gestionnaire(d, portgestionnaire);
+        Diff_to_Gestionnaire dtg = new Diff_to_Gestionnaire(d, portgestionnaire, adresse);
         Diff_to_multi dtm = new Diff_to_multi(d);
 
         Thread t = new Thread(dtm);
@@ -36,7 +38,6 @@ public class Main {
         t = new Thread(dtg);
         t.start();
         try {
-
             ServerSocket srvSock = new ServerSocket(d.getPort_user_message());
 
             while (true) {
@@ -59,8 +60,8 @@ public class Main {
             }
         } catch (Exception e) {
             System.out.println("Failed to create server socket:");
-            e.printStackTrace();
-            //System.exit(0);
+            //e.printStackTrace();
+            System.exit(0);
         }
     }
 }

@@ -88,6 +88,7 @@ public class Diffuseur{
 
     public synchronized void add_to_multi(String s){
         String ss[] = s.split(" ", 2);
+        inc_num_mess();
         while(ss[1].length() < 140 ){
             ss[1] += "#";
         }
@@ -98,6 +99,7 @@ public class Diffuseur{
 
     public synchronized void add_to_multi(String s, int n){
         String ss[] = s.split(" ", 2);
+        inc_num_mess();
 	while(ss[1].length() < 140 ){
             ss[1] += "#";
         }
