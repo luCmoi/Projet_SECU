@@ -25,7 +25,7 @@ public class Diffuseur {
     public static String afficheId(String id) {
         int i;
         for (i = id.length() - 1; i > 0; i--) {
-            if (id.charAt(i) != '#') {
+            if (id.charAt(i) != '#' && id.charAt(i) != '\n' && id.charAt(i) != '\r') {
                 break;
             }
         }
@@ -234,9 +234,9 @@ public class Diffuseur {
                     String[] paquetSplit = new String(paquet.getData(), 0, paquet.getLength()).split(" ", 4);
                     if (paquetSplit[0].equals("DIFF")) {
                         if (container.pw == null) {
-                            Client.afficher(paquetSplit[2] + " : " + Diffuseur.afficheId(paquetSplit[3]));
+                            Client.afficher(Diffuseur.afficheId(paquetSplit[2]) + " : " + Diffuseur.afficheId(paquetSplit[3]));
                         } else {
-                            container.pw.println(paquetSplit[2] + " : " + Diffuseur.afficheId(paquetSplit[3]));
+                            container.pw.println(Diffuseur.afficheId(paquetSplit[2]) + " : " + Diffuseur.afficheId(paquetSplit[3]));
                             container.pw.flush();
                         }
                     }
