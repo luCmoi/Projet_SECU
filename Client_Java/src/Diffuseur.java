@@ -32,14 +32,14 @@ public class Diffuseur {
         return id.substring(0, i + 1);
     }
 
-    public static String traduitId(String nom){
-        if (nom.length()<8) {
+    public static String traduitId(String nom) {
+        if (nom.length() < 8) {
             for (int i = nom.length(); i < 8; i++) {
                 nom = nom + '#';
             }
             return nom;
-        }else {
-            return  nom;
+        } else {
+            return nom;
         }
     }
 
@@ -126,8 +126,9 @@ public class Diffuseur {
         if (dc != null) {
             dc.ecoute.interrupt();
             Client.diffuseursConnecte.remove(dc);
+        } else {
+            Client.afficher("Vous n'etes pas connecté a ce diffuseur.");
         }
-        Client.afficher("Vous n'etes pas connecté a ce diffuseur.");
     }
 
     public static void changeSortie(String nom, String sortie) {
@@ -201,7 +202,7 @@ public class Diffuseur {
         nom = traduitId(nom);
         Diffuseur dc = cherche(true, nom);
         if (dc != null) {
-            new Connexion(dc.ip2, dc.port2).post(message,ecoute);
+            new Connexion(dc.ip2, dc.port2).post(message, ecoute);
         }
     }
 
@@ -232,7 +233,7 @@ public class Diffuseur {
                 try {
                     ms.receive(paquet);
                     String[] paquetSplit = new String(paquet.getData(), 0, paquet.getLength()).split(" ", 4);
-                    if (paquetSplit[0].equals("DIFF")) {
+                    if (paquetSplit[0].equals("DIFF") && container.show) {
                         if (container.pw == null) {
                             Client.afficher(Diffuseur.afficheId(paquetSplit[2]) + " : " + Diffuseur.afficheId(paquetSplit[3]));
                         } else {
