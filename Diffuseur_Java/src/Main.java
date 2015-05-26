@@ -59,7 +59,7 @@ public class Main {
         } catch (Exception e) {
             System.out.println("Failed to create server socket:");
             e.printStackTrace();
-            System.exit(-1);
+            //System.exit(-1);
         }
     }
 }
