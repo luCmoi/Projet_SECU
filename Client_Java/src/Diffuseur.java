@@ -234,9 +234,9 @@ public class Diffuseur {
                     String[] paquetSplit = new String(paquet.getData(), 0, paquet.getLength()).split(" ", 4);
                     if (paquetSplit[0].equals("DIFF")) {
                         if (container.pw == null) {
-                            Client.afficher(paquetSplit[2] + " : " + paquetSplit[3]);
+                            Client.afficher(paquetSplit[2] + " : " + Diffuseur.traduitId(paquetSplit[3]));
                         } else {
-                            container.pw.println(paquetSplit[2] + " : " + paquetSplit[3]);
+                            container.pw.println(paquetSplit[2] + " : " + Diffuseur.traduitId(paquetSplit[3]));
                             container.pw.flush();
                         }
                     }

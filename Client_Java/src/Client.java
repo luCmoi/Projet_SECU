@@ -90,11 +90,12 @@ public class Client {
                                 afficher("Mauvais nombre d'arguments\n");
                             }
                         } else if ("-post".equals(lectureSplit[0])) {
-                            if (taille == 3) {
-                                Diffuseur.post(lectureSplit[1], lectureSplit[2], false);
-                            }
-                            if (taille == 4 && lectureSplit[1].equals("-e")){
-                                Diffuseur.post(lectureSplit[2], lectureSplit[3],true);
+                            if (taille >= 3) {
+                                if (taille >= 4 && lectureSplit[1].equals("-e")) {
+                                    Diffuseur.post(lectureSplit[2], lectureSplit[3], true);
+                                } else {
+                                    Diffuseur.post(lectureSplit[1], lectureSplit[2], false);
+                                }
                             } else {
                                 afficher("Mauvais nombre d'arguments\n");
                             }
@@ -126,7 +127,7 @@ public class Client {
                         } else {
                             afficher("Commande non reconnue tapez -help pour recevoir la liste des commandes\n");
                         }
-                    }   else {
+                    } else {
                         afficher("Commande non reconnue tapez -help pour recevoir la liste des commandes\n");
                     }
                 }
