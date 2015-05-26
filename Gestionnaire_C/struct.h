@@ -40,6 +40,11 @@
 #define SIZE_NB_DIFF 2
 
 
+#define DEBUG 1
+#define PORT 2
+#define MAX 4
+
+
 
 
 #define DEFAULT_PORT 7895

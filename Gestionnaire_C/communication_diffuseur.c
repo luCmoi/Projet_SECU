@@ -1,9 +1,9 @@
 #include "communication_diffuseur.h"
 
-int initialise_diffuseur(char *buff, diffuseur_t *diff){
+int initialise_diffuseur(char *buff, diffuseur_t *diff, short args){
     int i;
     char *token;
-    int a1, a2, a3, a4;
+    char *a, *b, *c , *d;
     token = strsep(&buff, " ");
     for (i = 0; i < SIZE_ID; ++i) {
         if(i < strlen(token))
@@ -11,27 +11,35 @@ int initialise_diffuseur(char *buff, diffuseur_t *diff){
         else diff->id[i] = '#';
 
     }
-    token = strsep(&buff, " ");
-    sscanf(token, "%i.%i.%i.%i", &a1, &a2, &a3, &a4);
-    snprintf(diff->ip1, sizeof(diff->ip1), "%03i.%03i.%03i.%03i", a1, a2, a3, a4);
 
     token = strsep(&buff, " ");
-    sscanf(token, "%i", &a1);
-    snprintf(diff->port1, sizeof(diff->port1), "%04i", a1);
+    a = strsep(&token, ".");
+    b = strsep(&token, ".");
+    c = strsep(&token, ".");
+    d = strsep(&token, ".");
+    snprintf(diff->ip1, sizeof(diff->ip1), "%03i.%03i.%03i.%03i", atoi(a), atoi(b), atoi(c), atoi(d));
 
     token = strsep(&buff, " ");
-    sscanf(token, "%i.%i.%i.%i", &a1, &a2, &a3, &a4);
-    snprintf(diff->ip2, sizeof(diff->ip2), "%03i.%03i.%03i.%03i", a1, a2, a3, a4);
+    snprintf(diff->port1, sizeof(diff->port1), "%04i", atoi(token));
 
     token = strsep(&buff, " ");
-    sscanf(token, "%i", &a1);
-    snprintf(diff->port2, sizeof(diff->port2), "%04i", a1);
+    a = strsep(&token, ".");
+    b = strsep(&token, ".");
+    c = strsep(&token, ".");
+    d = strsep(&token, ".");
+    snprintf(diff->ip2, sizeof(diff->ip2), "%03i.%03i.%03i.%03i", atoi(a), atoi(b), atoi(c), atoi(d));
+
+    token = strsep(&buff, " ");
+    snprintf(diff->port2, sizeof(diff->port2), "%04i", atoi(token));
 
     diff->id[SIZE_ID] = '\0';
     diff->ip1[SIZE_IP] = '\0';
     diff->port1[SIZE_PORT] = '\0';
     diff->ip2[SIZE_IP] = '\0';
     diff->port1[SIZE_PORT] = '\0';
+    if (args & DEBUG){
+        //printf("id: %s\nip1: %s\nport1 %s\nip2: %s\nport2 %s\n", diff->id, diff->ip1, diff->port1, diff->ip2, diff->port2);
+    }
     return 0;
 }
 
@@ -41,7 +49,7 @@ int initialise_diffuseur(char *buff, diffuseur_t *diff){
  * retourn -1 si liste pleine
  * Verrou
  */
-int add_to_list(list_diff_t *listDiffT, char* buff, pthread_mutex_t *verrou){
+int add_to_list(list_diff_t *listDiffT, char* buff, pthread_mutex_t *verrou, short args){
 
     pthread_mutex_lock(verrou);
     while (listDiffT->liste[listDiffT->first] != NULL && listDiffT->first < listDiffT->max){
@@ -51,10 +59,11 @@ int add_to_list(list_diff_t *listDiffT, char* buff, pthread_mutex_t *verrou){
     if(listDiffT->first >= listDiffT->max){
         return -1;
     }
-
-    //printf("regi : %s", buff);
+    if(args & DEBUG){
+        printf("regi : %s", buff);
+    }
     listDiffT->liste[listDiffT->first] = malloc(sizeof(diffuseur_t));
-    initialise_diffuseur(buff,listDiffT->liste[listDiffT->first]);
+    initialise_diffuseur(buff,listDiffT->liste[listDiffT->first], args);
     printf("Ajout de %s dans la liste des diffuseurs\n", listDiffT->liste[listDiffT->first]->id);
     listDiffT->nombre++;
     listDiffT->first++;
@@ -66,13 +75,11 @@ int add_to_list(list_diff_t *listDiffT, char* buff, pthread_mutex_t *verrou){
  * supprime un diffuseur de la liste des diffuseurs
  * Verrou
  */
-void remove_from_list(list_diff_t *listDiffT, int el, pthread_mutex_t *verrou){
+void remove_from_list(list_diff_t *listDiffT, int el, pthread_mutex_t *verrou, short args){
     pthread_mutex_lock(verrou);
-    printf("Supress de %s de la liste des diffuseurs\n", listDiffT->liste[el]->id);
-
+    printf("Supression de %s de la liste des diffuseurs\n", listDiffT->liste[el]->id);
     if(el == -1 )
         return;
-
     listDiffT->liste[el] = NULL;
     listDiffT->nombre--;
     listDiffT->first = (listDiffT->first<el)? listDiffT->first: el;
@@ -86,42 +93,46 @@ void remove_from_list(list_diff_t *listDiffT, int el, pthread_mutex_t *verrou){
  * Demande au diffuseur s'il est toujours connecté
  * inf-loop
  */
-int ask_ruok(int desc_socket, list_diff_t *listDiffT, int place, struct pollfd *p) {
+int ask_ruok(int desc_socket, list_diff_t *listDiffT, int place, struct pollfd *p, short args) {
     p[0].fd=desc_socket;
     p[0].events=POLLIN;
     fcntl( desc_socket, F_SETFL, O_NONBLOCK);
     int flag = 1;
     while (1) {
         sleep(10);
-        #ifdef DEBUG
-        printf("%s; send RUOK\n", listDiffT->liste[place]->id);
-        #endif
+        if(args & DEBUG){
+            printf("send RUOK à %s\n", listDiffT->liste[place]->id);
+        }
         setsockopt(desc_socket, IPPROTO_TCP, TCP_NODELAY, (char *) &flag, sizeof(int));
         send(desc_socket, RUOK, (sizeof(char) * SIZE_RUOK), 0);
-
-        #ifdef DEBUG
-        printf("%s: poll 10sec\n", listDiffT->liste[place]->id);
-        #endif
+        if(args & DEBUG){
+            printf("en attente de la réponse de : %s\n", listDiffT->liste[place]->id);
+        }
         poll(p,1,4000);
         char *buff = malloc(sizeof(char) * 1024);
         if(p[0].revents==POLLIN){
             ssize_t recu = recv(desc_socket, buff, 1023 * sizeof(char), 0);
-            buff[recu] = '\0';
-            //TODO : changer la taille de strncmp a SIZE_IMOK
-            if (strncmp(buff, IMOK, 4)) {
-                /*#ifdef DEBUG
-                printf("%s: != IMOK %s\n", listDiffT->liste[place]->id, buff);
-                #endif*/
+            buff[recu+1] = '\0';
+
+            if (strncmp(buff, IMOK, 4) == 0) {
+                if(args & DEBUG){
+                    printf("réponse reçu de %s : %s\n", listDiffT->liste[place]->id, buff);
+                }
+
+            }
+            else {
+                if(args & DEBUG){
+                    printf("FAIL réponse reçu de %s : %s\n", listDiffT->liste[place]->id, buff);
+                    printf("%s ve être supprimé de la liste des diffuseurs\n", listDiffT->liste[place]->id);
+                }
                 return 0;
             }
-            #ifdef DEBUG
-            printf("%s :IMOK\n", listDiffT->liste[place]->id);
-            #endif
+
         }
         else {
-            #ifdef DEBUG
-            printf("%s: TIME OUT\n", listDiffT->liste[place]->id);
-            #endif
+            if(args & DEBUG) {
+                printf("le diffuseur %s n'a pas répondu\n", listDiffT->liste[place]->id);
+            }
             return 0;
         }
 

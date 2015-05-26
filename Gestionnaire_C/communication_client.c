@@ -4,9 +4,9 @@
  * Envoi la liste des diffuseurs au client
  * Verrou
  */
-void list_diff_to_client(int desc_socket, list_diff_t *listDiffT, pthread_mutex_t *verrou) {
+void list_diff_to_client(int desc_socket, list_diff_t *listDiffT, pthread_mutex_t *verrou, short args) {
     pthread_mutex_lock(verrou);
-    printf("Un clien a demander la list des diffuseurs\n");
+    printf("Un client a demandé la liste des diffuseurs\n");
     printf_diffuseur_list(listDiffT);
     char mess[SIZE_LINB];
     if(listDiffT->nombre < 10){

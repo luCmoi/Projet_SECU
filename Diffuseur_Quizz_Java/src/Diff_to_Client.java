@@ -24,8 +24,9 @@ public class Diff_to_Client implements Runnable{
             String message = br.readLine();
             if (message == null)return;
             else if(message.startsWith("MESS")){
-                String ss[] = message.split(" ", 2);
-                String mess = ss[1];
+                String ss[] = message.split(" ", 3);
+                String mess = ss[2];
+                System.out.println(mess);
                 if(mess.startsWith("LAQU")){
                     String s = diff.next_question();
                     pw.print("ITEM " + s + "\r\n");
@@ -83,7 +84,7 @@ public class Diff_to_Client implements Runnable{
 
                 }
                 else {
-                    String [] tab = ss[1].split(" ", 3);
+                    String [] tab = message.split(" ", 3);
                     if (tab.length != 3) return;
                     diff.recup_reponse(tab[1] + " " + tab[2]);
                     pw.print("ACKM\r\n");
@@ -129,7 +130,7 @@ public class Diff_to_Client implements Runnable{
             e.printStackTrace();
             System.out.println("Communication failed. Quitting...");
             System.out.println("Connection closed. Try again later.");
-            System.exit(0);
+            //System.exit(0);
         }
 
     }

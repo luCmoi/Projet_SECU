@@ -58,7 +58,8 @@ public class Main {
             }
         } catch (Exception e) {
             System.out.println("Failed to create server socket:");
-            System.exit(-1);
+            e.printStackTrace();
+            //System.exit(-1);
         }
     }
 }

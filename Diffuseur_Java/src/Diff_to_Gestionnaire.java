@@ -19,6 +19,8 @@ public class Diff_to_Gestionnaire implements Runnable{
 
         try {
             String servAddr = Inet4Address.getLocalHost().getHostAddress();
+            //String servAddr = "127.0.0.1";
+
             String ss[] = servAddr.split("\\.");
             servAddr = "";
             for (int i = 0; i<ss.length; i++){
@@ -59,18 +61,20 @@ public class Diff_to_Gestionnaire implements Runnable{
                         pw.close();
                         br.close();
                         sock.close();
-                        System.exit(0);
+                        //System.exit(0);
                     }
                 }
 
             } catch (Exception e) {
                 System.out.println("Communication failed. Quitting...");
                 sock.close();
-                System.exit(0);
+                e.printStackTrace();
+                //System.exit(0);
             }
         } catch (Exception e) {
             System.out.println("Connection failed. Try again later.");
-            System.exit(-1);
+            e.printStackTrace();
+            //System.exit(-1);
         }
 
     }

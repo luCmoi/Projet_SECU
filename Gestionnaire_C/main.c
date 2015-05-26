@@ -12,6 +12,8 @@
 
 pthread_mutex_t pthread_mutex_t1= PTHREAD_MUTEX_INITIALIZER;
 list_diff_t *liste_diffuseur;
+short args = 0;
+
 
 void* fonctionThread(void *desc_client_diff){
     int descSock = *(int *)desc_client_diff;
@@ -25,19 +27,18 @@ void* fonctionThread(void *desc_client_diff){
     char * name = strsep(&buff, " ");
     if (strncmp(name,REGI, 4) == 0){
         //TODO : ajouter un check de la taille du message recu
-        /*
-         if(recu != SIZE_LIST){
-            printf("ERROR message recu : %s\n", name);
-            close(descSock);
+        if(recu != SIZE_REGI){
+            printf("WARNING message recu taille != 57 : %s\n", name);
+            printf("taille : %ld\n", recu);
             return NULL;
         }
-        */
-        place = add_to_list(liste_diffuseur, buff, &pthread_mutex_t1);
+
+        place = add_to_list(liste_diffuseur, buff, &pthread_mutex_t1, args);
 
         printf_diffuseur_list(liste_diffuseur);
         if(place != -1) {
             send(descSock, REOK, sizeof(char)*(SIZE_REOK), 0);
-            retour = ask_ruok(descSock, liste_diffuseur,place, p );
+            retour = ask_ruok(descSock, liste_diffuseur,place, p, args );
         }
         else{
             send(descSock, RENO, sizeof(char)*(SIZE_RENO), 0);
@@ -45,19 +46,17 @@ void* fonctionThread(void *desc_client_diff){
     }
     else if(strncmp(name,LIST, 4) == 0) {
         //TODO : ajouter un check de la taille du message recu
-        /*
         if(recu != SIZE_LIST){
-            printf("ERROR message recu : %s\n", name);
-            close(descSock);
+            printf("WARNING message recu taille != 57 : %s\n", name);
+            printf("taille : %ld\n", recu);
             return NULL;
         }
-        */
-        list_diff_to_client(descSock,liste_diffuseur, &pthread_mutex_t1);
+        list_diff_to_client(descSock,liste_diffuseur, &pthread_mutex_t1, args);
 
     }
 
     if(!retour) {
-        remove_from_list(liste_diffuseur, place, &pthread_mutex_t1);
+        remove_from_list(liste_diffuseur, place, &pthread_mutex_t1, args);
         printf_diffuseur_list(liste_diffuseur);
         fflush(stdout);
     }
@@ -66,15 +65,47 @@ void* fonctionThread(void *desc_client_diff){
 
 }
 
+void parse_arg(int argc, const char* argv[], int *port, int* max){
+    *port = DEFAULT_PORT;
+    *max = NOMBRE_MAX_DIFFUSEUR;
+    int error = 0;
+    int mod = 0;
+    if (argc < 2) return;
+    int i;
+    for(i = 1; i < argc; i++){
+        if(strcmp(argv[i], "-d") == 0 || strcmp(argv[i], "--debug") == 0) {
+            if (args & DEBUG) error = -1; else args |= DEBUG;
+        }
+        else if(strcmp(argv[i], "-p") == 0 || strcmp(argv[i], "--port") == 0) {
+            if (args & PORT) error = -2; else { args |= PORT; mod = 1;}
+        }
+        else if(strcmp(argv[i], "-m") == 0 || strcmp(argv[i], "--max") == 0) {
+            if (args & MAX) error = -3; else { args |= MAX; mod = 2;}
+        }
+        else {
+            if(mod == 1)*port = atoi(argv[i]);
+            else if(mod == 2)*max = atoi(argv[i]);
+            else error = -4;
+        }
+
+        if (error != 0){
+            printf("erreur dans les arguments\n");
+            printf("./gestionnaireC [-d | --debug] [-p num_port | --port num_port] [-m nb_max| --max nb_max]\n");
+            exit(-1);
+        }
+
+
+    }
+
+
+
+}
+
 int main(int argc, const char* argv[]) {
 
-    int port = DEFAULT_PORT;
-    int max_diff = NOMBRE_MAX_DIFFUSEUR;
-    if(argc > 1){
-        port = atoi(argv[1]);
-        if(argc == 3)
-            max_diff = atoi(argv[2]);
-    }
+    int port;
+    int max_diff;
+    parse_arg(argc, argv, &port, &max_diff);
     int i;
     liste_diffuseur = malloc(sizeof(list_diff_t*));
     liste_diffuseur->liste  = malloc(sizeof(diffuseur_t*)*max_diff);

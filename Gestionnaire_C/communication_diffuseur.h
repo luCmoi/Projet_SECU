@@ -14,9 +14,9 @@
 #include "struct.h"
 
 
-int add_to_list(list_diff_t *listDiffT, char* buff,pthread_mutex_t *verrou);
-void remove_from_list(list_diff_t *listDiffT, int el, pthread_mutex_t *verrou);
-int ask_ruok(int desc_socket, list_diff_t *listDiffT, int place, struct pollfd *p);
+int add_to_list(list_diff_t *listDiffT, char* buff,pthread_mutex_t *verrou, short args);
+void remove_from_list(list_diff_t *listDiffT, int el, pthread_mutex_t *verrou, short args);
+int ask_ruok(int desc_socket, list_diff_t *listDiffT, int place, struct pollfd *p, short args);
 
 
 #endif //TWEETORADIO_COMMUNICATION_DIFFUSEUR_H
