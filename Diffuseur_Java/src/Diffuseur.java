@@ -57,11 +57,16 @@ public class Diffuseur{
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
             String line = br.readLine();
+            int N = 140, read;
+            char[] buffer = new char[N];
+            while (true) {
 
-            while (line != null) {
+                read = br.read(buffer, 0, N);
+                this.add_to_multi(this.getId() + " " + new String(buffer));
+                if (read < N) {
+                    break;
+                }
 
-                this.add_to_multi(this.getId() + " " + line);
-                line = br.readLine();
             }
             br.close();
 

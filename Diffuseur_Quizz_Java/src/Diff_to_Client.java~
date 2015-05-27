@@ -74,8 +74,6 @@ public class Diff_to_Client implements Runnable{
                     pw.flush();
                     pw.print("ITEM HINT : affiche pour le client et sur la multi diffusion des indice sur la question courante\r\n");
                     pw.flush();
-                    pw.print("ITEM CLAS : affiche le classement de la partie courante\r\n");
-                    pw.flush();
                     pw.print("ITEM HELP : affiche ce message\r\n");
                     pw.flush();
 
